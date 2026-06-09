@@ -1,0 +1,75 @@
+/* Tokens CSS — "El libro mayor" */
+:root {
+  --tinta: #16243a;
+  --papel: #faf7f0;
+  --oro: #a87b2d;
+  --pizarra: #5b6470;
+  --regla: #d8d2c4;
+  --blanco: #ffffff;
+  --exito: #2f6b4f;
+  --error: #9b3b2e;
+
+  --fuente-display: "Spectral", Georgia, serif;
+  --fuente-texto: "Public Sans", system-ui, sans-serif;
+  --fuente-datos: "IBM Plex Mono", ui-monospace, monospace;
+
+  --ancho-max: 1140px;
+  --radio: 4px;
+  --espacio: 8px;
+  --sombra: 0 1px 2px rgb(22 36 58 / 0.06), 0 8px 24px rgb(22 36 58 / 0.07);
+}
+
+/* Reset mínimo */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 17px;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  font-family: var(--fuente-texto);
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--tinta);
+  background-color: var(--papel);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Foco visible — outline oro en todo elemento interactivo */
+:focus-visible {
+  outline: 2px solid var(--oro);
+  outline-offset: 2px;
+}
+
+/* Elemento firma: doble línea de totales */
+.linea-total {
+  border: 0;
+  border-top: 1px solid var(--oro);
+  position: relative;
+  margin: calc(var(--espacio) * 8) 0;
+}
+.linea-total::after {
+  content: "";
+  position: absolute;
+  inset: 3px 0 auto 0;
+  border-top: 1px solid var(--oro);
+}
