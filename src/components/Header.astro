@@ -1,0 +1,336 @@
+---
+const navLinks = [
+  { href: "/", label: "Inicio" },
+  { href: "/nosotros", label: "Nosotros" },
+  { href: "/servicios", label: "Servicios" },
+  { href: "/boletin", label: "Boletín" },
+  { href: "/talento", label: "Talento" },
+  { href: "/contacto", label: "Contacto" },
+];
+
+const pathname = Astro.url.pathname;
+
+function isActive(href: string): boolean {
+  if (href === "/") return pathname === "/";
+  return pathname.startsWith(href);
+}
+---
+
+<header class="site-header" id="site-header">
+  <div class="header-inner">
+
+    <a href="/" class="logo" aria-label="Ramírez Medellín, S.C. — ir al inicio">
+      <span class="logo-monograma" aria-hidden="true">RM</span>
+      <span class="logo-texto">
+        <span class="logo-firma">Ramírez Medellín</span>
+        <span class="logo-sc">S.C.</span>
+      </span>
+    </a>
+
+    <nav aria-label="Navegación principal">
+      <ul class="nav-menu" id="nav-menu" role="list">
+        {navLinks.map(({ href, label }) => (
+          <li>
+            <a
+              href={href}
+              class:list={["nav-link", { "nav-link--activo": isActive(href) }]}
+              aria-current={isActive(href) ? "page" : undefined}
+            >
+              {label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <a
+      href="https://rmp.abaconsulting.mx/login"
+      class="btn-portal"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Portal de clientes
+    </a>
+
+    <button
+      class="nav-toggle"
+      id="nav-toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="nav-menu"
+      aria-label="Abrir menú de navegación"
+    >
+      <span class="hamburger-bar"></span>
+      <span class="hamburger-bar"></span>
+      <span class="hamburger-bar"></span>
+    </button>
+
+  </div>
+</header>
+
+<style>
+  /* Variables locales que cambian con el scroll */
+  .site-header {
+    --h-bg: var(--papel);
+    --h-color: var(--tinta);
+    --h-border: var(--regla);
+    --h-mono-bg: var(--tinta);
+    --h-mono-color: var(--papel);
+  }
+  .site-header.scrolled {
+    --h-bg: var(--tinta);
+    --h-color: var(--papel);
+    --h-border: transparent;
+    --h-mono-bg: var(--oro);
+    --h-mono-color: var(--tinta);
+  }
+
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--h-bg);
+    color: var(--h-color);
+    border-bottom: 1px solid var(--h-border);
+    transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .site-header { transition: none; }
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--espacio) * 3);
+    max-width: var(--ancho-max);
+    margin: 0 auto;
+    padding: 0 calc(var(--espacio) * 3);
+    height: 64px;
+  }
+
+  /* --- Logo --- */
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--espacio) * 1.5);
+    text-decoration: none;
+    color: inherit;
+    flex-shrink: 0;
+  }
+
+  .logo-monograma {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: var(--h-mono-bg);
+    color: var(--h-mono-color);
+    font-family: var(--fuente-datos);
+    font-weight: 500;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    border-radius: var(--radio);
+    transition: background 0.3s ease, color 0.3s ease;
+    flex-shrink: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .logo-monograma { transition: none; }
+  }
+
+  .logo-texto {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+  }
+
+  .logo-firma {
+    font-family: var(--fuente-display);
+    font-weight: 600;
+    font-size: 17px;
+    letter-spacing: -0.01em;
+  }
+
+  .logo-sc {
+    font-family: var(--fuente-datos);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--oro);
+    text-transform: uppercase;
+  }
+
+  /* --- Nav --- */
+  nav { flex: 1; }
+
+  .nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    list-style: none;
+  }
+
+  .nav-link {
+    display: block;
+    padding: 6px var(--espacio);
+    font-family: var(--fuente-texto);
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    color: inherit;
+    border-radius: var(--radio);
+    transition: color 0.15s ease;
+  }
+
+  .nav-link:hover,
+  .nav-link--activo {
+    color: var(--oro);
+  }
+
+  .nav-link--activo {
+    font-weight: 700;
+  }
+
+  /* --- Botón portal --- */
+  .btn-portal {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px calc(var(--espacio) * 2);
+    background: var(--oro);
+    color: var(--tinta);
+    font-family: var(--fuente-texto);
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: var(--radio);
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: filter 0.15s ease;
+  }
+
+  .btn-portal:hover {
+    filter: brightness(0.9);
+  }
+
+  /* --- Hamburguesa --- */
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    padding: 10px;
+    min-width: 44px;
+    min-height: 44px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: inherit;
+    border-radius: var(--radio);
+    flex-shrink: 0;
+  }
+
+  .hamburger-bar {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: currentColor;
+    border-radius: 1px;
+    transition: transform 0.25s ease, opacity 0.2s ease;
+    transform-origin: center;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hamburger-bar { transition: none; }
+  }
+
+  .nav-toggle[aria-expanded="true"] .hamburger-bar:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  .nav-toggle[aria-expanded="true"] .hamburger-bar:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  .nav-toggle[aria-expanded="true"] .hamburger-bar:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  /* --- Tablet (768–1023px): ocultar texto del logo --- */
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .header-inner { gap: calc(var(--espacio) * 2); }
+    .logo-texto { display: none; }
+    .nav-link { font-size: 14px; padding: 6px 6px; }
+  }
+
+  /* --- Móvil (≤767px): menú hamburguesa --- */
+  @media (max-width: 767px) {
+    .header-inner {
+      height: 56px;
+      padding: 0 calc(var(--espacio) * 2);
+      position: relative;
+    }
+
+    nav {
+      position: absolute;
+      top: 56px;
+      left: 0;
+      right: 0;
+      background: var(--h-bg);
+      border-bottom: 1px solid var(--h-border);
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      nav { transition: none; }
+    }
+
+    .nav-menu {
+      display: none;
+      flex-direction: column;
+      align-items: stretch;
+      padding: var(--espacio) calc(var(--espacio) * 2) calc(var(--espacio) * 2);
+      gap: 2px;
+    }
+
+    .nav-menu.nav-menu--open {
+      display: flex;
+    }
+
+    .nav-link {
+      font-size: 16px;
+      padding: 10px calc(var(--espacio) * 1.5);
+    }
+
+    .nav-toggle {
+      display: flex;
+      margin-left: auto;
+    }
+
+    .btn-portal {
+      font-size: 13px;
+      padding: 6px calc(var(--espacio) * 1.5);
+    }
+  }
+</style>
+
+<script>
+  const header = document.getElementById("site-header");
+  const toggle = document.getElementById("nav-toggle");
+  const menu = document.getElementById("nav-menu");
+
+  // Scroll: alternar apariencia del header
+  function actualizarHeader() {
+    header?.classList.toggle("scrolled", window.scrollY > 60);
+  }
+  window.addEventListener("scroll", actualizarHeader, { passive: true });
+  actualizarHeader();
+
+  // Menú móvil
+  toggle?.addEventListener("click", () => {
+    const abierto = toggle.getAttribute("aria-expanded") === "true";
+    toggle.setAttribute("aria-expanded", String(!abierto));
+    menu?.classList.toggle("nav-menu--open", !abierto);
+  });
+</script>

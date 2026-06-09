@@ -1,0 +1,83 @@
+---
+interface Props {
+  href?: string;
+  variant?: "primario" | "secundario";
+  target?: string;
+  rel?: string;
+  type?: "button" | "submit";
+}
+
+const {
+  href,
+  variant = "primario",
+  target,
+  rel,
+  type = "button",
+} = Astro.props;
+---
+
+{href ? (
+  <a
+    href={href}
+    class:list={["btn", `btn--${variant}`]}
+    target={target}
+    rel={rel}
+  >
+    <slot />
+  </a>
+) : (
+  <button type={type} class:list={["btn", `btn--${variant}`]}>
+    <slot />
+  </button>
+)}
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--espacio);
+    padding: calc(var(--espacio) * 1.25) calc(var(--espacio) * 3);
+    font-family: var(--fuente-texto);
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: var(--radio);
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: filter 0.15s ease, background 0.15s ease, color 0.15s ease;
+    min-height: 44px;
+  }
+
+  .btn--primario {
+    background: var(--oro);
+    color: var(--tinta);
+    border-color: var(--oro);
+  }
+
+  .btn--primario:hover {
+    filter: brightness(0.9);
+  }
+
+  .btn--secundario {
+    background: transparent;
+    color: var(--tinta);
+    border-color: var(--tinta);
+  }
+
+  .btn--secundario:hover {
+    background: var(--tinta);
+    color: var(--papel);
+  }
+
+  /* Variante secundaria sobre fondo oscuro */
+  :global(.fondo-oscuro) .btn--secundario {
+    color: var(--papel);
+    border-color: var(--papel);
+  }
+
+  :global(.fondo-oscuro) .btn--secundario:hover {
+    background: var(--papel);
+    color: var(--tinta);
+  }
+</style>
