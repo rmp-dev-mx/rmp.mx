@@ -1,0 +1,329 @@
+---
+import Base from "@layouts/Base.astro";
+import Boton from "@components/Boton.astro";
+---
+
+<Base
+  title="Boletín Resiliencia — Ramírez Medellín, S.C."
+  description="Resiliencia: el boletín fiscal de Ramírez Medellín, S.C. Acontecimientos legales y fiscales relevantes, explicados de forma oportuna para su empresa."
+>
+
+  <!-- ═══════════════════════════════ HERO ═══ -->
+  <section class="phero fondo-oscuro">
+    <div class="phero-lineas" aria-hidden="true"></div>
+    <div class="contenedor phero-inner">
+      <div class="phero-grid">
+        <div>
+          <p class="eyebrow phero-anim-1">
+            <span class="eyebrow-linea" aria-hidden="true"></span>
+            Boletín
+          </p>
+          <h1 class="phero-h1 phero-anim-2">
+            Resiliencia<em class="texto-oro">.</em>
+          </h1>
+          <p class="phero-sub phero-anim-3">
+            Este boletín es una colaboración de todos los que integramos
+            esta firma con el objetivo de comunicarle de forma oportuna
+            aquellos acontecimientos relevantes que nos afectan a todos,
+            contribuyendo a facilitar la adaptación de los cambios
+            legales-fiscales, retos y oportunidades que nos presenta el
+            ejercicio de nuestra profesión, pero sobre todo apoyarles
+            permanentemente a cumplir de manera exitosa con sus propios
+            objetivos.
+          </p>
+        </div>
+        <div class="phero-deco phero-anim-3" aria-hidden="true">
+          <span class="deco-num">2026</span>
+          <span class="deco-label">publicación vigente</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ ACCESOS ═══ -->
+  <section class="accesos" aria-label="Acceso al boletín">
+    <div class="contenedor">
+      <ul class="accesos-grid" role="list">
+
+        <li class="acceso revela">
+          <article class="acceso-card">
+            <p class="acceso-folio" aria-hidden="true">01</p>
+            <h2 class="acceso-titulo">Publicación vigente</h2>
+            <p class="acceso-desc">
+              Edición de enero 2026, con los acontecimientos fiscales y
+              legales más recientes.
+            </p>
+            <Boton
+              href="https://rmp.mx/Boletin/web/publicacion/2026/enero.html"
+              variant="primario"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Leer enero 2026
+            </Boton>
+          </article>
+        </li>
+
+        <li class="acceso revela" style="--retraso: 100ms">
+          <article class="acceso-card">
+            <p class="acceso-folio" aria-hidden="true">02</p>
+            <h2 class="acceso-titulo">Historial de publicaciones</h2>
+            <p class="acceso-desc">
+              Consulte las ediciones anteriores del boletín Resiliencia.
+            </p>
+            <Boton
+              href="https://rmp.mx/Boletin/web/index.html"
+              variant="secundario"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Ver historial
+            </Boton>
+          </article>
+        </li>
+
+      </ul>
+
+      <p class="accesos-nota revela">
+        ¿Le interesa recibir el boletín? <a href="/contacto">Escríbanos</a> y
+        con gusto le incluimos en la distribución.
+      </p>
+    </div>
+  </section>
+
+</Base>
+
+<style>
+  .contenedor {
+    max-width: var(--ancho-max);
+    margin: 0 auto;
+    padding-inline: calc(var(--espacio) * 3);
+  }
+
+  .eyebrow {
+    font-family: var(--fuente-datos);
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--oro);
+    margin-bottom: calc(var(--espacio) * 2.5);
+  }
+
+  .eyebrow-linea {
+    display: inline-block;
+    width: 48px;
+    height: 1px;
+    background: var(--oro);
+    vertical-align: middle;
+    margin-inline-end: calc(var(--espacio) * 1.5);
+  }
+
+  .texto-oro { color: var(--oro); }
+
+  .revela {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease var(--retraso, 0ms),
+                transform 0.6s ease var(--retraso, 0ms);
+  }
+  .revela.visible { opacity: 1; transform: translateY(0); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .revela { opacity: 1; transform: none; transition: none; }
+  }
+
+  /* ═══════ HERO ═══════ */
+  .phero {
+    position: relative;
+    background-color: var(--tinta);
+    background-image: radial-gradient(
+      ellipse 90% 70% at 30% 10%,
+      rgb(26 53 101 / 0.5),
+      transparent 60%
+    );
+    overflow: hidden;
+  }
+
+  .phero-lineas {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 47px,
+      rgb(216 210 196 / 0.07) 47px,
+      rgb(216 210 196 / 0.07) 48px
+    );
+    mask-image: linear-gradient(to bottom, transparent, black 20%);
+  }
+
+  .phero-inner {
+    position: relative;
+    z-index: 1;
+    padding-block: calc(64px + var(--espacio) * 10) calc(var(--espacio) * 10);
+  }
+
+  .phero-grid {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: calc(var(--espacio) * 6);
+    align-items: center;
+  }
+
+  .phero-h1 {
+    font-family: var(--fuente-display);
+    font-weight: 500;
+    font-size: clamp(48px, 7vw, 100px);
+    line-height: 1.0;
+    letter-spacing: -0.025em;
+    color: var(--papel);
+    margin: 0 0 calc(var(--espacio) * 3);
+  }
+
+  .phero-sub {
+    font-size: clamp(15px, 1.5vw, 17px);
+    line-height: 1.8;
+    color: rgb(250 247 240 / 0.6);
+    max-width: 640px;
+  }
+
+  .phero-deco {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    opacity: 0.08;
+    user-select: none;
+    pointer-events: none;
+  }
+
+  .deco-num {
+    font-family: var(--fuente-datos);
+    font-size: clamp(72px, 10vw, 120px);
+    font-weight: 500;
+    color: var(--papel);
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+
+  .deco-label {
+    font-family: var(--fuente-datos);
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--papel);
+  }
+
+  .phero-anim-1 { animation: sube 0.5s ease 0.1s both; }
+  .phero-anim-2 { animation: sube 0.6s ease 0.25s both; }
+  .phero-anim-3 { animation: sube 0.5s ease 0.4s both; }
+
+  @keyframes sube {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .phero-anim-1, .phero-anim-2, .phero-anim-3 { animation: none; }
+  }
+
+  /* ═══════ ACCESOS ═══════ */
+  .accesos { padding-block: calc(var(--espacio) * 12) calc(var(--espacio) * 14); }
+
+  .accesos-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: calc(var(--espacio) * 3);
+    list-style: none;
+    margin-bottom: calc(var(--espacio) * 6);
+  }
+
+  .acceso-card {
+    background: var(--blanco);
+    border: 1px solid var(--regla);
+    border-radius: var(--radio);
+    padding: calc(var(--espacio) * 5);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: calc(var(--espacio) * 2);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+  }
+
+  .acceso-card:hover {
+    box-shadow: var(--sombra);
+    transform: translateY(-2px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .acceso-card { transition: none; }
+    .acceso-card:hover { transform: none; box-shadow: none; }
+  }
+
+  .acceso-folio {
+    font-family: var(--fuente-datos);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--oro);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.08em;
+  }
+
+  .acceso-titulo {
+    font-family: var(--fuente-display);
+    font-weight: 600;
+    font-size: 26px;
+    color: var(--tinta);
+    margin: 0;
+  }
+
+  .acceso-desc {
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--pizarra);
+    margin-bottom: calc(var(--espacio) * 2);
+    flex: 1;
+  }
+
+  .accesos-nota {
+    font-size: 15px;
+    color: var(--pizarra);
+    text-align: center;
+  }
+
+  .accesos-nota a { color: var(--oro); }
+
+  /* ═══════ Responsive ═══════ */
+  @media (max-width: 767px) {
+    .contenedor { padding-inline: calc(var(--espacio) * 2); }
+    .phero-grid { grid-template-columns: 1fr; }
+    .phero-deco { display: none; }
+    .accesos-grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+<script>
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const revelables = document.querySelectorAll(".revela");
+  if (reduceMotion) {
+    revelables.forEach((el) => el.classList.add("visible"));
+  } else {
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            io.unobserve(entry.target);
+          }
+        }
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -30px 0px" }
+    );
+    revelables.forEach((el) => io.observe(el));
+  }
+</script>
