@@ -1,5 +1,6 @@
 ---
 import Base from "@layouts/Base.astro";
+import { url } from "../lib/url";
 import Boton from "@components/Boton.astro";
 ---
 
@@ -85,7 +86,7 @@ import Boton from "@components/Boton.astro";
       </ul>
 
       <p class="accesos-nota revela">
-        ¿Le interesa recibir el boletín? <a href="/contacto">Escríbanos</a> y
+        ¿Le interesa recibir el boletín? <a href={url("/contacto")}>Escríbanos</a> y
         con gusto le incluimos en la distribución.
       </p>
     </div>

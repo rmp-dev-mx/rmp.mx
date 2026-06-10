@@ -1,5 +1,6 @@
 ---
 import Base from "@layouts/Base.astro";
+import { url } from "../lib/url";
 import Boton from "@components/Boton.astro";
 import LogoMarca from "@components/LogoMarca.astro";
 
@@ -84,7 +85,7 @@ const marquee = [
         </p>
 
         <div class="hero-ctas">
-          <Boton href="/contacto" variant="primario">Agenda una consulta</Boton>
+          <Boton href={url("/contacto")} variant="primario">Agenda una consulta</Boton>
           <a
             href="https://rmp.abaconsulting.mx/login"
             class="hero-link-portal"
@@ -176,7 +177,7 @@ const marquee = [
                 <p class="servicio-desc">{desc}</p>
               </div>
               <a
-                href={`/servicios#${id}`}
+                href={url(`/servicios#${id}`)}
                 class="servicio-link"
                 aria-label={`Ver servicios de ${titulo}`}
               >
@@ -189,7 +190,7 @@ const marquee = [
       </ul>
 
       <div class="servicios-pie revela">
-        <Boton href="/servicios" variant="secundario">Todos los servicios</Boton>
+        <Boton href={url("/servicios")} variant="secundario">Todos los servicios</Boton>
       </div>
     </div>
   </section>
@@ -212,14 +213,14 @@ const marquee = [
           </p>
           <div class="boletin-ctas">
             <Boton
-              href="/Boletin/web/publicacion/2026/enero.html"
+              href="https://rmp.mx/Boletin/web/publicacion/2026/enero.html"
               variant="primario"
               target="_blank"
               rel="noopener noreferrer"
             >
               Publicación enero 2026
             </Boton>
-            <Boton href="/boletin" variant="secundario">Ver historial</Boton>
+            <Boton href={url("/boletin")} variant="secundario">Ver historial</Boton>
           </div>
         </div>
         <div class="boletin-deco revela" aria-hidden="true">
@@ -244,7 +245,7 @@ const marquee = [
       </div>
       <div class="filosofia-pie revela">
         <p class="filosofia-firma">Ramírez Medellín, S.C. — San Luis Potosí, 1998</p>
-        <Boton href="/nosotros" variant="secundario">Conoce la firma</Boton>
+        <Boton href={url("/nosotros")} variant="secundario">Conoce la firma</Boton>
       </div>
     </div>
   </section>
@@ -266,7 +267,7 @@ const marquee = [
           </address>
         </div>
         <div class="cta-accion">
-          <Boton href="/contacto" variant="primario">Agenda una consulta</Boton>
+          <Boton href={url("/contacto")} variant="primario">Agenda una consulta</Boton>
           <p class="cta-direccion">
             Calle Francisco Peña 245<br />Las Águilas 3ra Sección<br />
             San Luis Potosí, S.L.P.

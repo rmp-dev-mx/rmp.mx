@@ -1,5 +1,6 @@
 ---
 import Base from "@layouts/Base.astro";
+import { url } from "../lib/url";
 
 const telefonos = [
   { num: "444-833-40-98", tel: "+524448334098" },
@@ -127,7 +128,7 @@ const mapaSrc =
 
             <p class="form-aviso">
               Al enviar este formulario acepta nuestro
-              <a href="/aviso-de-privacidad">aviso de privacidad</a>.
+              <a href={url("/aviso-de-privacidad")}>aviso de privacidad</a>.
               <!-- TODO: redactar aviso de privacidad (obligatorio por LFPDPPP) -->
             </p>
           </form>

@@ -1,5 +1,6 @@
 ---
 import Base from "@layouts/Base.astro";
+import { url } from "../lib/url";
 
 // Campos del formulario de practicantes (de docs/03-CONTENIDO.md).
 // El de bolsa de trabajo es equivalente para profesionales.
@@ -155,7 +156,7 @@ import Base from "@layouts/Base.astro";
           </p>
           <p class="form-aviso">
             Al enviar este formulario aceptas nuestro
-            <a href="/aviso-de-privacidad">aviso de privacidad</a>.
+            <a href={url("/aviso-de-privacidad")}>aviso de privacidad</a>.
           </p>
         </form>
       </div>
@@ -245,7 +246,7 @@ import Base from "@layouts/Base.astro";
           </p>
           <p class="form-aviso">
             Al enviar este formulario aceptas nuestro
-            <a href="/aviso-de-privacidad">aviso de privacidad</a>.
+            <a href={url("/aviso-de-privacidad")}>aviso de privacidad</a>.
           </p>
         </form>
       </div>

@@ -1,4 +1,6 @@
 ---
+import { url } from "../lib/url";
+
 const anio = new Date().getFullYear();
 
 const paginasSitio = [
@@ -23,7 +25,7 @@ const accesos = [
 
     <!-- Columna 1: Identidad y contacto -->
     <div class="footer-col">
-      <a href="/" class="footer-logo">
+      <a href={url("/")} class="footer-logo">
         <span class="footer-logo-monograma" aria-hidden="true">RM</span>
         <span class="footer-logo-texto">
           <span class="footer-logo-firma">Ramírez Medellín</span>
@@ -48,7 +50,7 @@ const accesos = [
       <nav aria-label="Mapa del sitio">
         <ul class="footer-links" role="list">
           {paginasSitio.map(({ href, label }) => (
-            <li><a href={href}>{label}</a></li>
+            <li><a href={url(href)}>{label}</a></li>
           ))}
         </ul>
       </nav>
@@ -62,7 +64,7 @@ const accesos = [
           {accesos.map(({ href, label, externo }) => (
             <li>
               <a
-                href={href}
+                href={externo ? href : url(href)}
                 target={externo ? "_blank" : undefined}
                 rel={externo ? "noopener noreferrer" : undefined}
               >
@@ -111,7 +113,7 @@ const accesos = [
     <div class="footer-legal-inner">
       <p>© {anio} Ramírez Medellín, S.C. Todos los derechos reservados.</p>
       <!-- TODO: redactar aviso de privacidad (obligatorio por LFPDPPP al tener formularios) -->
-      <a href="/aviso-de-privacidad" class="footer-legal-link">Aviso de privacidad</a>
+      <a href={url("/aviso-de-privacidad")} class="footer-legal-link">Aviso de privacidad</a>
     </div>
   </div>
 </footer>

@@ -1,5 +1,6 @@
 ---
 import Base from "@layouts/Base.astro";
+import { url } from "../lib/url";
 import Boton from "@components/Boton.astro";
 import LogoMarca from "@components/LogoMarca.astro";
 
@@ -300,7 +301,7 @@ function iniciales(nombre: string): string {
           <h2 class="cta-titulo">Conozca cómo<br />podemos ayudarle</h2>
         </div>
         <div class="cta-accion">
-          <Boton href="/contacto" variant="primario">Agenda una consulta</Boton>
+          <Boton href={url("/contacto")} variant="primario">Agenda una consulta</Boton>
           <address class="cta-datos">
             <a href="tel:+524448334098">444-833-40-98</a>
             <span aria-hidden="true">·</span>

@@ -1,5 +1,6 @@
 ---
 import Base from "@layouts/Base.astro";
+import { url } from "../lib/url";
 
 const indicadores = [
   {
@@ -91,7 +92,7 @@ const indicadores = [
       <p class="tabla-nota revela">
         Los valores se consultan en el sitio oficial de cada fuente.
         Para un análisis aplicado a su empresa,
-        <a href="/contacto">contáctenos</a>.
+        <a href={url("/contacto")}>contáctenos</a>.
       </p>
     </div>
   </section>
