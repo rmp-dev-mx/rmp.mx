@@ -1,0 +1,601 @@
+---
+import Base from "@layouts/Base.astro";
+
+// Campos del formulario de practicantes (de docs/03-CONTENIDO.md).
+// El de bolsa de trabajo es equivalente para profesionales.
+---
+
+<Base
+  title="Talento — Ramírez Medellín, S.C."
+  description="¿Buscas realizar tu servicio social o prácticas profesionales? ¿Eres profesionista en contabilidad, derecho o auditoría? Únete al equipo de Ramírez Medellín, S.C."
+>
+
+  <!-- ═══════════════════════════════ HERO ═══ -->
+  <section class="phero fondo-oscuro">
+    <div class="phero-lineas" aria-hidden="true"></div>
+    <div class="contenedor phero-inner">
+      <p class="eyebrow phero-anim-1">
+        <span class="eyebrow-linea" aria-hidden="true"></span>
+        Talento
+      </p>
+      <h1 class="phero-h1 phero-anim-2">
+        Forma parte<br />
+        <em class="texto-oro">del equipo.</em>
+      </h1>
+      <p class="phero-sub phero-anim-3">
+        ¿Necesitas realizar tu servicio o prácticas profesionales? ¿Eres
+        profesionista y buscas tu siguiente reto? Envía tus datos y forma
+        parte de nuestro equipo profesional.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════ DOS VÍAS (TABS) ═══ -->
+  <section class="vias" aria-label="Vías de ingreso">
+    <div class="contenedor">
+
+      <div class="tabs" role="tablist" aria-label="Tipo de postulación">
+        <button
+          class="tab tab--activa"
+          id="tab-practicantes"
+          role="tab"
+          aria-selected="true"
+          aria-controls="panel-practicantes"
+          type="button"
+        >
+          <span class="tab-folio" aria-hidden="true">01</span>
+          Practicantes
+        </button>
+        <button
+          class="tab"
+          id="tab-bolsa"
+          role="tab"
+          aria-selected="false"
+          aria-controls="panel-bolsa"
+          type="button"
+        >
+          <span class="tab-folio" aria-hidden="true">02</span>
+          Bolsa de trabajo
+        </button>
+      </div>
+
+      <!-- ── Panel practicantes ── -->
+      <div
+        class="panel"
+        id="panel-practicantes"
+        role="tabpanel"
+        aria-labelledby="tab-practicantes"
+      >
+        <p class="panel-intro">
+          ¿Necesitas realizar tu servicio o prácticas profesionales?
+          Envía tus datos y forma parte de nuestro equipo profesional.
+        </p>
+
+        <!-- TODO: confirmar destino del formulario con el cliente -->
+        <form class="form" data-form-talento method="POST" action="#" novalidate>
+          <div class="campo-fila">
+            <div class="campo">
+              <label for="p-nombre">Nombre <span class="req" aria-hidden="true">*</span></label>
+              <input type="text" id="p-nombre" name="nombre" required autocomplete="given-name" />
+              <p class="campo-error" hidden>Escribe tu nombre.</p>
+            </div>
+            <div class="campo">
+              <label for="p-apellidos">Apellidos <span class="req" aria-hidden="true">*</span></label>
+              <input type="text" id="p-apellidos" name="apellidos" required autocomplete="family-name" />
+              <p class="campo-error" hidden>Escribe tus apellidos.</p>
+            </div>
+          </div>
+
+          <div class="campo-fila">
+            <div class="campo">
+              <label for="p-email">Correo electrónico <span class="req" aria-hidden="true">*</span></label>
+              <input type="email" id="p-email" name="email" required autocomplete="email" />
+              <p class="campo-error" hidden>Escribe un correo válido.</p>
+            </div>
+            <div class="campo campo--corto">
+              <label for="p-edad">Edad</label>
+              <input type="number" id="p-edad" name="edad" min="16" max="99" inputmode="numeric" />
+            </div>
+          </div>
+
+          <div class="campo">
+            <label for="p-domicilio">Domicilio</label>
+            <input type="text" id="p-domicilio" name="domicilio" autocomplete="street-address" />
+          </div>
+
+          <div class="campo-fila">
+            <div class="campo">
+              <label for="p-telefono">Teléfono <span class="req" aria-hidden="true">*</span></label>
+              <input type="tel" id="p-telefono" name="telefono" required autocomplete="tel" />
+              <p class="campo-error" hidden>Escribe tu teléfono.</p>
+            </div>
+            <div class="campo">
+              <label for="p-universidad">Universidad <span class="req" aria-hidden="true">*</span></label>
+              <input type="text" id="p-universidad" name="universidad" required />
+              <p class="campo-error" hidden>Escribe tu universidad.</p>
+            </div>
+          </div>
+
+          <div class="campo-fila">
+            <div class="campo">
+              <label for="p-carrera">Carrera <span class="req" aria-hidden="true">*</span></label>
+              <input type="text" id="p-carrera" name="carrera" required />
+              <p class="campo-error" hidden>Escribe tu carrera.</p>
+            </div>
+            <div class="campo campo--corto">
+              <label for="p-semestre">Semestre</label>
+              <input type="text" id="p-semestre" name="semestre" />
+            </div>
+          </div>
+
+          <div class="campo">
+            <label for="p-idioma">Idioma(s)</label>
+            <input type="text" id="p-idioma" name="idioma" placeholder="Español, inglés…" />
+          </div>
+
+          <div class="campo">
+            <label for="p-experiencia">Áreas de experiencia</label>
+            <textarea id="p-experiencia" name="experiencia" rows="3"></textarea>
+          </div>
+
+          <div class="campo">
+            <label for="p-interes">Áreas de interés</label>
+            <textarea id="p-interes" name="interes" rows="3"></textarea>
+          </div>
+
+          <div class="campo">
+            <label for="p-cv">Currículum (PDF)</label>
+            <input type="file" id="p-cv" name="cv" accept=".pdf" class="campo-archivo" />
+          </div>
+
+          <button type="submit" class="form-enviar">Enviar postulación</button>
+          <p class="form-exito" hidden>
+            Gracias por tu interés. Revisaremos tu postulación y te contactaremos.
+          </p>
+          <p class="form-aviso">
+            Al enviar este formulario aceptas nuestro
+            <a href="/aviso-de-privacidad">aviso de privacidad</a>.
+          </p>
+        </form>
+      </div>
+
+      <!-- ── Panel bolsa de trabajo ── -->
+      <div
+        class="panel"
+        id="panel-bolsa"
+        role="tabpanel"
+        aria-labelledby="tab-bolsa"
+        hidden
+      >
+        <p class="panel-intro">
+          ¿Eres profesionista en contabilidad, derecho, auditoría o áreas
+          afines? Comparte tu perfil con nosotros.
+        </p>
+
+        <!-- TODO: confirmar destino del formulario con el cliente -->
+        <form class="form" data-form-talento method="POST" action="#" novalidate>
+          <div class="campo-fila">
+            <div class="campo">
+              <label for="b-nombre">Nombre <span class="req" aria-hidden="true">*</span></label>
+              <input type="text" id="b-nombre" name="nombre" required autocomplete="given-name" />
+              <p class="campo-error" hidden>Escribe tu nombre.</p>
+            </div>
+            <div class="campo">
+              <label for="b-apellidos">Apellidos <span class="req" aria-hidden="true">*</span></label>
+              <input type="text" id="b-apellidos" name="apellidos" required autocomplete="family-name" />
+              <p class="campo-error" hidden>Escribe tus apellidos.</p>
+            </div>
+          </div>
+
+          <div class="campo-fila">
+            <div class="campo">
+              <label for="b-email">Correo electrónico <span class="req" aria-hidden="true">*</span></label>
+              <input type="email" id="b-email" name="email" required autocomplete="email" />
+              <p class="campo-error" hidden>Escribe un correo válido.</p>
+            </div>
+            <div class="campo">
+              <label for="b-telefono">Teléfono <span class="req" aria-hidden="true">*</span></label>
+              <input type="tel" id="b-telefono" name="telefono" required autocomplete="tel" />
+              <p class="campo-error" hidden>Escribe tu teléfono.</p>
+            </div>
+          </div>
+
+          <div class="campo">
+            <label for="b-domicilio">Domicilio</label>
+            <input type="text" id="b-domicilio" name="domicilio" autocomplete="street-address" />
+          </div>
+
+          <div class="campo-fila">
+            <div class="campo">
+              <label for="b-profesion">Profesión <span class="req" aria-hidden="true">*</span></label>
+              <input type="text" id="b-profesion" name="profesion" required placeholder="C.P., Lic. en Derecho…" />
+              <p class="campo-error" hidden>Escribe tu profesión.</p>
+            </div>
+            <div class="campo">
+              <label for="b-universidad">Universidad</label>
+              <input type="text" id="b-universidad" name="universidad" />
+            </div>
+          </div>
+
+          <div class="campo">
+            <label for="b-idioma">Idioma(s)</label>
+            <input type="text" id="b-idioma" name="idioma" placeholder="Español, inglés…" />
+          </div>
+
+          <div class="campo">
+            <label for="b-experiencia">Áreas de experiencia</label>
+            <textarea id="b-experiencia" name="experiencia" rows="3"></textarea>
+          </div>
+
+          <div class="campo">
+            <label for="b-interes">Áreas de interés</label>
+            <textarea id="b-interes" name="interes" rows="3"></textarea>
+          </div>
+
+          <div class="campo">
+            <label for="b-cv">Currículum (PDF)</label>
+            <input type="file" id="b-cv" name="cv" accept=".pdf" class="campo-archivo" />
+          </div>
+
+          <button type="submit" class="form-enviar">Enviar postulación</button>
+          <p class="form-exito" hidden>
+            Gracias por tu interés. Revisaremos tu postulación y te contactaremos.
+          </p>
+          <p class="form-aviso">
+            Al enviar este formulario aceptas nuestro
+            <a href="/aviso-de-privacidad">aviso de privacidad</a>.
+          </p>
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+</Base>
+
+<style>
+  /* ═══════ Utilidades ═══════ */
+  .contenedor {
+    max-width: 880px;
+    margin: 0 auto;
+    padding-inline: calc(var(--espacio) * 3);
+  }
+
+  .eyebrow {
+    font-family: var(--fuente-datos);
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--oro);
+    margin-bottom: calc(var(--espacio) * 2.5);
+  }
+
+  .eyebrow-linea {
+    display: inline-block;
+    width: 48px;
+    height: 1px;
+    background: var(--oro);
+    vertical-align: middle;
+    margin-inline-end: calc(var(--espacio) * 1.5);
+  }
+
+  .texto-oro { color: var(--oro); font-style: italic; }
+
+  /* ═══════ HERO ═══════ */
+  .phero {
+    position: relative;
+    background-color: var(--tinta);
+    background-image: radial-gradient(
+      ellipse 90% 70% at 70% 10%,
+      rgb(26 53 101 / 0.5),
+      transparent 60%
+    );
+    overflow: hidden;
+  }
+
+  .phero-lineas {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 47px,
+      rgb(216 210 196 / 0.07) 47px,
+      rgb(216 210 196 / 0.07) 48px
+    );
+    mask-image: linear-gradient(to bottom, transparent, black 20%);
+  }
+
+  .phero-inner {
+    position: relative;
+    z-index: 1;
+    max-width: var(--ancho-max);
+    padding-block: calc(64px + var(--espacio) * 10) calc(var(--espacio) * 10);
+  }
+
+  .phero-h1 {
+    font-family: var(--fuente-display);
+    font-weight: 500;
+    font-size: clamp(44px, 6.5vw, 92px);
+    line-height: 1.0;
+    letter-spacing: -0.025em;
+    color: var(--papel);
+    margin: 0 0 calc(var(--espacio) * 3);
+  }
+
+  .phero-sub {
+    font-size: clamp(16px, 1.6vw, 18px);
+    line-height: 1.75;
+    color: rgb(250 247 240 / 0.6);
+    max-width: 560px;
+  }
+
+  .phero-anim-1 { animation: sube 0.5s ease 0.1s both; }
+  .phero-anim-2 { animation: sube 0.6s ease 0.25s both; }
+  .phero-anim-3 { animation: sube 0.5s ease 0.4s both; }
+
+  @keyframes sube {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .phero-anim-1, .phero-anim-2, .phero-anim-3 { animation: none; }
+  }
+
+  /* ═══════ TABS ═══════ */
+  .vias { padding-block: calc(var(--espacio) * 10) calc(var(--espacio) * 14); }
+
+  .tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid var(--oro);
+    position: relative;
+    margin-bottom: calc(var(--espacio) * 6);
+  }
+
+  .tabs::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 -4px 0;
+    border-bottom: 1px solid var(--oro);
+  }
+
+  .tab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: calc(var(--espacio) * 1.5);
+    padding: calc(var(--espacio) * 2.5);
+    font-family: var(--fuente-display);
+    font-weight: 500;
+    font-size: clamp(18px, 2.4vw, 24px);
+    color: var(--pizarra);
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    transition: color 0.2s ease, border-color 0.2s ease;
+    min-height: 44px;
+  }
+
+  .tab:hover { color: var(--tinta); }
+
+  .tab--activa {
+    color: var(--tinta);
+    border-bottom-color: var(--oro);
+  }
+
+  .tab-folio {
+    font-family: var(--fuente-datos);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--oro);
+    font-variant-numeric: tabular-nums;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tab { transition: none; }
+  }
+
+  /* ═══════ PANELES Y FORMULARIO ═══════ */
+  .panel-intro {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--pizarra);
+    margin-bottom: calc(var(--espacio) * 5);
+    max-width: 560px;
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--espacio) * 3);
+  }
+
+  .campo {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--espacio) * 0.75);
+    flex: 1;
+  }
+
+  .campo-fila {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: calc(var(--espacio) * 3);
+  }
+
+  .campo-fila:has(.campo--corto) {
+    grid-template-columns: 1fr minmax(120px, 0.4fr);
+  }
+
+  .campo label {
+    font-family: var(--fuente-texto);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--tinta);
+  }
+
+  .req { color: var(--oro); }
+
+  .campo input,
+  .campo textarea {
+    font-family: var(--fuente-texto);
+    font-size: 16px;
+    color: var(--tinta);
+    background: var(--blanco);
+    border: 1px solid var(--regla);
+    border-radius: var(--radio);
+    padding: calc(var(--espacio) * 1.5) calc(var(--espacio) * 2);
+    width: 100%;
+    transition: border-color 0.15s ease;
+  }
+
+  .campo textarea { resize: vertical; }
+
+  .campo input:hover,
+  .campo textarea:hover { border-color: var(--pizarra); }
+
+  .campo input:focus-visible,
+  .campo textarea:focus-visible {
+    outline: 2px solid var(--oro);
+    outline-offset: 0;
+    border-color: var(--oro);
+  }
+
+  .campo input.invalido,
+  .campo textarea.invalido { border-color: var(--error); }
+
+  .campo-archivo { padding: calc(var(--espacio) * 1.25) !important; }
+
+  .campo-archivo::file-selector-button {
+    font-family: var(--fuente-texto);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--tinta);
+    background: var(--papel);
+    border: 1px solid var(--regla);
+    border-radius: var(--radio);
+    padding: calc(var(--espacio) * 0.75) calc(var(--espacio) * 2);
+    margin-inline-end: calc(var(--espacio) * 2);
+    cursor: pointer;
+  }
+
+  .campo-error {
+    font-size: 13px;
+    color: var(--error);
+    margin: 0;
+  }
+
+  .form-enviar {
+    align-self: flex-start;
+    font-family: var(--fuente-texto);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--tinta);
+    background: var(--oro);
+    border: 1px solid var(--oro);
+    border-radius: var(--radio);
+    padding: calc(var(--espacio) * 1.5) calc(var(--espacio) * 4);
+    min-height: 44px;
+    cursor: pointer;
+    transition: filter 0.15s ease;
+  }
+
+  .form-enviar:hover { filter: brightness(0.9); }
+
+  .form-exito {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--exito);
+    background: rgb(47 107 79 / 0.08);
+    border: 1px solid rgb(47 107 79 / 0.25);
+    border-radius: var(--radio);
+    padding: calc(var(--espacio) * 2);
+    margin: 0;
+  }
+
+  .form-aviso {
+    font-size: 13px;
+    color: var(--pizarra);
+    margin: 0;
+  }
+
+  .form-aviso a { color: var(--oro); }
+
+  /* ═══════ Responsive ═══════ */
+  @media (max-width: 767px) {
+    .contenedor { padding-inline: calc(var(--espacio) * 2); }
+
+    .campo-fila,
+    .campo-fila:has(.campo--corto) { grid-template-columns: 1fr; }
+
+    .tab {
+      flex-direction: column;
+      gap: 4px;
+      font-size: 16px;
+      padding: calc(var(--espacio) * 2) var(--espacio);
+    }
+  }
+</style>
+
+<script>
+  /* ── Tabs accesibles ── */
+  const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>("[role='tab']"));
+
+  function activar(tab: HTMLButtonElement) {
+    for (const t of tabs) {
+      const seleccionada = t === tab;
+      t.setAttribute("aria-selected", String(seleccionada));
+      t.classList.toggle("tab--activa", seleccionada);
+      const panel = document.getElementById(t.getAttribute("aria-controls") ?? "");
+      if (panel) panel.hidden = !seleccionada;
+    }
+    tab.focus();
+  }
+
+  tabs.forEach((tab, i) => {
+    tab.addEventListener("click", () => activar(tab));
+    tab.addEventListener("keydown", (e) => {
+      const delta = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+      if (delta) {
+        e.preventDefault();
+        activar(tabs[(i + delta + tabs.length) % tabs.length]!);
+      }
+    });
+  });
+
+  /* ── Validación de formularios (stub) ──
+     TODO: conectar al destino real cuando el cliente lo confirme. */
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  for (const form of document.querySelectorAll<HTMLFormElement>("[data-form-talento]")) {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      let valido = true;
+      for (const campo of form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>(
+        "input[required], textarea[required]"
+      )) {
+        const error = campo.parentElement?.querySelector<HTMLElement>(".campo-error");
+        const esInvalido =
+          campo.value.trim() === "" ||
+          (campo.type === "email" && !campo.checkValidity());
+
+        campo.classList.toggle("invalido", esInvalido);
+        if (error) error.hidden = !esInvalido;
+        if (esInvalido) valido = false;
+      }
+
+      const exito = form.querySelector<HTMLElement>(".form-exito");
+      if (valido && exito) {
+        exito.hidden = false;
+        form.reset();
+        exito.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "nearest" });
+      }
+    });
+  }
+</script>
