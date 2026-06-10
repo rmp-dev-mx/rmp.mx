@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="Ramírez Medellín, S.C.">
+  <defs>
+    <mask id="m-g">
+      <circle cx="58" cy="52" r="32" fill="white"/>
+      <circle cx="34" cy="50" r="22" fill="black"/>
+    </mask>
+    <mask id="m-a">
+      <circle cx="38" cy="48" r="38" fill="white"/>
+      <circle cx="68" cy="46" r="26" fill="black"/>
+    </mask>
+  </defs>
+  <rect width="100" height="100" fill="#8899A8" mask="url(#m-g)"/>
+  <rect width="100" height="100" fill="#1A3565" mask="url(#m-a)"/>
+</svg>

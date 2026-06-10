@@ -1,4 +1,6 @@
 ---
+import LogoMarca from "@components/LogoMarca.astro";
+
 const navLinks = [
   { href: "/", label: "Inicio" },
   { href: "/nosotros", label: "Nosotros" },
@@ -20,7 +22,7 @@ function isActive(href: string): boolean {
   <div class="header-inner">
 
     <a href="/" class="logo" aria-label="Ramírez Medellín, S.C. — ir al inicio">
-      <span class="logo-monograma" aria-hidden="true">RM</span>
+      <LogoMarca class="logo-svg" />
       <span class="logo-texto">
         <span class="logo-firma">Ramírez Medellín</span>
         <span class="logo-sc">S.C.</span>
@@ -69,20 +71,21 @@ function isActive(href: string): boolean {
 </header>
 
 <style>
-  /* Variables locales que cambian con el scroll */
+  /* ── Variables de estado del header ── */
   .site-header {
     --h-bg: var(--papel);
     --h-color: var(--tinta);
     --h-border: var(--regla);
-    --h-mono-bg: var(--tinta);
-    --h-mono-color: var(--papel);
+    /* Colores del logo SVG (cascade a LogoMarca) */
+    --lm-azul: #1A3565;
+    --lm-gris: #8899A8;
   }
   .site-header.scrolled {
     --h-bg: var(--tinta);
     --h-color: var(--papel);
     --h-border: transparent;
-    --h-mono-bg: var(--oro);
-    --h-mono-color: var(--tinta);
+    --lm-azul: var(--papel);
+    --lm-gris: rgb(250 247 240 / 0.4);
   }
 
   .site-header {
@@ -92,7 +95,7 @@ function isActive(href: string): boolean {
     background: var(--h-bg);
     color: var(--h-color);
     border-bottom: 1px solid var(--h-border);
-    transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    transition: background 0.35s ease, color 0.35s ease, border-color 0.35s ease;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -109,7 +112,7 @@ function isActive(href: string): boolean {
     height: 64px;
   }
 
-  /* --- Logo --- */
+  /* ── Logo ── */
   .logo {
     display: flex;
     align-items: center;
@@ -119,25 +122,10 @@ function isActive(href: string): boolean {
     flex-shrink: 0;
   }
 
-  .logo-monograma {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    background: var(--h-mono-bg);
-    color: var(--h-mono-color);
-    font-family: var(--fuente-datos);
-    font-weight: 500;
-    font-size: 13px;
-    letter-spacing: 0.05em;
-    border-radius: var(--radio);
-    transition: background 0.3s ease, color 0.3s ease;
+  .logo-svg {
+    width: 38px;
+    height: 38px;
     flex-shrink: 0;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .logo-monograma { transition: none; }
   }
 
   .logo-texto {
@@ -162,7 +150,7 @@ function isActive(href: string): boolean {
     text-transform: uppercase;
   }
 
-  /* --- Nav --- */
+  /* ── Nav ── */
   nav { flex: 1; }
 
   .nav-menu {
@@ -189,11 +177,9 @@ function isActive(href: string): boolean {
     color: var(--oro);
   }
 
-  .nav-link--activo {
-    font-weight: 700;
-  }
+  .nav-link--activo { font-weight: 700; }
 
-  /* --- Botón portal --- */
+  /* ── Botón portal ── */
   .btn-portal {
     display: inline-flex;
     align-items: center;
@@ -210,11 +196,9 @@ function isActive(href: string): boolean {
     transition: filter 0.15s ease;
   }
 
-  .btn-portal:hover {
-    filter: brightness(0.9);
-  }
+  .btn-portal:hover { filter: brightness(0.9); }
 
-  /* --- Hamburguesa --- */
+  /* ── Hamburguesa ── */
   .nav-toggle {
     display: none;
     flex-direction: column;
@@ -257,14 +241,14 @@ function isActive(href: string): boolean {
     transform: translateY(-7px) rotate(-45deg);
   }
 
-  /* --- Tablet (768–1023px): ocultar texto del logo --- */
+  /* ── Tablet ── */
   @media (min-width: 768px) and (max-width: 1023px) {
     .header-inner { gap: calc(var(--espacio) * 2); }
     .logo-texto { display: none; }
-    .nav-link { font-size: 14px; padding: 6px 6px; }
+    .nav-link { font-size: 14px; padding: 6px; }
   }
 
-  /* --- Móvil (≤767px): menú hamburguesa --- */
+  /* ── Móvil ── */
   @media (max-width: 767px) {
     .header-inner {
       height: 56px;
@@ -279,7 +263,7 @@ function isActive(href: string): boolean {
       right: 0;
       background: var(--h-bg);
       border-bottom: 1px solid var(--h-border);
-      transition: background 0.3s ease, border-color 0.3s ease;
+      transition: background 0.35s ease, border-color 0.35s ease;
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -294,24 +278,13 @@ function isActive(href: string): boolean {
       gap: 2px;
     }
 
-    .nav-menu.nav-menu--open {
-      display: flex;
-    }
+    .nav-menu.nav-menu--open { display: flex; }
 
-    .nav-link {
-      font-size: 16px;
-      padding: 10px calc(var(--espacio) * 1.5);
-    }
+    .nav-link { font-size: 16px; padding: 10px calc(var(--espacio) * 1.5); }
 
-    .nav-toggle {
-      display: flex;
-      margin-left: auto;
-    }
+    .nav-toggle { display: flex; margin-left: auto; }
 
-    .btn-portal {
-      font-size: 13px;
-      padding: 6px calc(var(--espacio) * 1.5);
-    }
+    .btn-portal { font-size: 13px; padding: 6px calc(var(--espacio) * 1.5); }
   }
 </style>
 
@@ -320,14 +293,12 @@ function isActive(href: string): boolean {
   const toggle = document.getElementById("nav-toggle");
   const menu = document.getElementById("nav-menu");
 
-  // Scroll: alternar apariencia del header
   function actualizarHeader() {
     header?.classList.toggle("scrolled", window.scrollY > 60);
   }
   window.addEventListener("scroll", actualizarHeader, { passive: true });
   actualizarHeader();
 
-  // Menú móvil
   toggle?.addEventListener("click", () => {
     const abierto = toggle.getAttribute("aria-expanded") === "true";
     toggle.setAttribute("aria-expanded", String(!abierto));
