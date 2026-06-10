@@ -61,6 +61,8 @@ const schema = {
 <html lang="es-MX">
   <head>
     <meta charset="UTF-8" />
+    <!-- Mejora progresiva: los reveals al scroll solo aplican con JS activo -->
+    <script>document.documentElement.classList.add("js");</script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />

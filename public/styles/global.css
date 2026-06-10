@@ -72,6 +72,27 @@ body {
   outline-offset: 2px;
 }
 
+/* Reveal al scroll — solo cuando hay JS (html.js); sin JS todo es visible */
+html.js .revela {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.65s ease var(--retraso, 0ms),
+              transform 0.65s ease var(--retraso, 0ms);
+}
+
+html.js .revela.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.js .revela {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
 /* Skip link: visible solo al recibir foco */
 .skip-link {
   position: absolute;

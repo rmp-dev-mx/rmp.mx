@@ -308,25 +308,6 @@ const marquee = [
     border-top: 1px solid var(--oro);
   }
 
-  /* Reveal al scroll */
-  .revela {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.7s ease var(--retraso, 0ms),
-                transform 0.7s ease var(--retraso, 0ms);
-  }
-  .revela.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .revela {
-      opacity: 1;
-      transform: none;
-      transition: none;
-    }
-  }
 
   /* ═══════ HERO ═══════ */
   .hero {
@@ -1004,10 +985,14 @@ const marquee = [
 
   /* ═══════ Responsive ═══════ */
   @media (max-width: 1023px) {
+    /* En pantallas angostas el hero fluye con su contenido; 100dvh
+       provocaba que el emblema desbordara sobre el ticker */
+    .hero { min-height: auto; }
+
     .hero-inner {
       grid-template-columns: 1fr;
       gap: calc(var(--espacio) * 8);
-      padding-block: calc(64px + var(--espacio) * 8) calc(var(--espacio) * 8);
+      padding-block: calc(56px + var(--espacio) * 8) calc(var(--espacio) * 8);
     }
 
     .hero-emblema { max-width: 340px; }
