@@ -2,13 +2,18 @@
 :root {
   --tinta: #16243a;
   --papel: #faf7f0;
-  --oro: #a87b2d;
+  /* Oro adaptativo: profundo sobre papel (4.98:1 AA), luminoso sobre tinta (6.4:1 AA) */
+  --oro: #8a6423;
+  --oro-claro: #c9a227;
+  --oro-contraste: #faf7f0; /* color de texto sobre fondos oro */
   --pizarra: #5b6470;
   --regla: #d8d2c4;
   --blanco: #ffffff;
   --exito: #2f6b4f;
   --error: #9b3b2e;
+}
 
+:root {
   --fuente-display: "Spectral", Georgia, serif;
   --fuente-texto: "Public Sans", system-ui, sans-serif;
   --fuente-datos: "IBM Plex Mono", ui-monospace, monospace;
@@ -17,6 +22,13 @@
   --radio: 4px;
   --espacio: 8px;
   --sombra: 0 1px 2px rgb(22 36 58 / 0.06), 0 8px 24px rgb(22 36 58 / 0.07);
+}
+
+/* Sobre fondos oscuros el oro sube de luminancia para cumplir AA
+   en texto pequeño (eyebrows, folios, etiquetas mono) */
+.fondo-oscuro {
+  --oro: var(--oro-claro);
+  --oro-contraste: var(--tinta);
 }
 
 /* Reset mínimo */
@@ -58,6 +70,26 @@ body {
 :focus-visible {
   outline: 2px solid var(--oro);
   outline-offset: 2px;
+}
+
+/* Skip link: visible solo al recibir foco */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: calc(var(--espacio) * 2);
+  z-index: 200;
+  padding: calc(var(--espacio) * 1.5) calc(var(--espacio) * 3);
+  background: var(--tinta);
+  color: var(--papel);
+  font-family: var(--fuente-texto);
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: 0 0 var(--radio) var(--radio);
+}
+
+.skip-link:focus-visible {
+  top: 0;
 }
 
 /* Elemento firma: doble línea de totales */

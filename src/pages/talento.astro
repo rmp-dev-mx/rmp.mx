@@ -65,6 +65,7 @@ import Base from "@layouts/Base.astro";
         id="panel-practicantes"
         role="tabpanel"
         aria-labelledby="tab-practicantes"
+        tabindex="0"
       >
         <p class="panel-intro">
           ¿Necesitas realizar tu servicio o prácticas profesionales?
@@ -165,6 +166,7 @@ import Base from "@layouts/Base.astro";
         id="panel-bolsa"
         role="tabpanel"
         aria-labelledby="tab-bolsa"
+        tabindex="0"
         hidden
       >
         <p class="panel-intro">
@@ -495,7 +497,7 @@ import Base from "@layouts/Base.astro";
     font-family: var(--fuente-texto);
     font-size: 15px;
     font-weight: 700;
-    color: var(--tinta);
+    color: var(--oro-contraste);
     background: var(--oro);
     border: 1px solid var(--oro);
     border-radius: var(--radio);
@@ -586,6 +588,7 @@ import Base from "@layouts/Base.astro";
           (campo.type === "email" && !campo.checkValidity());
 
         campo.classList.toggle("invalido", esInvalido);
+        campo.setAttribute("aria-invalid", String(esInvalido));
         if (error) error.hidden = !esInvalido;
         if (esInvalido) valido = false;
       }

@@ -86,6 +86,8 @@ function isActive(href: string): boolean {
     --h-border: transparent;
     --lm-azul: var(--papel);
     --lm-gris: rgb(250 247 240 / 0.4);
+    --oro: var(--oro-claro); /* contraste AA del oro sobre tinta */
+    --oro-contraste: var(--tinta);
   }
 
   .site-header {
@@ -185,7 +187,7 @@ function isActive(href: string): boolean {
     align-items: center;
     padding: 7px calc(var(--espacio) * 2);
     background: var(--oro);
-    color: var(--tinta);
+    color: var(--oro-contraste);
     font-family: var(--fuente-texto);
     font-size: 14px;
     font-weight: 700;

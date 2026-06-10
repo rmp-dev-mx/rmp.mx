@@ -386,7 +386,7 @@ const mapaSrc =
     font-family: var(--fuente-texto);
     font-size: 15px;
     font-weight: 700;
-    color: var(--tinta);
+    color: var(--oro-contraste);
     background: var(--oro);
     border: 1px solid var(--oro);
     border-radius: var(--radio);
@@ -561,6 +561,7 @@ const mapaSrc =
         (campo.type === "email" && !campo.checkValidity());
 
       campo.classList.toggle("invalido", esInvalido);
+      campo.setAttribute("aria-invalid", String(esInvalido));
       if (error) error.hidden = !esInvalido;
       if (esInvalido) valido = false;
     }
