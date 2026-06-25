@@ -3,6 +3,10 @@ import Base from "@layouts/Base.astro";
 import { url } from "../lib/url";
 import Boton from "@components/Boton.astro";
 
+// NOTA: las descripciones de una línea (`d`) por servicio son un BORRADOR
+// redactado por la agencia para "desarrollar el alcance"; deben ser
+// revisadas/confirmadas por la firma antes de publicar (precisión técnica).
+// Los nombres de servicio (`n`) sí provienen del contenido original.
 const areas = [
   {
     folio: "01",
@@ -12,15 +16,15 @@ const areas = [
       "Llevamos el registro ordenado y oportuno de la información financiera de su empresa: desde el diseño del catálogo de cuentas hasta la declaración anual.",
     cta: "¿Necesita poner en orden su contabilidad?",
     servicios: [
-      "Planeación administrativa de la información para preparar contabilidad",
-      "Diseño de catálogo de cuentas aplicable a cada cliente",
-      "Preparación de registros contables",
-      "Preparación de estados financieros",
-      "Análisis de estados financieros",
-      "Determinación y preparación de bases de impuestos federales y locales",
-      "Elaboración de declaraciones mensuales de impuestos federales y locales",
-      "Preparación y determinación de nóminas",
-      "Preparación de papeles de trabajo y declaración anual por impuestos federales",
+      { n: "Planeación administrativa de la información para preparar contabilidad", d: "Organizamos el flujo de documentos y datos para llevar su contabilidad al día." },
+      { n: "Diseño de catálogo de cuentas aplicable a cada cliente", d: "Una estructura de cuentas a la medida de su giro y operación." },
+      { n: "Preparación de registros contables", d: "Registro ordenado de todas sus operaciones conforme a la normatividad vigente." },
+      { n: "Preparación de estados financieros", d: "Balance, resultados y flujo de efectivo listos para tomar decisiones." },
+      { n: "Análisis de estados financieros", d: "Interpretamos sus cifras para detectar riesgos y oportunidades." },
+      { n: "Determinación y preparación de bases de impuestos federales y locales", d: "Cálculo de la base de cada impuesto federal y estatal que le aplica." },
+      { n: "Elaboración de declaraciones mensuales de impuestos federales y locales", d: "Presentación puntual de sus pagos provisionales y definitivos." },
+      { n: "Preparación y determinación de nóminas", d: "Cálculo de sueldos, retenciones y cuotas de IMSS e Infonavit." },
+      { n: "Preparación de papeles de trabajo y declaración anual por impuestos federales", d: "Integración y presentación de su declaración anual ante el SAT." },
     ],
   },
   {
@@ -31,13 +35,13 @@ const areas = [
       "Revisamos y dictaminamos la información financiera y el cumplimiento de obligaciones de su entidad, con independencia y rigor técnico.",
     cta: "¿Su empresa requiere un dictamen?",
     servicios: [
-      "Auditoría de estados financieros",
-      "Auditoría para efecto de cumplimiento de obligaciones fiscales federales y locales",
-      "Auditoría para efecto de cumplimiento de obligaciones en materia de seguridad social y vivienda",
-      "Auditoría financiera de entidades del sector gubernamental",
-      "Auditoría operativa",
-      "Auditoría para propósitos específicos",
-      "Elaboración de dictamen de enajenación de acciones",
+      { n: "Auditoría de estados financieros", d: "Revisión independiente que da certeza sobre la razonabilidad de sus cifras." },
+      { n: "Auditoría para efecto de cumplimiento de obligaciones fiscales federales y locales", d: "Verificamos que cumpla correctamente ante el SAT y las autoridades locales." },
+      { n: "Auditoría para efecto de cumplimiento de obligaciones en materia de seguridad social y vivienda", d: "Revisión de sus obligaciones ante el IMSS y el Infonavit." },
+      { n: "Auditoría financiera de entidades del sector gubernamental", d: "Revisión del manejo de recursos y cuentas de entidades públicas." },
+      { n: "Auditoría operativa", d: "Evaluamos la eficiencia de sus procesos y controles internos." },
+      { n: "Auditoría para propósitos específicos", d: "Revisiones a la medida sobre un rubro o una transacción concreta." },
+      { n: "Elaboración de dictamen de enajenación de acciones", d: "Dictamen del resultado fiscal por la venta de acciones." },
     ],
   },
   {
@@ -48,14 +52,14 @@ const areas = [
       "Acompañamos las decisiones de su negocio con análisis, planeación y evaluación: del diagnóstico inicial a los proyectos de inversión.",
     cta: "¿Busca claridad para decidir?",
     servicios: [
-      "Consultoría de negocios",
-      "Análisis de costos",
-      "Proyectos de inversión",
-      "Análisis y diagnóstico de negocios",
-      "Revisión y preparación de información financiera",
-      "Planeación patrimonial y fiscal",
-      "Mediación de conflictos de negocio",
-      "Evaluación de desempeño",
+      { n: "Consultoría de negocios", d: "Acompañamiento experto para resolver retos y hacer crecer su empresa." },
+      { n: "Análisis de costos", d: "Identificamos cuánto cuesta cada producto o servicio y dónde optimizar." },
+      { n: "Proyectos de inversión", d: "Evaluación de viabilidad y rentabilidad antes de invertir." },
+      { n: "Análisis y diagnóstico de negocios", d: "Una radiografía de su empresa para priorizar decisiones." },
+      { n: "Revisión y preparación de información financiera", d: "Información ordenada y confiable para socios, bancos o inversionistas." },
+      { n: "Planeación patrimonial y fiscal", d: "Estrategias legales para proteger su patrimonio y optimizar su carga fiscal." },
+      { n: "Mediación de conflictos de negocio", d: "Facilitamos acuerdos entre socios o partes para evitar litigios." },
+      { n: "Evaluación de desempeño", d: "Medimos resultados de su equipo y su operación con indicadores claros." },
     ],
   },
   {
@@ -66,13 +70,14 @@ const areas = [
       "Defendemos y asesoramos a su empresa y a su patrimonio en materia fiscal, laboral y corporativa.",
     cta: "¿Enfrenta un problema fiscal o legal?",
     servicios: [
-      "Defensa fiscal",
-      "Asesoría legal empresarial",
-      "Consultoría laboral",
-      "Asesoría patrimonial",
-      "Fusiones, escisiones y adquisiciones",
-      "Due Diligence",
-      "Solución de problemas fiscales", // TODO: confirmar con cliente ("Solucion de programas fiscales" en el original)
+      { n: "Defensa fiscal", d: "Lo representamos ante el SAT y los tribunales frente a multas, créditos y requerimientos." },
+      { n: "Asesoría legal empresarial", d: "Acompañamiento jurídico en la operación diaria de su empresa." },
+      { n: "Consultoría laboral", d: "Prevención y solución de temas laborales y de seguridad social." },
+      { n: "Asesoría patrimonial", d: "Protección y ordenamiento legal de su patrimonio." },
+      { n: "Fusiones, escisiones y adquisiciones", d: "Reestructura corporativa para integrar, dividir o adquirir empresas." },
+      { n: "Due Diligence", d: "Revisión legal y fiscal de una empresa antes de comprarla, fusionarla o invertir." },
+      // TODO: confirmar con cliente ("Solucion de programas fiscales" en el original)
+      { n: "Solución de problemas fiscales", d: "Atención integral a contingencias y diferencias con la autoridad fiscal." },
     ],
   },
 ];
@@ -146,7 +151,10 @@ const areas = [
                 <span class="asiento-num" aria-hidden="true">
                   {String(j + 1).padStart(2, "0")}
                 </span>
-                <span class="asiento-texto">{servicio}</span>
+                <span class="asiento-cuerpo">
+                  <span class="asiento-texto">{servicio.n}</span>
+                  <span class="asiento-desc">{servicio.d}</span>
+                </span>
               </li>
             ))}
           </ol>
@@ -434,11 +442,23 @@ const areas = [
     display: flex;
     align-items: baseline;
     gap: calc(var(--espacio) * 3);
-    padding-block: calc(var(--espacio) * 2.5);
+    padding-block: calc(var(--espacio) * 3);
     border-bottom: 1px solid var(--regla);
     transition: background 0.2s ease, padding-inline 0.25s ease,
                 opacity 0.6s ease var(--retraso, 0ms),
                 transform 0.6s ease var(--retraso, 0ms);
+  }
+
+  .asiento-cuerpo {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--espacio) * 0.75);
+  }
+
+  .asiento-desc {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--pizarra);
   }
 
   .asiento:hover {
