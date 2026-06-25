@@ -78,16 +78,11 @@ function isActive(href: string): boolean {
     --h-bg: var(--papel);
     --h-color: var(--tinta);
     --h-border: var(--regla);
-    /* Colores del logo SVG (cascade a LogoMarca) */
-    --lm-azul: #1A3565;
-    --lm-gris: #8899A8;
   }
   .site-header.scrolled {
     --h-bg: var(--tinta);
     --h-color: var(--papel);
     --h-border: transparent;
-    --lm-azul: var(--papel);
-    --lm-gris: rgb(250 247 240 / 0.4);
     --oro: var(--oro-claro); /* contraste AA del oro sobre tinta */
     --oro-contraste: var(--tinta);
   }
@@ -127,7 +122,6 @@ function isActive(href: string): boolean {
   }
 
   .logo-svg {
-    width: 38px;
     height: 38px;
     flex-shrink: 0;
   }

@@ -1,37 +1,58 @@
 ---
-const id = `lm-${Math.random().toString(36).slice(2, 9)}`;
+// Símbolo oficial de Ramírez Medellín (swoosh azul/gris).
+// Dos versiones: a color para el header claro y silueta papel para
+// el header con scroll (fondo tinta). El swap lo controla Header.astro
+// según la clase .scrolled. El wordmark va en texto, no en la imagen.
+import { url } from "../lib/url";
+
 interface Props {
   class?: string;
 }
 const { class: className } = Astro.props;
 ---
 
-<svg
-  class={className}
-  viewBox="0 0 100 100"
-  xmlns="http://www.w3.org/2000/svg"
-  aria-hidden="true"
-  focusable="false"
->
-  <defs>
-    <mask id={`${id}-g`}>
-      <circle cx="58" cy="52" r="32" fill="white" />
-      <circle cx="34" cy="50" r="22" fill="black" />
-    </mask>
-    <mask id={`${id}-a`}>
-      <circle cx="38" cy="48" r="38" fill="white" />
-      <circle cx="68" cy="46" r="26" fill="black" />
-    </mask>
-  </defs>
-  <rect class="lm-gris" width="100" height="100" mask={`url(#${id}-g)`} />
-  <rect class="lm-azul" width="100" height="100" mask={`url(#${id}-a)`} />
-</svg>
+<span class:list={["logo-marca", className]} aria-hidden="true">
+  <img
+    class="lm-color"
+    src={url("/images/logo-rmp.webp")}
+    alt=""
+    width="156"
+    height="120"
+    decoding="async"
+  />
+  <img
+    class="lm-claro"
+    src={url("/images/logo-rmp-claro.webp")}
+    alt=""
+    width="156"
+    height="120"
+    decoding="async"
+  />
+</span>
 
 <style>
-  .lm-gris { fill: var(--lm-gris, #8899A8); transition: fill 0.3s ease; }
-  .lm-azul { fill: var(--lm-azul, #1A3565); transition: fill 0.3s ease; }
-
-  @media (prefers-reduced-motion: reduce) {
-    .lm-gris, .lm-azul { transition: none; }
+  /* Altura definida aquí (no en el header): Astro no propaga el scope
+     del padre al root del hijo, así que .logo-svg del header no alcanza
+     este <span>. Solo se usa en el header, donde mide 38px. */
+  .logo-marca {
+    display: inline-flex;
+    line-height: 0;
+    height: 38px;
+  }
+  .logo-marca img {
+    display: block;
+    height: 100%;
+    width: auto;
+  }
+  .logo-marca .lm-claro {
+    display: none;
+  }
+  /* Header con scroll (fondo tinta): mostrar la silueta papel.
+     :global porque .scrolled vive en el ancestro <header>. */
+  :global(.site-header.scrolled) .logo-marca .lm-color {
+    display: none;
+  }
+  :global(.site-header.scrolled) .logo-marca .lm-claro {
+    display: block;
   }
 </style>

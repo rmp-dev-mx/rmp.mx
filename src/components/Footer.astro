@@ -98,8 +98,16 @@ const accesos = [
             <!-- TODO: logo vector CONTPAQi -->
             <span class="badge-texto">CONTPAQi<br><span class="badge-sub">Distribuidor Asociado</span></span>
           </li>
-          <li class="footer-badge">
-            <!-- TODO: logo vector Pacioli -->
+          <li class="footer-badge footer-badge--logo">
+            <img
+              class="badge-logo"
+              src={url("/images/logo-pacioli.webp")}
+              alt=""
+              width="128"
+              height="120"
+              decoding="async"
+              loading="lazy"
+            />
             <span class="badge-texto">Pacioli<br><span class="badge-sub">Asesores de Negocios, S.C.</span></span>
           </li>
         </ul>
@@ -291,6 +299,18 @@ const accesos = [
     border: 1px solid rgb(250 247 240 / 0.12);
     border-radius: var(--radio);
     display: inline-block;
+  }
+
+  .footer-badge--logo {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--espacio) * 1.5);
+  }
+
+  .badge-logo {
+    height: 30px;
+    width: auto;
+    flex-shrink: 0;
   }
 
   .badge-texto {

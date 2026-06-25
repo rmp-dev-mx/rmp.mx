@@ -2,7 +2,6 @@
 import Base from "@layouts/Base.astro";
 import { url } from "../lib/url";
 import Boton from "@components/Boton.astro";
-import LogoMarca from "@components/LogoMarca.astro";
 
 const servicios = [
   {
@@ -104,7 +103,7 @@ const marquee = [
           <circle class="anillo anillo-2" cx="240" cy="240" r="196" />
           <circle class="anillo anillo-3" cx="240" cy="240" r="148" />
         </svg>
-        <LogoMarca class="emblema-marca" />
+        <img class="emblema-marca" src={url("/images/logo-rmp-emblema.webp")} alt="" width="560" height="560" decoding="async" />
         <div class="emblema-centro">
           <span class="emblema-num" id="emblema-num" data-fin="28">00</span>
           <span class="emblema-label">años</span>
@@ -508,10 +507,8 @@ const marquee = [
   .emblema-marca {
     position: absolute;
     width: 58%;
-    height: 58%;
+    height: auto;
     opacity: 0.1;
-    --lm-azul: var(--papel);
-    --lm-gris: var(--papel);
     animation: marca-gira 90s linear infinite;
   }
 

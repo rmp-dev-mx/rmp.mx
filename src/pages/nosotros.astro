@@ -2,7 +2,6 @@
 import Base from "@layouts/Base.astro";
 import { url } from "../lib/url";
 import Boton from "@components/Boton.astro";
-import LogoMarca from "@components/LogoMarca.astro";
 
 const valores = [
   "Confianza",
@@ -216,7 +215,7 @@ function iniciales(nombre: string): string {
     <div class="contenedor">
       <div class="socio-grid revela">
         <div class="socio-monograma" aria-hidden="true">
-          <LogoMarca class="socio-marca" />
+          <img class="socio-marca" src={url("/images/logo-rmp-emblema.webp")} alt="" width="560" height="560" decoding="async" loading="lazy" />
           <span class="socio-iniciales">JR</span>
         </div>
         <div>
@@ -590,10 +589,8 @@ function iniciales(nombre: string): string {
   .socio-marca {
     position: absolute;
     width: 70%;
-    height: 70%;
+    height: auto;
     opacity: 0.12;
-    --lm-azul: var(--papel);
-    --lm-gris: var(--papel);
   }
 
   .socio-iniciales {
