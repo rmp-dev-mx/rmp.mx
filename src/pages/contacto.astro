@@ -1,11 +1,21 @@
 ---
 import Base from "@layouts/Base.astro";
+import AsistenteContacto from "@components/AsistenteContacto.astro";
 import { url } from "../lib/url";
 
+// TODO: el cliente desconoce cuáles de los 3 teléfonos están habilitados; confirmar.
 const telefonos = [
   { num: "444-833-40-98", tel: "+524448334098" },
   { num: "444-833-40-99", tel: "+524448334099" },
   { num: "444-211-60-00", tel: "+524442116000" },
+];
+
+// Correos por área (encargada). Fuente: equipo en nosotros.astro.
+const correosArea = [
+  { area: "Contabilidad", correo: "paola@rmp.mx" },
+  { area: "Auditoría", correo: "citlaly@rmp.mx" },
+  { area: "Asesoría de Negocios", correo: "marisela@rmp.mx" },
+  { area: "Legal", correo: "eugenia@rmp.mx" },
 ];
 
 // Embed corregido (el original tenía la URL malformada con saltos de línea)
@@ -42,96 +52,14 @@ const mapaSrc =
     <div class="contenedor">
       <div class="contacto-grid">
 
-        <!-- Formulario -->
+        <!-- Asistente de contacto guiado -->
         <div class="form-col revela">
-          <h2 class="form-titulo">Envíenos un mensaje</h2>
+          <AsistenteContacto />
 
-          <!--
-            TODO: confirmar destino del formulario con el cliente
-            (correo, Formspree, Resend u otro). El hosting actual es PHP.
-            Mientras tanto el action apunta a un stub.
-          -->
-          <form
-            class="form"
-            id="form-contacto"
-            method="POST"
-            action="#"
-            novalidate
-          >
-            <div class="campo">
-              <label for="nombre">Nombre <span class="req" aria-hidden="true">*</span></label>
-              <input
-                type="text"
-                id="nombre"
-                name="nombre"
-                required
-                autocomplete="name"
-                aria-describedby="error-nombre"
-              />
-              <p class="campo-error" id="error-nombre" hidden>Escriba su nombre.</p>
-            </div>
-
-            <div class="campo-fila">
-              <div class="campo">
-                <label for="email">Correo electrónico <span class="req" aria-hidden="true">*</span></label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  required
-                  autocomplete="email"
-                  aria-describedby="error-email"
-                />
-                <p class="campo-error" id="error-email" hidden>Escriba un correo válido.</p>
-              </div>
-
-              <div class="campo">
-                <label for="telefono">Teléfono</label>
-                <input
-                  type="tel"
-                  id="telefono"
-                  name="telefono"
-                  autocomplete="tel"
-                />
-              </div>
-            </div>
-
-            <div class="campo">
-              <label for="asunto">Asunto <span class="req" aria-hidden="true">*</span></label>
-              <input
-                type="text"
-                id="asunto"
-                name="asunto"
-                required
-                aria-describedby="error-asunto"
-              />
-              <p class="campo-error" id="error-asunto" hidden>Escriba el asunto.</p>
-            </div>
-
-            <div class="campo">
-              <label for="mensaje">Mensaje <span class="req" aria-hidden="true">*</span></label>
-              <textarea
-                id="mensaje"
-                name="mensaje"
-                rows="6"
-                required
-                aria-describedby="error-mensaje"
-              ></textarea>
-              <p class="campo-error" id="error-mensaje" hidden>Escriba su mensaje.</p>
-            </div>
-
-            <button type="submit" class="form-enviar">Enviar mensaje</button>
-
-            <p class="form-exito" id="form-exito" hidden>
-              Gracias por su mensaje. Le responderemos a la brevedad.
-            </p>
-
-            <p class="form-aviso">
-              Al enviar este formulario acepta nuestro
-              <a href={url("/aviso-de-privacidad")}>aviso de privacidad</a>.
-              <!-- TODO: redactar aviso de privacidad (obligatorio por LFPDPPP) -->
-            </p>
-          </form>
+          <p class="respaldo">
+            ¿Prefiere escribirnos directamente? Hágalo a
+            <a href="mailto:despacho@rmp.mx">despacho@rmp.mx</a>.
+          </p>
         </div>
 
         <!-- Datos -->
@@ -157,13 +85,22 @@ const mapaSrc =
           <div class="dato">
             <h3 class="dato-titulo">Correo</h3>
             <a href="mailto:despacho@rmp.mx" class="dato-mono">despacho@rmp.mx</a>
+            <p class="dato-sub">O directo con cada área:</p>
+            <ul class="dato-lista" role="list">
+              {correosArea.map(({ area, correo }) => (
+                <li>
+                  <span class="dato-area">{area}</span>
+                  <a href={`mailto:${correo}`} class="dato-mono">{correo}</a>
+                </li>
+              ))}
+            </ul>
           </div>
 
           <div class="dato">
             <h3 class="dato-titulo">Horario</h3>
             <p class="dato-texto">
-              <!-- TODO: confirmar horario de oficina con el cliente -->
-              Lunes a viernes
+              <!-- TODO: establecer el horario de oficina con el cliente -->
+              <span class="dato-pendiente">Por confirmar</span>
             </p>
           </div>
 
@@ -299,113 +236,14 @@ const mapaSrc =
     align-items: start;
   }
 
-  /* ── Formulario ── */
-  .form-titulo {
-    font-family: var(--fuente-display);
-    font-weight: 500;
-    font-size: clamp(26px, 3vw, 36px);
-    letter-spacing: -0.01em;
-    color: var(--tinta);
-    margin: 0 0 calc(var(--espacio) * 4);
-  }
-
-  .form {
-    display: flex;
-    flex-direction: column;
-    gap: calc(var(--espacio) * 3);
-  }
-
-  .campo {
-    display: flex;
-    flex-direction: column;
-    gap: calc(var(--espacio) * 0.75);
-    flex: 1;
-  }
-
-  .campo-fila {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: calc(var(--espacio) * 3);
-  }
-
-  .campo label {
-    font-family: var(--fuente-texto);
+  /* ── Asistente + respaldo ── */
+  .respaldo {
     font-size: 14px;
-    font-weight: 500;
-    color: var(--tinta);
-  }
-
-  .req { color: var(--oro); }
-
-  .campo input,
-  .campo textarea {
-    font-family: var(--fuente-texto);
-    font-size: 16px;
-    color: var(--tinta);
-    background: var(--blanco);
-    border: 1px solid var(--regla);
-    border-radius: var(--radio);
-    padding: calc(var(--espacio) * 1.5) calc(var(--espacio) * 2);
-    width: 100%;
-    transition: border-color 0.15s ease;
-  }
-
-  .campo textarea { resize: vertical; min-height: 140px; }
-
-  .campo input:hover,
-  .campo textarea:hover { border-color: var(--pizarra); }
-
-  .campo input:focus-visible,
-  .campo textarea:focus-visible {
-    outline: 2px solid var(--oro);
-    outline-offset: 0;
-    border-color: var(--oro);
-  }
-
-  .campo input.invalido,
-  .campo textarea.invalido { border-color: var(--error); }
-
-  .campo-error {
-    font-size: 13px;
-    color: var(--error);
-    margin: 0;
-  }
-
-  .form-enviar {
-    align-self: flex-start;
-    font-family: var(--fuente-texto);
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--oro-contraste);
-    background: var(--oro);
-    border: 1px solid var(--oro);
-    border-radius: var(--radio);
-    padding: calc(var(--espacio) * 1.5) calc(var(--espacio) * 4);
-    min-height: 44px;
-    cursor: pointer;
-    transition: filter 0.15s ease;
-  }
-
-  .form-enviar:hover { filter: brightness(0.9); }
-
-  .form-exito {
-    font-size: 15px;
-    font-weight: 500;
-    color: var(--exito);
-    background: rgb(47 107 79 / 0.08);
-    border: 1px solid rgb(47 107 79 / 0.25);
-    border-radius: var(--radio);
-    padding: calc(var(--espacio) * 2);
-    margin: 0;
-  }
-
-  .form-aviso {
-    font-size: 13px;
+    line-height: 1.6;
     color: var(--pizarra);
-    margin: 0;
+    margin: calc(var(--espacio) * 3) 0 0;
   }
-
-  .form-aviso a { color: var(--oro); }
+  .respaldo a { color: var(--oro); }
 
   /* ── Datos ── */
   .datos-col {
@@ -463,6 +301,28 @@ const mapaSrc =
   }
 
   .dato-mono:hover { color: var(--oro); }
+
+  .dato-sub {
+    font-size: 13px;
+    color: var(--pizarra);
+    margin: calc(var(--espacio) * 2) 0 calc(var(--espacio) * 1.25);
+  }
+
+  .dato-lista li { display: flex; flex-direction: column; }
+
+  .dato-area {
+    font-family: var(--fuente-texto);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--pizarra);
+  }
+
+  .dato-pendiente {
+    font-family: var(--fuente-datos);
+    font-size: 14px;
+    color: var(--pizarra);
+    font-style: italic;
+  }
 
   .dato-portal {
     font-family: var(--fuente-datos);
@@ -530,36 +390,4 @@ const mapaSrc =
     );
     revelables.forEach((el) => io.observe(el));
   }
-
-  /* ── Validación del formulario (stub) ──
-     TODO: conectar al destino real cuando el cliente lo confirme. */
-  const form = document.getElementById("form-contacto") as HTMLFormElement | null;
-  const exito = document.getElementById("form-exito");
-
-  form?.addEventListener("submit", (e) => {
-    e.preventDefault();
-
-    let valido = true;
-    const campos = form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>(
-      "input[required], textarea[required]"
-    );
-
-    for (const campo of campos) {
-      const error = document.getElementById(`error-${campo.id}`);
-      const esInvalido =
-        campo.value.trim() === "" ||
-        (campo.type === "email" && !campo.checkValidity());
-
-      campo.classList.toggle("invalido", esInvalido);
-      campo.setAttribute("aria-invalid", String(esInvalido));
-      if (error) error.hidden = !esInvalido;
-      if (esInvalido) valido = false;
-    }
-
-    if (valido && exito) {
-      exito.hidden = false;
-      form.reset();
-      exito.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "nearest" });
-    }
-  });
 </script>

@@ -1,0 +1,405 @@
+---
+// Asistente de contacto guiado (sin IA, 100% en el navegador).
+// Clasifica la necesidad del visitante por un árbol de decisión y lo
+// enruta a la encargada correcta con un mailto: prellenado.
+// Los correos por área provienen del equipo en nosotros.astro.
+---
+
+<div class="asistente" id="asistente">
+  <div class="asistente-cabecera">
+    <p class="asistente-eyebrow">Asistente de contacto</p>
+    <h2 class="asistente-titulo">Cuéntenos qué necesita</h2>
+    <p class="asistente-intro">
+      Responda un par de preguntas y lo conectamos directo con la persona
+      indicada de la firma. Toma menos de un minuto.
+    </p>
+  </div>
+
+  <!-- El motor renderiza aquí los pasos. aria-live anuncia cada paso. -->
+  <div class="asistente-cuerpo" id="asistente-cuerpo" aria-live="polite"></div>
+
+  <noscript>
+    <p class="asistente-noscript">
+      Para usar el asistente active JavaScript, o escríbanos directamente a
+      <a href="mailto:despacho@rmp.mx">despacho@rmp.mx</a>. Correos por área:
+      Contabilidad <a href="mailto:paola@rmp.mx">paola@rmp.mx</a>,
+      Auditoría <a href="mailto:citlaly@rmp.mx">citlaly@rmp.mx</a>,
+      Asesoría <a href="mailto:marisela@rmp.mx">marisela@rmp.mx</a>,
+      Legal <a href="mailto:eugenia@rmp.mx">eugenia@rmp.mx</a>.
+    </p>
+  </noscript>
+</div>
+
+<!-- is:global porque el cuerpo del asistente se genera por JS (innerHTML) y no
+     recibe el atributo de scope de Astro. Todo va prefijado con #asistente
+     para no filtrarse al resto del sitio. -->
+<style is:global>
+  #asistente {
+    background: var(--blanco);
+    border: 1px solid var(--regla);
+    border-radius: var(--radio);
+    box-shadow: var(--sombra);
+    padding: calc(var(--espacio) * 4);
+  }
+
+  #asistente .asistente-eyebrow {
+    font-family: var(--fuente-datos);
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--oro);
+    margin: 0 0 calc(var(--espacio) * 1.5);
+  }
+
+  #asistente .asistente-titulo {
+    font-family: var(--fuente-display);
+    font-weight: 500;
+    font-size: clamp(24px, 3vw, 32px);
+    letter-spacing: -0.01em;
+    color: var(--tinta);
+    margin: 0 0 calc(var(--espacio) * 1.5);
+  }
+
+  #asistente .asistente-intro {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--pizarra);
+    margin: 0 0 calc(var(--espacio) * 4);
+    max-width: 46ch;
+  }
+
+  #asistente .asistente-noscript {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--tinta);
+  }
+  #asistente .asistente-noscript a { color: var(--oro); }
+
+  /* ── Pasos ── */
+  #asistente .paso-progreso {
+    font-family: var(--fuente-datos);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--pizarra);
+    margin: 0 0 calc(var(--espacio) * 1.5);
+  }
+
+  #asistente .paso-pregunta {
+    font-family: var(--fuente-display);
+    font-weight: 500;
+    font-size: clamp(19px, 2.2vw, 24px);
+    line-height: 1.25;
+    color: var(--tinta);
+    margin: 0 0 calc(var(--espacio) * 3);
+    outline: none;
+  }
+
+  #asistente .opciones {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espacio);
+  }
+
+  #asistente .opcion {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: calc(var(--espacio) * 2);
+    width: 100%;
+    text-align: left;
+    font-family: var(--fuente-texto);
+    font-size: 15px;
+    line-height: 1.4;
+    color: var(--tinta);
+    background: var(--papel);
+    border: 1px solid var(--regla);
+    border-radius: var(--radio);
+    padding: calc(var(--espacio) * 1.75) calc(var(--espacio) * 2);
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+
+  #asistente .opcion:hover {
+    border-color: var(--oro);
+    background: var(--blanco);
+  }
+
+  #asistente .opcion:focus-visible {
+    outline: 2px solid var(--oro);
+    outline-offset: 2px;
+    border-color: var(--oro);
+  }
+
+  #asistente .opcion-flecha {
+    flex-shrink: 0;
+    color: var(--oro);
+    font-family: var(--fuente-datos);
+    transition: transform 0.15s ease;
+  }
+  #asistente .opcion:hover .opcion-flecha { transform: translateX(3px); }
+
+  #asistente .paso-volver {
+    display: inline-flex;
+    align-items: center;
+    gap: calc(var(--espacio) * 0.5);
+    margin-top: calc(var(--espacio) * 3);
+    background: none;
+    border: none;
+    padding: var(--espacio) 0;
+    font-family: var(--fuente-datos);
+    font-size: 13px;
+    color: var(--pizarra);
+    cursor: pointer;
+  }
+  #asistente .paso-volver:hover { color: var(--tinta); }
+  #asistente .paso-volver:focus-visible { outline: 2px solid var(--oro); outline-offset: 2px; }
+
+  /* ── Resultado ── */
+  #asistente .resultado-area {
+    font-family: var(--fuente-datos);
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--oro);
+    margin: 0 0 calc(var(--espacio) * 1.5);
+  }
+
+  #asistente .resultado-titulo {
+    font-family: var(--fuente-display);
+    font-weight: 500;
+    font-size: clamp(20px, 2.4vw, 26px);
+    line-height: 1.3;
+    color: var(--tinta);
+    margin: 0 0 calc(var(--espacio) * 1.5);
+    outline: none;
+  }
+  #asistente .resultado-titulo strong { font-weight: 600; }
+
+  #asistente .resultado-encargada {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--pizarra);
+    margin: 0 0 calc(var(--espacio) * 3);
+  }
+  #asistente .resultado-encargada .nombre { color: var(--tinta); font-weight: 500; }
+
+  #asistente .resultado-acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--espacio);
+  }
+
+  #asistente .accion {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--espacio);
+    font-family: var(--fuente-texto);
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: var(--radio);
+    padding: calc(var(--espacio) * 1.5) calc(var(--espacio) * 3);
+    min-height: 44px;
+    border: 1px solid transparent;
+    cursor: pointer;
+  }
+
+  #asistente .accion--correo {
+    background: var(--oro);
+    color: var(--oro-contraste);
+    border-color: var(--oro);
+    transition: filter 0.15s ease;
+  }
+  #asistente .accion--correo:hover { filter: brightness(0.9); }
+  #asistente .accion--correo:focus-visible { outline: 2px solid var(--tinta); outline-offset: 2px; }
+
+  /* WhatsApp deshabilitado hasta tener números (TODO cliente) */
+  #asistente .accion--wa {
+    background: var(--papel);
+    color: var(--pizarra);
+    border-color: var(--regla);
+    cursor: not-allowed;
+  }
+
+  #asistente .resultado-nota {
+    font-size: 13px;
+    color: var(--pizarra);
+    margin: calc(var(--espacio) * 2) 0 0;
+  }
+
+  #asistente .resultado-reiniciar {
+    display: inline-flex;
+    align-items: center;
+    gap: calc(var(--espacio) * 0.5);
+    margin-top: calc(var(--espacio) * 3);
+    background: none;
+    border: none;
+    padding: var(--espacio) 0;
+    font-family: var(--fuente-datos);
+    font-size: 13px;
+    color: var(--pizarra);
+    cursor: pointer;
+  }
+  #asistente .resultado-reiniciar:hover { color: var(--tinta); }
+  #asistente .resultado-reiniciar:focus-visible { outline: 2px solid var(--oro); outline-offset: 2px; }
+
+  /* Entrada sutil de cada paso */
+  #asistente .paso-anim { animation: asistente-paso 0.3s ease both; }
+  @keyframes asistente-paso {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #asistente .paso-anim { animation: none; }
+    #asistente .opcion, #asistente .opcion-flecha { transition: none; }
+  }
+</style>
+
+<script>
+  type Area = "contabilidad" | "auditoria" | "asesoria" | "legal";
+  interface Opcion { label: string; next?: string; area?: Area }
+  interface Nodo { pregunta: string; opciones: Opcion[] }
+
+  const ARBOL: Record<string, Nodo> = {
+    inicio: {
+      pregunta: "¿Con qué necesita ayuda?",
+      opciones: [
+        { label: "Mi contabilidad, los impuestos del mes o la nómina", area: "contabilidad" },
+        { label: "Un dictamen o auditoría de mis estados financieros", area: "auditoria" },
+        { label: "Un problema o trámite con una autoridad (SAT, IMSS, una multa o requerimiento)", next: "autoridad" },
+        { label: "Planear, optimizar o resolver algo de mi negocio o patrimonio", next: "negocio" },
+        { label: "No estoy seguro", next: "no_seguro" },
+      ],
+    },
+    autoridad: {
+      pregunta: "Sobre ese asunto con la autoridad, ¿qué describe mejor su situación?",
+      opciones: [
+        { label: "Ya recibí una notificación, multa o requerimiento, o tengo un juicio", area: "legal" },
+        { label: "Quiero prevenir o planear para evitar problemas a futuro", area: "asesoria" },
+        { label: "Solo necesito presentar o declarar los impuestos del mes", area: "contabilidad" },
+      ],
+    },
+    negocio: {
+      pregunta: "¿Qué se acerca más a lo que busca?",
+      opciones: [
+        { label: "Planeación fiscal o patrimonial, optimizar o reestructurar", area: "asesoria" },
+        { label: "Constituir o modificar una sociedad, contratos, una fusión, escisión o due diligence", area: "legal" },
+        { label: "Mediar o resolver un conflicto entre socios", area: "asesoria" },
+      ],
+    },
+    no_seguro: {
+      pregunta: "Le orientamos con una pregunta. ¿Lo suyo es más sobre…?",
+      opciones: [
+        { label: "Cumplir mis obligaciones del día a día (contabilidad, impuestos, nómina)", area: "contabilidad" },
+        { label: "Que revisen o certifiquen mis números (dictamen o auditoría)", area: "auditoria" },
+        { label: "Un conflicto o trámite legal con una autoridad o un tercero", area: "legal" },
+        { label: "Mejorar, planear o hacer crecer mi negocio", area: "asesoria" },
+      ],
+    },
+  };
+
+  const ENCARGADAS: Record<Area, { area: string; nombre: string; primer: string; correo: string }> = {
+    contabilidad: { area: "Contabilidad", nombre: "Paola Guadalupe Guevara Moreno", primer: "Paola", correo: "paola@rmp.mx" },
+    auditoria: { area: "Auditoría", nombre: "Citlaly Reyes Jaime", primer: "Citlaly", correo: "citlaly@rmp.mx" },
+    asesoria: { area: "Asesoría de Negocios", nombre: "Marisela Elisea Martínez", primer: "Marisela", correo: "marisela@rmp.mx" },
+    legal: { area: "Legal", nombre: "Eugenia Eloisa Navarro González", primer: "Eugenia", correo: "eugenia@rmp.mx" },
+  };
+
+  const cuerpo = document.getElementById("asistente-cuerpo");
+  if (cuerpo) {
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const historial: { nodeId: string; label: string }[] = [];
+
+    const esc = (s: string) =>
+      s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+
+    function enfocar(sel: string) {
+      cuerpo!.querySelector<HTMLElement>(sel)?.focus();
+    }
+
+    function renderNodo(nodeId: string) {
+      const nodo = ARBOL[nodeId];
+      if (!nodo) return;
+      const paso = historial.length + 1;
+      const opciones = nodo.opciones
+        .map((op) => {
+          const attr = op.area ? `data-area="${op.area}"` : `data-next="${esc(op.next!)}"`;
+          return `<button type="button" class="opcion" ${attr} data-label="${esc(op.label)}">
+            <span>${esc(op.label)}</span>
+            <span class="opcion-flecha" aria-hidden="true">→</span>
+          </button>`;
+        })
+        .join("");
+      const volver = historial.length
+        ? `<button type="button" class="paso-volver" data-volver><span aria-hidden="true">‹</span> Volver</button>`
+        : "";
+      cuerpo!.innerHTML = `
+        <div class="paso${reduce ? "" : " paso-anim"}">
+          <p class="paso-progreso">Paso ${paso}</p>
+          <h3 class="paso-pregunta" tabindex="-1">${esc(nodo.pregunta)}</h3>
+          <div class="opciones" data-nodo="${esc(nodeId)}">${opciones}</div>
+          ${volver}
+        </div>`;
+      enfocar(".paso-pregunta");
+    }
+
+    function renderResultado(area: Area) {
+      const e = ENCARGADAS[area];
+      const resumen = historial.map((h) => h.label).join(" › ") || e.area;
+      const asunto = `Consulta de ${e.area} — sitio web`;
+      const cuerpoCorreo =
+        `Hola ${e.primer}:\n\n` +
+        `Le escribo desde el sitio web de Ramírez Medellín.\n\n` +
+        `Lo que busco: ${resumen}\n\n` +
+        `Mi consulta:\n`;
+      const mailto = `mailto:${e.correo}?subject=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpoCorreo)}`;
+      cuerpo!.innerHTML = `
+        <div class="resultado${reduce ? "" : " paso-anim"}">
+          <p class="resultado-area">${esc(e.area)}</p>
+          <h3 class="resultado-titulo" tabindex="-1">Por lo que nos cuenta, esto corresponde al área de <strong>${esc(e.area)}</strong>.</h3>
+          <p class="resultado-encargada">Le atenderá <span class="nombre">${esc(e.nombre)}</span>. Escríbale y le responderá a la brevedad.</p>
+          <div class="resultado-acciones">
+            <a class="accion accion--correo" href="${mailto}">
+              <span aria-hidden="true">✉</span> Escribir a ${esc(e.primer)} por correo
+            </a>
+            <!-- TODO: activar cuando el cliente proporcione el WhatsApp Business
+                 (usar https://wa.me/<numero>?text=<resumen prellenado>) -->
+            <button type="button" class="accion accion--wa" disabled aria-disabled="true" title="Disponible próximamente">
+              <span aria-hidden="true">●</span> WhatsApp (próximamente)
+            </button>
+          </div>
+          <p class="resultado-nota">Se abrirá su correo con un mensaje listo para enviar a <strong>${esc(e.correo)}</strong>.</p>
+          <button type="button" class="resultado-reiniciar" data-reiniciar><span aria-hidden="true">↺</span> Volver a empezar</button>
+        </div>`;
+      enfocar(".resultado-titulo");
+    }
+
+    cuerpo.addEventListener("click", (ev) => {
+      const t = (ev.target as HTMLElement).closest("button, a");
+      if (!t) return;
+      if (t.matches(".opcion")) {
+        const el = t as HTMLElement;
+        const label = el.dataset.label || "";
+        const nodoId = (el.closest(".opciones") as HTMLElement)?.dataset.nodo || "inicio";
+        if (el.dataset.area) {
+          historial.push({ nodeId: nodoId, label });
+          renderResultado(el.dataset.area as Area);
+        } else if (el.dataset.next) {
+          historial.push({ nodeId: nodoId, label });
+          renderNodo(el.dataset.next);
+        }
+      } else if (t.matches("[data-volver]")) {
+        const ant = historial.pop();
+        renderNodo(ant ? ant.nodeId : "inicio");
+      } else if (t.matches("[data-reiniciar]")) {
+        historial.length = 0;
+        renderNodo("inicio");
+      }
+    });
+
+    renderNodo("inicio");
+  }
+</script>
