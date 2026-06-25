@@ -21,19 +21,21 @@ Rediseño completo del sitio web de **Ramírez Medellín, S.C.**, firma de Conta
 
 ## Stack y comandos
 
+El proyecto ya está inicializado (Astro 6, gestor **pnpm**). Comandos del día a día:
+
 ```bash
-# Inicializar (solo una vez)
-pnpm create astro@latest . -- --template minimal --typescript strict --install --git
-
-# Desarrollo
+pnpm install         # instalar dependencias (una sola vez tras clonar)
 pnpm dev             # servidor local en http://localhost:4321
-
-# Producción
-pnpm build           # salida estática en dist/
+pnpm build           # salida estática en dist/ (base "/" — producción)
 pnpm preview         # previsualizar el build antes de subir
+
+# Build idéntico al de GitHub Pages (con base path):
+SITE=https://rmp-dev-mx.github.io BASE=/rmp.mx pnpm build
 ```
 
-Astro genera HTML estático (`output: 'static'`). Sin SSR ni adaptadores. Las 8 páginas son todas `.astro` o `.md` dentro de `src/pages/`.
+No hay linter ni suite de tests configurados; la verificación es `pnpm build` (falla si hay errores de tipos/TS gracias a `astro check` implícito) más la auditoría Lighthouse manual.
+
+Astro genera HTML estático (`output: 'static'`). Sin SSR ni adaptadores. Única integración: `@astrojs/sitemap` (genera `sitemap-index.xml`). Las 8 páginas son todas `.astro` dentro de `src/pages/`.
 
 ## Mapa de rutas (11 → 8 páginas)
 
@@ -50,29 +52,41 @@ Astro genera HTML estático (`output: 'static'`). Sin SSR ni adaptadores. Las 8 
 
 Redirecciones 301 de las URLs `.php` antiguas se configuran en el hosting (o en un `_redirects` si se usa Netlify/Cloudflare Pages).
 
-## Estructura esperada del proyecto
+## Estructura real del proyecto
 
 ```
 src/
-  components/     ← Header, Footer, Boton, Tarjeta, LineaTotal, etc.
+  components/     ← Header, Footer, Boton, LogoMarca (los 4 que existen hoy)
   layouts/
-    Base.astro    ← html, head (fonts, meta, OG), Header, Footer
-  pages/          ← las 8 rutas
-  styles/
-    global.css    ← tokens CSS + reset + estilos base
+    Base.astro    ← html, head (fonts Google vía <link>, meta, OG, JSON-LD schema), Header, Footer
+  lib/
+    url.ts        ← helper url() para enlaces/assets base-aware (ver abajo)
+  pages/          ← las 8 rutas .astro
 public/
-  fonts/ o Google Fonts vía <link>
-  images/         ← logos vectoriales cuando los proporcione el cliente
+  styles/global.css  ← tokens CSS + reset + estilos base (OJO: vive en public/, no en src/)
+  images/            ← logo-marca.svg (resto de logos pendiente del cliente)
+  robots.txt
 ```
+
+> Nota: el `tsconfig.json` define los alias `@components/*` y `@layouts/*` (úsalos en imports). El alias `@styles/*` apunta a `src/styles/` que **no existe**: el CSS real está en `public/styles/global.css` y se enlaza con `<link href={url("/styles/global.css")}>`.
+
+## Despliegue y rutas base-aware (crítico)
+
+El sitio se sirve en dos contextos con distinto _base path_:
+
+- **Producción** (`rmp.mx`): `base = "/"`, `site = "https://rmp.mx"` (defaults en `astro.config.mjs`).
+- **Vista previa** (GitHub Pages, `https://rmp-dev-mx.github.io/rmp.mx/`): el workflow `.github/workflows/deploy.yml` inyecta `SITE` y `BASE=/rmp.mx` como variables de entorno en el build.
+
+Por eso **todo enlace interno y todo asset (CSS, imágenes, hrefs, mailto no, pero sí rutas `/...`) debe pasar por el helper `url()` de `src/lib/url.ts`**, que prefija `import.meta.env.BASE_URL`. Un `<a href="/servicios">` directo se rompe en la vista previa; usa `<a href={url("/servicios")}>`. El despliegue es automático en cada push a `main` (Node 22, pnpm 10, `withastro/action@v3`).
 
 ## Identidad visual (resumen — detalle en docs/04)
 
 - **Concepto:** "El libro mayor" — rayado fino tipo libro contable, cifras tabulares, doble línea de totales como divisor de sección.
-- **Paleta:** `--tinta #16243A` · `--papel #FAF7F0` · `--oro #A87B2D` · `--pizarra #5B6470` · `--regla #D8D2C4`
-- **Tipografía:** Spectral (display/H1–H2) · Public Sans (cuerpo/UI) · IBM Plex Mono (cifras, etiquetas, teléfonos)
-- **Elemento firma:** divisor de sección = doble regla horizontal (1px + 1px separadas 3px) en `--oro`
+- **Paleta:** `--tinta #16243A` · `--papel #FAF7F0` · `--pizarra #5B6470` · `--regla #D8D2C4`. El oro se ajustó por contraste **AA**: `--oro #8A6423` (profundo, sobre papel) y `--oro-claro #C9A227` (luminoso). La clase `.fondo-oscuro` reasigna `--oro` a la variante clara para que etiquetas mono/eyebrows cumplan AA sobre tinta.
+- **Tipografía:** Spectral (display/H1–H2) · Public Sans (cuerpo/UI) · IBM Plex Mono (cifras, etiquetas, teléfonos). Cargadas desde Google Fonts en `Base.astro`.
+- **Elemento firma:** divisor de sección = doble regla horizontal (1px + 1px separadas 3px) en `--oro`.
 
-Los tokens CSS de arranque y los componentes clave están en `docs/04-DESIGN-SYSTEM.md`. Copiarlos en `src/styles/global.css` como punto de partida.
+Los tokens CSS de arranque y los componentes clave están en `docs/04-DESIGN-SYSTEM.md`. La implementación viva está en `public/styles/global.css`.
 
 ## Reglas duras
 
