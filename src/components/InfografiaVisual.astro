@@ -1,0 +1,143 @@
+---
+// Render del "visual" (mini-infografía) de cada entrada del boletín.
+// Estilizado para fondos oscuros (lo envuelve un contenedor en tinta).
+// Tipos: cifra · delta · pasos · comparativo · calendario.
+interface Visual {
+  tipo: string;
+  num?: string;
+  unidad?: string;
+  delta?: string;
+  sentido?: "up" | "down";
+  pasos?: string[];
+  filas?: { etiqueta: string; valor: number; texto: string }[];
+  max?: number;
+  fechas?: { dia: string; etiqueta: string }[];
+}
+interface Props {
+  visual: Visual;
+  grande?: boolean;
+}
+const { visual: v, grande = false } = Astro.props;
+---
+
+{(v.tipo === "cifra" || v.tipo === "delta") && (
+  <div class:list={["ig", "ig--cifra", { "ig--grande": grande }]}>
+    <span class="ig-num">{v.num}</span>
+    <span class="ig-unit">{v.unidad}</span>
+    {v.delta && (
+      <span class:list={["ig-delta", v.sentido === "down" ? "ig-delta--down" : "ig-delta--up"]}>
+        {v.sentido === "down" ? "▼" : "▲"} {v.delta}
+      </span>
+    )}
+  </div>
+)}
+
+{v.tipo === "pasos" && (
+  <ol class="ig ig--pasos" role="list">
+    {v.pasos!.map((p, i) => (
+      <li>
+        <span class="ig-paso-num" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+        <span class="ig-paso-txt">{p}</span>
+      </li>
+    ))}
+  </ol>
+)}
+
+{v.tipo === "comparativo" && (
+  <div class="ig ig--comp">
+    {v.filas!.map((f) => (
+      <div class="ig-comp-fila">
+        <div class="ig-comp-top">
+          <span class="ig-comp-et">{f.etiqueta}</span>
+          <span class="ig-comp-val">{f.texto}</span>
+        </div>
+        <div class="ig-bar"><span style={`width:${Math.round((f.valor / (v.max ?? 100)) * 100)}%`}></span></div>
+      </div>
+    ))}
+  </div>
+)}
+
+{v.tipo === "calendario" && (
+  <div class="ig ig--cal">
+    {v.fechas!.map((f) => (
+      <div class="cal-chip">
+        <span class="cal-dia">{f.dia}</span>
+        <span class="cal-et">{f.etiqueta}</span>
+      </div>
+    ))}
+  </div>
+)}
+
+<style>
+  .ig { width: 100%; color: var(--papel); }
+
+  /* cifra / delta */
+  .ig--cifra { text-align: center; }
+  .ig-num {
+    display: block;
+    font-family: var(--fuente-datos);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+    color: var(--papel);
+    line-height: 1;
+    font-size: clamp(34px, 6vw, 44px);
+  }
+  .ig--grande .ig-num { font-size: clamp(48px, 7vw, 76px); }
+  .ig-unit {
+    display: block;
+    font-family: var(--fuente-datos);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: rgb(250 247 240 / 0.55);
+    margin-top: var(--espacio);
+  }
+  .ig-delta {
+    display: inline-block;
+    margin-top: calc(var(--espacio) * 2);
+    font-family: var(--fuente-datos);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 999px;
+  }
+  .ig-delta--up { color: #8fe0b4; background: rgb(47 107 79 / 0.35); }
+  .ig-delta--down { color: #f0b8ad; background: rgb(155 59 46 / 0.35); }
+
+  /* pasos */
+  .ig--pasos { list-style: none; display: flex; flex-direction: column; gap: calc(var(--espacio) * 1.5); width: 100%; margin: 0; padding: 0; }
+  .ig--pasos li { display: flex; align-items: center; gap: calc(var(--espacio) * 1.5); }
+  .ig-paso-num {
+    flex-shrink: 0;
+    width: 26px; height: 26px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border: 1px solid var(--oro-claro);
+    border-radius: 999px;
+    font-family: var(--fuente-datos);
+    font-size: 11px;
+    color: var(--oro-claro);
+  }
+  .ig-paso-txt { font-size: 13.5px; line-height: 1.35; color: rgb(250 247 240 / 0.85); }
+
+  /* comparativo (barras) */
+  .ig--comp { display: flex; flex-direction: column; gap: calc(var(--espacio) * 2.5); width: 100%; }
+  .ig-comp-fila { display: flex; flex-direction: column; gap: 6px; }
+  .ig-comp-top { display: flex; justify-content: space-between; align-items: baseline; font-family: var(--fuente-datos); }
+  .ig-comp-et { font-size: 12px; color: rgb(250 247 240 / 0.6); letter-spacing: 0.05em; }
+  .ig-comp-val { font-size: 16px; color: var(--papel); font-variant-numeric: tabular-nums; }
+  .ig-bar { height: 8px; border-radius: 999px; background: rgb(216 210 196 / 0.18); overflow: hidden; }
+  .ig-bar > span { display: block; height: 100%; background: var(--oro-claro); border-radius: 999px; }
+
+  /* calendario */
+  .ig--cal { display: flex; gap: calc(var(--espacio) * 2); flex-wrap: wrap; justify-content: center; }
+  .cal-chip {
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    min-width: 84px;
+    padding: calc(var(--espacio) * 1.5);
+    border: 1px solid rgb(216 210 196 / 0.25);
+    border-radius: var(--radio);
+  }
+  .cal-dia { font-family: var(--fuente-datos); font-size: 30px; font-weight: 500; color: var(--papel); line-height: 1; font-variant-numeric: tabular-nums; }
+  .cal-et { font-family: var(--fuente-datos); font-size: 11px; letter-spacing: 0.08em; color: var(--oro-claro); text-transform: uppercase; }
+</style>

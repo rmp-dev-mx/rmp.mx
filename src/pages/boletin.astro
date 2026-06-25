@@ -1,12 +1,84 @@
 ---
 import Base from "@layouts/Base.astro";
 import { url } from "../lib/url";
-import Boton from "@components/Boton.astro";
+import InfografiaVisual from "@components/InfografiaVisual.astro";
+
+// ⚠️ CONTENIDO DE MUESTRA (DEMO). Cifras, fechas y resúmenes son ilustrativos
+// para mostrar cómo lucirá el boletín con el flujo de IA + infografías.
+// NADA de esto es información fiscal real. Reemplazar por publicaciones reales.
+const infografias = [
+  {
+    destacada: true,
+    categoria: "Fiscal",
+    periodo: "Semana 10 · 2026",
+    titulo: "Actualización de la UMA para 2026",
+    resumen:
+      "La Unidad de Medida y Actualización sube y mueve límites de deducción, multas y cuotas. Le resumimos qué cambia y a qué obligaciones afecta de inmediato.",
+    visual: { tipo: "cifra", num: "$113.14", unidad: "UMA diaria", delta: "+4.2%", sentido: "up" },
+  },
+  {
+    categoria: "Laboral",
+    periodo: "Semana 09 · 2026",
+    titulo: "Nuevo salario mínimo general",
+    resumen: "Cómo impacta en nóminas, finiquitos y cuotas obrero-patronales.",
+    visual: { tipo: "delta", num: "$278.80", unidad: "diario", delta: "+12%", sentido: "up" },
+  },
+  {
+    categoria: "Fiscal",
+    periodo: "Semana 09 · 2026",
+    titulo: "CFDI 4.0: lista de verificación",
+    resumen: "Cuatro validaciones para que sus facturas no se rechacen este mes.",
+    visual: {
+      tipo: "pasos",
+      pasos: ["Nombre y RFC exactos", "Régimen fiscal vigente", "Código postal del receptor", "Uso del CFDI correcto"],
+    },
+  },
+  {
+    categoria: "Patrimonial",
+    periodo: "Semana 08 · 2026",
+    titulo: "Tres frentes de la planeación patrimonial",
+    resumen: "Por dónde empezar a proteger y ordenar el patrimonio familiar y de la empresa.",
+    visual: {
+      tipo: "pasos",
+      pasos: ["Blindaje del patrimonio", "Sucesión ordenada", "Eficiencia fiscal"],
+    },
+  },
+  {
+    categoria: "Corporativo",
+    periodo: "Marzo · 2026",
+    titulo: "Calendario de obligaciones del mes",
+    resumen: "Las fechas que no debe dejar pasar en marzo.",
+    visual: {
+      tipo: "calendario",
+      fechas: [
+        { dia: "17", etiqueta: "ISR / IVA" },
+        { dia: "31", etiqueta: "Anual PM" },
+      ],
+    },
+  },
+  {
+    categoria: "Fiscal",
+    periodo: "Semana 07 · 2026",
+    titulo: "Devoluciones de IVA: cuánto están tardando",
+    resumen: "Comparativo de tiempos promedio para planear su flujo de efectivo.",
+    visual: {
+      tipo: "comparativo",
+      filas: [
+        { etiqueta: "2025", valor: 38, texto: "38 días" },
+        { etiqueta: "2026", valor: 22, texto: "22 días" },
+      ],
+      max: 40,
+    },
+  },
+];
+
+const destacada = infografias.find((i) => i.destacada)!;
+const resto = infografias.filter((i) => !i.destacada);
 ---
 
 <Base
   title="Boletín Resiliencia — Ramírez Medellín, S.C."
-  description="Resiliencia: el boletín fiscal de Ramírez Medellín, S.C. Acontecimientos legales y fiscales relevantes, explicados de forma oportuna para su empresa."
+  description="Resiliencia: el boletín fiscal de Ramírez Medellín, S.C. Resúmenes e infografías de los acontecimientos legales y fiscales más relevantes, semana a semana."
 >
 
   <!-- ═══════════════════════════════ HERO ═══ -->
@@ -27,10 +99,11 @@ import Boton from "@components/Boton.astro";
             esta firma con el objetivo de comunicarle de forma oportuna
             aquellos acontecimientos relevantes que nos afectan a todos,
             contribuyendo a facilitar la adaptación de los cambios
-            legales-fiscales, retos y oportunidades que nos presenta el
-            ejercicio de nuestra profesión, pero sobre todo apoyarles
-            permanentemente a cumplir de manera exitosa con sus propios
-            objetivos.
+            legales-fiscales, retos y oportunidades de la profesión.
+          </p>
+          <p class="phero-meta phero-anim-3">
+            <span class="chip-ia" aria-hidden="true">IA</span>
+            <span>Resúmenes con inteligencia artificial, <strong>revisados por la firma</strong> — en infografías cortas, cada semana.</span>
           </p>
         </div>
         <div class="phero-deco phero-anim-3" aria-hidden="true">
@@ -41,52 +114,68 @@ import Boton from "@components/Boton.astro";
     </div>
   </section>
 
-  <!-- ═══════════════════════════════ ACCESOS ═══ -->
-  <section class="accesos" aria-label="Acceso al boletín">
+  <!-- ═══════════════════════════════ AVISO DEMO ═══ -->
+  <div class="demo-banner" role="note">
+    <div class="contenedor demo-inner">
+      <span class="demo-tag">Vista de demostración</span>
+      <p>
+        Las infografías, cifras y fechas de esta página son <strong>contenido
+        de muestra</strong> para ilustrar el formato. No constituyen
+        información fiscal real ni asesoría.
+      </p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════ FEED ═══ -->
+  <section class="feed" aria-label="Infografías del boletín">
     <div class="contenedor">
-      <ul class="accesos-grid" role="list">
 
-        <li class="acceso revela">
-          <article class="acceso-card">
-            <p class="acceso-folio" aria-hidden="true">01</p>
-            <h2 class="acceso-titulo">Publicación vigente</h2>
-            <p class="acceso-desc">
-              Edición de enero 2026, con los acontecimientos fiscales y
-              legales más recientes.
-            </p>
-            <Boton
-              href="https://rmp.mx/Boletin/web/publicacion/2026/enero.html"
-              variant="primario"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Leer enero 2026
-            </Boton>
-          </article>
-        </li>
+      <!-- Destacada -->
+      <article class="destacada revela">
+        <div class="destacada-visual">
+          <InfografiaVisual visual={destacada.visual} grande={true} />
+        </div>
+        <div class="destacada-cuerpo">
+          <p class="card-meta">
+            <span class="card-cat">{destacada.categoria}</span>
+            <span class="card-periodo">{destacada.periodo}</span>
+          </p>
+          <h2 class="destacada-titulo">{destacada.titulo}</h2>
+          <p class="destacada-resumen">{destacada.resumen}</p>
+          <p class="card-firma">
+            <span class="chip-ia" aria-hidden="true">IA</span>
+            Resumen con IA · revisado por la firma
+          </p>
+        </div>
+      </article>
 
-        <li class="acceso revela" style="--retraso: 100ms">
-          <article class="acceso-card">
-            <p class="acceso-folio" aria-hidden="true">02</p>
-            <h2 class="acceso-titulo">Historial de publicaciones</h2>
-            <p class="acceso-desc">
-              Consulte las ediciones anteriores del boletín Resiliencia.
-            </p>
-            <Boton
-              href="https://rmp.mx/Boletin/web/index.html"
-              variant="secundario"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Ver historial
-            </Boton>
-          </article>
-        </li>
-
+      <!-- Rejilla -->
+      <ul class="rejilla" role="list">
+        {resto.map((ig, i) => (
+          <li class="revela" style={`--retraso: ${i * 70}ms`}>
+            <article class="card">
+              <div class="card-visual">
+                <InfografiaVisual visual={ig.visual} grande={false} />
+              </div>
+              <div class="card-cuerpo">
+                <p class="card-meta">
+                  <span class="card-cat">{ig.categoria}</span>
+                  <span class="card-periodo">{ig.periodo}</span>
+                </p>
+                <h3 class="card-titulo">{ig.titulo}</h3>
+                <p class="card-resumen">{ig.resumen}</p>
+                <p class="card-firma">
+                  <span class="chip-ia" aria-hidden="true">IA</span>
+                  Resumen con IA · revisado
+                </p>
+              </div>
+            </article>
+          </li>
+        ))}
       </ul>
 
-      <p class="accesos-nota revela">
-        ¿Le interesa recibir el boletín? <a href={url("/contacto")}>Escríbanos</a> y
+      <p class="feed-nota revela">
+        ¿Le interesa recibir Resiliencia? <a href={url("/contacto")}>Escríbanos</a> y
         con gusto le incluimos en la distribución.
       </p>
     </div>
@@ -110,7 +199,6 @@ import Boton from "@components/Boton.astro";
     color: var(--oro);
     margin-bottom: calc(var(--espacio) * 2.5);
   }
-
   .eyebrow-linea {
     display: inline-block;
     width: 48px;
@@ -119,49 +207,33 @@ import Boton from "@components/Boton.astro";
     vertical-align: middle;
     margin-inline-end: calc(var(--espacio) * 1.5);
   }
-
   .texto-oro { color: var(--oro); }
-
 
   /* ═══════ HERO ═══════ */
   .phero {
     position: relative;
     background-color: var(--tinta);
-    background-image: radial-gradient(
-      ellipse 90% 70% at 30% 10%,
-      rgb(26 53 101 / 0.5),
-      transparent 60%
-    );
+    background-image: radial-gradient(ellipse 90% 70% at 30% 10%, rgb(26 53 101 / 0.5), transparent 60%);
     overflow: hidden;
   }
-
   .phero-lineas {
     position: absolute;
     inset: 0;
     pointer-events: none;
-    background-image: repeating-linear-gradient(
-      to bottom,
-      transparent 0,
-      transparent 47px,
-      rgb(216 210 196 / 0.07) 47px,
-      rgb(216 210 196 / 0.07) 48px
-    );
+    background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 47px, rgb(216 210 196 / 0.07) 47px, rgb(216 210 196 / 0.07) 48px);
     mask-image: linear-gradient(to bottom, transparent, black 20%);
   }
-
   .phero-inner {
     position: relative;
     z-index: 1;
     padding-block: calc(64px + var(--espacio) * 10) calc(var(--espacio) * 10);
   }
-
   .phero-grid {
     display: grid;
     grid-template-columns: 1fr auto;
     gap: calc(var(--espacio) * 6);
     align-items: center;
   }
-
   .phero-h1 {
     font-family: var(--fuente-display);
     font-weight: 500;
@@ -171,12 +243,39 @@ import Boton from "@components/Boton.astro";
     color: var(--papel);
     margin: 0 0 calc(var(--espacio) * 3);
   }
-
   .phero-sub {
     font-size: clamp(15px, 1.5vw, 17px);
     line-height: 1.8;
     color: rgb(250 247 240 / 0.6);
     max-width: 640px;
+  }
+  .phero-meta {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--espacio) * 1.5);
+    margin-top: calc(var(--espacio) * 3);
+    font-family: var(--fuente-datos);
+    font-size: 13px;
+    line-height: 1.5;
+    color: rgb(250 247 240 / 0.75);
+    max-width: 560px;
+  }
+  .phero-meta strong { color: var(--oro-claro); font-weight: 500; }
+
+  .chip-ia {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 999px;
+    background: var(--oro);
+    color: var(--tinta);
+    font-family: var(--fuente-datos);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
   }
 
   .phero-deco {
@@ -188,7 +287,6 @@ import Boton from "@components/Boton.astro";
     user-select: none;
     pointer-events: none;
   }
-
   .deco-num {
     font-family: var(--fuente-datos);
     font-size: clamp(72px, 10vw, 120px);
@@ -198,7 +296,6 @@ import Boton from "@components/Boton.astro";
     line-height: 1;
     letter-spacing: -0.04em;
   }
-
   .deco-label {
     font-family: var(--fuente-datos);
     font-size: 12px;
@@ -211,89 +308,187 @@ import Boton from "@components/Boton.astro";
   .phero-anim-1 { animation: sube 0.5s ease 0.1s both; }
   .phero-anim-2 { animation: sube 0.6s ease 0.25s both; }
   .phero-anim-3 { animation: sube 0.5s ease 0.4s both; }
-
-  @keyframes sube {
-    from { opacity: 0; transform: translateY(18px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
+  @keyframes sube { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
   @media (prefers-reduced-motion: reduce) {
     .phero-anim-1, .phero-anim-2, .phero-anim-3 { animation: none; }
   }
 
-  /* ═══════ ACCESOS ═══════ */
-  .accesos { padding-block: calc(var(--espacio) * 12) calc(var(--espacio) * 14); }
-
-  .accesos-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: calc(var(--espacio) * 3);
-    list-style: none;
-    margin-bottom: calc(var(--espacio) * 6);
+  /* ═══════ AVISO DEMO ═══════ */
+  .demo-banner {
+    background: rgb(168 123 45 / 0.10);
+    border-block: 1px solid rgb(138 100 35 / 0.35);
   }
-
-  .acceso-card {
-    background: var(--blanco);
-    border: 1px solid var(--regla);
-    border-radius: var(--radio);
-    padding: calc(var(--espacio) * 5);
-    height: 100%;
+  .demo-inner {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     gap: calc(var(--espacio) * 2);
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    padding-block: calc(var(--espacio) * 1.75);
   }
-
-  .acceso-card:hover {
-    box-shadow: var(--sombra);
-    transform: translateY(-2px);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .acceso-card { transition: none; }
-    .acceso-card:hover { transform: none; box-shadow: none; }
-  }
-
-  .acceso-folio {
+  .demo-tag {
+    flex-shrink: 0;
     font-family: var(--fuente-datos);
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--oro);
-    font-variant-numeric: tabular-nums;
-    letter-spacing: 0.08em;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--oro-contraste);
+    background: var(--oro);
+    padding: 4px 10px;
+    border-radius: var(--radio);
   }
-
-  .acceso-titulo {
-    font-family: var(--fuente-display);
-    font-weight: 600;
-    font-size: 26px;
+  .demo-inner p {
+    font-size: 13.5px;
+    line-height: 1.5;
     color: var(--tinta);
     margin: 0;
   }
 
-  .acceso-desc {
-    font-size: 15px;
-    line-height: 1.65;
+  /* ═══════ FEED ═══════ */
+  .feed { padding-block: calc(var(--espacio) * 10) calc(var(--espacio) * 14); }
+
+  /* Tarjeta destacada */
+  .destacada {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    border: 1px solid var(--regla);
+    border-radius: var(--radio);
+    overflow: hidden;
+    background: var(--blanco);
+    margin-bottom: calc(var(--espacio) * 5);
+  }
+  .destacada-visual {
+    background: var(--tinta);
+    padding: calc(var(--espacio) * 5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 280px;
+  }
+  .destacada-cuerpo {
+    padding: calc(var(--espacio) * 5);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  }
+  .destacada-titulo {
+    font-family: var(--fuente-display);
+    font-weight: 600;
+    font-size: clamp(26px, 3vw, 38px);
+    line-height: 1.1;
+    color: var(--tinta);
+    margin: calc(var(--espacio) * 1.5) 0 calc(var(--espacio) * 2);
+  }
+  .destacada-resumen {
+    font-size: 16px;
+    line-height: 1.7;
     color: var(--pizarra);
-    margin-bottom: calc(var(--espacio) * 2);
+    margin: 0 0 calc(var(--espacio) * 3);
+  }
+
+  /* Rejilla de tarjetas */
+  .rejilla {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: calc(var(--espacio) * 3);
+    margin-bottom: calc(var(--espacio) * 6);
+  }
+  .card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--regla);
+    border-radius: var(--radio);
+    overflow: hidden;
+    background: var(--blanco);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+  }
+  .card:hover { box-shadow: var(--sombra); transform: translateY(-2px); }
+  @media (prefers-reduced-motion: reduce) {
+    .card { transition: none; }
+    .card:hover { transform: none; box-shadow: none; }
+  }
+  .card-visual {
+    background: var(--tinta);
+    padding: calc(var(--espacio) * 3);
+    min-height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .card-cuerpo {
+    padding: calc(var(--espacio) * 3);
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--espacio) * 1.25);
     flex: 1;
   }
 
-  .accesos-nota {
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--espacio) * 1.5);
+    margin: 0;
+  }
+  .card-cat {
+    font-family: var(--fuente-datos);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--oro);
+  }
+  .card-periodo {
+    font-family: var(--fuente-datos);
+    font-size: 11px;
+    color: var(--pizarra);
+  }
+  .card-titulo {
+    font-family: var(--fuente-display);
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 1.2;
+    color: var(--tinta);
+    margin: 0;
+  }
+  .card-resumen {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--pizarra);
+    margin: 0;
+    flex: 1;
+  }
+  .card-firma {
+    display: flex;
+    align-items: center;
+    gap: var(--espacio);
+    font-family: var(--fuente-datos);
+    font-size: 11px;
+    color: var(--pizarra);
+    margin: calc(var(--espacio) * 0.5) 0 0;
+  }
+  .card-firma .chip-ia { width: 20px; height: 20px; font-size: 9px; }
+
+  .feed-nota {
     font-size: 15px;
     color: var(--pizarra);
     text-align: center;
   }
-
-  .accesos-nota a { color: var(--oro); }
+  .feed-nota a { color: var(--oro); }
 
   /* ═══════ Responsive ═══════ */
+  @media (max-width: 1023px) {
+    .rejilla { grid-template-columns: repeat(2, 1fr); }
+  }
   @media (max-width: 767px) {
     .contenedor { padding-inline: calc(var(--espacio) * 2); }
     .phero-grid { grid-template-columns: 1fr; }
     .phero-deco { display: none; }
-    .accesos-grid { grid-template-columns: 1fr; }
+    .destacada { grid-template-columns: 1fr; }
+    .destacada-visual { min-height: 220px; }
+    .rejilla { grid-template-columns: 1fr; }
+    .demo-inner { align-items: flex-start; flex-direction: column; gap: var(--espacio); }
   }
 </style>
 
