@@ -85,14 +85,6 @@ const marquee = [
 
         <div class="hero-ctas">
           <Boton href={url("/contacto")} variant="primario">Agenda una consulta</Boton>
-          <a
-            href="https://rmp.abaconsulting.mx/login"
-            class="hero-link-portal"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Portal de clientes <span aria-hidden="true">→</span>
-          </a>
         </div>
       </div>
 
@@ -445,18 +437,6 @@ const marquee = [
     gap: calc(var(--espacio) * 3);
     animation: sube 0.6s ease 0.85s both;
   }
-
-  .hero-link-portal {
-    font-family: var(--fuente-datos);
-    font-size: 13px;
-    font-weight: 500;
-    color: rgb(250 247 240 / 0.7); /* AA sobre tinta */
-    text-decoration: none;
-    letter-spacing: 0.04em;
-    transition: color 0.2s ease;
-  }
-
-  .hero-link-portal:hover { color: var(--oro); }
 
   @keyframes sube {
     from { opacity: 0; transform: translateY(20px); }

@@ -47,15 +47,6 @@ function isActive(href: string): boolean {
       </ul>
     </nav>
 
-    <a
-      href="https://rmp.abaconsulting.mx/login"
-      class="btn-portal"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      Portal de clientes
-    </a>
-
     <button
       class="nav-toggle"
       id="nav-toggle"
@@ -154,6 +145,7 @@ function isActive(href: string): boolean {
   .nav-menu {
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     gap: 2px;
     list-style: none;
   }
@@ -176,25 +168,6 @@ function isActive(href: string): boolean {
   }
 
   .nav-link--activo { font-weight: 700; }
-
-  /* ── Botón portal ── */
-  .btn-portal {
-    display: inline-flex;
-    align-items: center;
-    padding: 7px calc(var(--espacio) * 2);
-    background: var(--oro);
-    color: var(--oro-contraste);
-    font-family: var(--fuente-texto);
-    font-size: 14px;
-    font-weight: 700;
-    text-decoration: none;
-    border-radius: var(--radio);
-    white-space: nowrap;
-    flex-shrink: 0;
-    transition: filter 0.15s ease;
-  }
-
-  .btn-portal:hover { filter: brightness(0.9); }
 
   /* ── Hamburguesa ── */
   .nav-toggle {
@@ -281,8 +254,6 @@ function isActive(href: string): boolean {
     .nav-link { font-size: 16px; padding: 10px calc(var(--espacio) * 1.5); }
 
     .nav-toggle { display: flex; margin-left: auto; }
-
-    .btn-portal { font-size: 13px; padding: 6px calc(var(--espacio) * 1.5); }
   }
 </style>
 

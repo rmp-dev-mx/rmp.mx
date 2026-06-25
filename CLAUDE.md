@@ -93,19 +93,27 @@ Los tokens CSS de arranque y los componentes clave están en `docs/04-DESIGN-SYS
 1. **Español primero.** Todo el sitio en `lang="es-MX"`. La versión en inglés es fase 2.
 2. **No inventar contenido.** Usar únicamente los textos de `docs/03-CONTENIDO.md`. Si falta algo, dejar `<!-- TODO: confirmar con cliente -->`.
 3. **Corregir los errores de origen** ya documentados en `docs/01-BRIEF.md`: "Consultoría labora" → laboral, "Escusiones" → Escisiones, "con tigo" → contigo, el mailto de `despacho@rmp.mx` que apuntaba a login.live.com, etc.
-4. **No incluir** enlaces a Intranet por IP (`http://26.14.83.209:81/...`). El Portal (`https://rmp.abaconsulting.mx/login`) sí se conserva.
+4. **No incluir** enlaces a Intranet por IP (`http://26.14.83.209:81/...`). El **Portal de clientes** (`https://rmp.abaconsulting.mx/login`) se **retiró** del sitio por decisión del cliente (jun 2026): no debe haber ninguna referencia ni enlace a él en ninguna página (revertir la nota anterior que lo conservaba).
 5. Responsivo hasta 360px, foco visible en teclado (outline oro 2px), `prefers-reduced-motion` respetado, contraste AA mínimo.
 6. SEO básico: `<title>` y `<meta description>` únicos por página, Open Graph, `schema.org` (`AccountingService` + `LegalService`), `sitemap.xml`.
 7. La firma cumple **28 años en 2026** (fundada en 1998). No usar el badge viejo de "25 años".
 
 ## TODOs pendientes con el cliente
 
-- Semblanza y foto del socio fundador (Socios.php está rota).
-- Logos en vector (RM, Pacioli, badge CONTPAQi).
+### Datos por solicitar al cliente (bloquean trabajo en curso)
+- **WhatsApp Business** para el asistente de `/contacto`: ¿una línea general o una por encargada? Con los números se activa el botón de WhatsApp (`wa.me/<num>?text=` prellenado); hoy está deshabilitado ("próximamente").
+- **Horario de oficina** (lo pide `/contacto`; hoy muestra "Por confirmar").
+- Confirmar **cuáles de los 3 teléfonos** están habilitados (`/contacto` y footer).
+- **Alcance / objeto de la firma filial Pacioli** para `/nosotros` (hoy solo se menciona que es filial, sin propósito). No inventar: se necesita el texto del cliente.
+- **Fotos + reseña** (experiencia/capacitación) de cada encargado por área para `/nosotros` — propuesta del cliente; confirmar si procede y pedir fotos y textos.
+
+### Otros pendientes
+- Semblanza y foto del socio fundador (Socios.php estaba rota).
+- Logo en vector del **badge CONTPAQi** (RM y Pacioli ya entregados: `public/images/rmp.svg`, `pacioli.svg`).
 - Confirmar texto "Solución de problemas fiscales" (original decía "programas fiscales").
-- Confirmar horario de oficina y cuenta de Twitter/X (o eliminar el ícono).
-- Redactar aviso de privacidad (obligatorio por LFPDPPP al tener formularios).
-- Destino de los formularios de Contacto y Talento (correo, Formspree, Resend u otro).
+- Confirmar cuenta de Twitter/X (o eliminar el ícono).
+- Redactar aviso de privacidad (LFPDPPP). Nota: el asistente de `/contacto` usa `mailto:` (no captura datos en servidor), pero el formulario de `/talento` sí podría requerirlo.
+- Destino del formulario de **Talento** (correo, Formspree, Resend u otro). El de Contacto ya se resolvió con el asistente (`mailto:` directo a la encargada).
 
 ## Definición de "terminado" (fase 1)
 
