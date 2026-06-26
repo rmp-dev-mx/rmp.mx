@@ -1,0 +1,438 @@
+---
+import Base from "@layouts/Base.astro";
+import InfografiaVisual from "@components/InfografiaVisual.astro";
+import { getLang, localizedUrl } from "../../i18n/utils";
+import { getBoletin } from "../../i18n/boletin";
+
+const lang = getLang(Astro.currentLocale);
+const b = getBoletin(lang);
+
+const infografias = b.infografias;
+const destacada = infografias.find((i) => i.destacada)!;
+const resto = infografias.filter((i) => !i.destacada);
+---
+
+<Base title={b.metaTitle} description={b.metaDesc} translated={true}>
+
+  <!-- ═══════════════════════════════ HERO ═══ -->
+  <section class="phero fondo-oscuro">
+    <div class="phero-lineas" aria-hidden="true"></div>
+    <div class="contenedor phero-inner">
+      <div class="phero-grid">
+        <div>
+          <p class="eyebrow phero-anim-1">
+            <span class="eyebrow-linea" aria-hidden="true"></span>
+            {b.heroEyebrow}
+          </p>
+          <h1 class="phero-h1 phero-anim-2">
+            Resiliencia<em class="texto-oro">.</em>
+          </h1>
+          <p class="phero-sub phero-anim-3">{b.heroSub}</p>
+          <p class="phero-meta phero-anim-3">
+            <span class="chip-ia" aria-hidden="true">IA</span>
+            <span>{b.heroMetaPre}<strong>{b.heroMetaStrong}</strong>{b.heroMetaPost}</span>
+          </p>
+        </div>
+        <div class="phero-deco phero-anim-3" aria-hidden="true">
+          <span class="deco-num">2026</span>
+          <span class="deco-label">{b.decoLabel}</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ AVISO DEMO ═══ -->
+  <div class="demo-banner" role="note">
+    <div class="contenedor demo-inner">
+      <span class="demo-tag">{b.demoTag}</span>
+      <p>
+        {b.demoTextoPre}<strong>{b.demoTextoStrong}</strong>{b.demoTextoPost}
+      </p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════ FEED ═══ -->
+  <section class="feed" aria-label={b.feedAria}>
+    <div class="contenedor">
+
+      <!-- Destacada -->
+      <article class="destacada revela">
+        <div class="destacada-visual">
+          <InfografiaVisual visual={destacada.visual} grande={true} />
+        </div>
+        <div class="destacada-cuerpo">
+          <p class="card-meta">
+            <span class="card-cat">{destacada.categoria}</span>
+            <span class="card-periodo">{destacada.periodo}</span>
+          </p>
+          <h2 class="destacada-titulo">{destacada.titulo}</h2>
+          <p class="destacada-resumen">{destacada.resumen}</p>
+          <p class="card-firma">
+            <span class="chip-ia" aria-hidden="true">IA</span>
+            {b.firmaDestacada}
+          </p>
+        </div>
+      </article>
+
+      <!-- Rejilla -->
+      <ul class="rejilla" role="list">
+        {resto.map((ig, i) => (
+          <li class="revela" style={`--retraso: ${i * 70}ms`}>
+            <article class="card">
+              <div class="card-visual">
+                <InfografiaVisual visual={ig.visual} grande={false} />
+              </div>
+              <div class="card-cuerpo">
+                <p class="card-meta">
+                  <span class="card-cat">{ig.categoria}</span>
+                  <span class="card-periodo">{ig.periodo}</span>
+                </p>
+                <h3 class="card-titulo">{ig.titulo}</h3>
+                <p class="card-resumen">{ig.resumen}</p>
+                <p class="card-firma">
+                  <span class="chip-ia" aria-hidden="true">IA</span>
+                  {b.firmaCard}
+                </p>
+              </div>
+            </article>
+          </li>
+        ))}
+      </ul>
+
+      <p class="feed-nota revela">
+        {b.feedNotaPre}<a href={localizedUrl("/contacto", lang)}>{b.feedNotaLink}</a>{b.feedNotaPost}
+      </p>
+    </div>
+  </section>
+
+</Base>
+
+<style>
+  .contenedor {
+    max-width: var(--ancho-max);
+    margin: 0 auto;
+    padding-inline: calc(var(--espacio) * 3);
+  }
+
+  .eyebrow {
+    font-family: var(--fuente-datos);
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--oro);
+    margin-bottom: calc(var(--espacio) * 2.5);
+  }
+  .eyebrow-linea {
+    display: inline-block;
+    width: 48px;
+    height: 1px;
+    background: var(--oro);
+    vertical-align: middle;
+    margin-inline-end: calc(var(--espacio) * 1.5);
+  }
+  .texto-oro { color: var(--oro); }
+
+  /* ═══════ HERO ═══════ */
+  .phero {
+    position: relative;
+    background-color: var(--tinta);
+    background-image: radial-gradient(ellipse 90% 70% at 30% 10%, rgb(26 53 101 / 0.5), transparent 60%);
+    overflow: hidden;
+  }
+  .phero-lineas {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 47px, rgb(216 210 196 / 0.07) 47px, rgb(216 210 196 / 0.07) 48px);
+    mask-image: linear-gradient(to bottom, transparent, black 20%);
+  }
+  .phero-inner {
+    position: relative;
+    z-index: 1;
+    padding-block: calc(64px + var(--espacio) * 10) calc(var(--espacio) * 10);
+  }
+  .phero-grid {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: calc(var(--espacio) * 6);
+    align-items: center;
+  }
+  .phero-h1 {
+    font-family: var(--fuente-display);
+    font-weight: 500;
+    font-size: clamp(48px, 7vw, 100px);
+    line-height: 1.0;
+    letter-spacing: -0.025em;
+    color: var(--papel);
+    margin: 0 0 calc(var(--espacio) * 3);
+  }
+  .phero-sub {
+    font-size: clamp(15px, 1.5vw, 17px);
+    line-height: 1.8;
+    color: rgb(250 247 240 / 0.6);
+    max-width: 640px;
+  }
+  .phero-meta {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--espacio) * 1.5);
+    margin-top: calc(var(--espacio) * 3);
+    font-family: var(--fuente-datos);
+    font-size: 13px;
+    line-height: 1.5;
+    color: rgb(250 247 240 / 0.75);
+    max-width: 560px;
+  }
+  .phero-meta strong { color: var(--oro-claro); font-weight: 500; }
+
+  .chip-ia {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 999px;
+    background: var(--oro);
+    color: var(--tinta);
+    font-family: var(--fuente-datos);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+
+  .phero-deco {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    opacity: 0.08;
+    user-select: none;
+    pointer-events: none;
+  }
+  .deco-num {
+    font-family: var(--fuente-datos);
+    font-size: clamp(72px, 10vw, 120px);
+    font-weight: 500;
+    color: var(--papel);
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+  .deco-label {
+    font-family: var(--fuente-datos);
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--papel);
+  }
+
+  .phero-anim-1 { animation: sube 0.5s ease 0.1s both; }
+  .phero-anim-2 { animation: sube 0.6s ease 0.25s both; }
+  .phero-anim-3 { animation: sube 0.5s ease 0.4s both; }
+  @keyframes sube { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+  @media (prefers-reduced-motion: reduce) {
+    .phero-anim-1, .phero-anim-2, .phero-anim-3 { animation: none; }
+  }
+
+  /* ═══════ AVISO DEMO ═══════ */
+  .demo-banner {
+    background: rgb(168 123 45 / 0.10);
+    border-block: 1px solid rgb(138 100 35 / 0.35);
+  }
+  .demo-inner {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--espacio) * 2);
+    padding-block: calc(var(--espacio) * 1.75);
+  }
+  .demo-tag {
+    flex-shrink: 0;
+    font-family: var(--fuente-datos);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--oro-contraste);
+    background: var(--oro);
+    padding: 4px 10px;
+    border-radius: var(--radio);
+  }
+  .demo-inner p {
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--tinta);
+    margin: 0;
+  }
+
+  /* ═══════ FEED ═══════ */
+  .feed { padding-block: calc(var(--espacio) * 10) calc(var(--espacio) * 14); }
+
+  /* Tarjeta destacada */
+  .destacada {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    border: 1px solid var(--regla);
+    border-radius: var(--radio);
+    overflow: hidden;
+    background: var(--blanco);
+    margin-bottom: calc(var(--espacio) * 5);
+  }
+  .destacada-visual {
+    background: var(--tinta);
+    padding: calc(var(--espacio) * 5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 280px;
+  }
+  .destacada-cuerpo {
+    padding: calc(var(--espacio) * 5);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  }
+  .destacada-titulo {
+    font-family: var(--fuente-display);
+    font-weight: 600;
+    font-size: clamp(26px, 3vw, 38px);
+    line-height: 1.1;
+    color: var(--tinta);
+    margin: calc(var(--espacio) * 1.5) 0 calc(var(--espacio) * 2);
+  }
+  .destacada-resumen {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--pizarra);
+    margin: 0 0 calc(var(--espacio) * 3);
+  }
+
+  /* Rejilla de tarjetas */
+  .rejilla {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: calc(var(--espacio) * 3);
+    margin-bottom: calc(var(--espacio) * 6);
+  }
+  .card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--regla);
+    border-radius: var(--radio);
+    overflow: hidden;
+    background: var(--blanco);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+  }
+  .card:hover { box-shadow: var(--sombra); transform: translateY(-2px); }
+  @media (prefers-reduced-motion: reduce) {
+    .card { transition: none; }
+    .card:hover { transform: none; box-shadow: none; }
+  }
+  .card-visual {
+    background: var(--tinta);
+    padding: calc(var(--espacio) * 3);
+    min-height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .card-cuerpo {
+    padding: calc(var(--espacio) * 3);
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--espacio) * 1.25);
+    flex: 1;
+  }
+
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--espacio) * 1.5);
+    margin: 0;
+  }
+  .card-cat {
+    font-family: var(--fuente-datos);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--oro);
+  }
+  .card-periodo {
+    font-family: var(--fuente-datos);
+    font-size: 11px;
+    color: var(--pizarra);
+  }
+  .card-titulo {
+    font-family: var(--fuente-display);
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 1.2;
+    color: var(--tinta);
+    margin: 0;
+  }
+  .card-resumen {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--pizarra);
+    margin: 0;
+    flex: 1;
+  }
+  .card-firma {
+    display: flex;
+    align-items: center;
+    gap: var(--espacio);
+    font-family: var(--fuente-datos);
+    font-size: 11px;
+    color: var(--pizarra);
+    margin: calc(var(--espacio) * 0.5) 0 0;
+  }
+  .card-firma .chip-ia { width: 20px; height: 20px; font-size: 9px; }
+
+  .feed-nota {
+    font-size: 15px;
+    color: var(--pizarra);
+    text-align: center;
+  }
+  .feed-nota a { color: var(--oro); }
+
+  /* ═══════ Responsive ═══════ */
+  @media (max-width: 1023px) {
+    .rejilla { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 767px) {
+    .contenedor { padding-inline: calc(var(--espacio) * 2); }
+    .phero-grid { grid-template-columns: 1fr; }
+    .phero-deco { display: none; }
+    .destacada { grid-template-columns: 1fr; }
+    .destacada-visual { min-height: 220px; }
+    .rejilla { grid-template-columns: 1fr; }
+    .demo-inner { align-items: flex-start; flex-direction: column; gap: var(--espacio); }
+  }
+</style>
+
+<script>
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const revelables = document.querySelectorAll(".revela");
+  if (reduceMotion) {
+    revelables.forEach((el) => el.classList.add("visible"));
+  } else {
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            io.unobserve(entry.target);
+          }
+        }
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -30px 0px" }
+    );
+    revelables.forEach((el) => io.observe(el));
+  }
+</script>

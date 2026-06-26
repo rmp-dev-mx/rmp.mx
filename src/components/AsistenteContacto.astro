@@ -2,30 +2,38 @@
 // Asistente de contacto guiado (sin IA, 100% en el navegador).
 // Clasifica la necesidad del visitante por un árbol de decisión y lo
 // enruta a la encargada correcta con un mailto: prellenado.
-// Los correos por área provienen del equipo en nosotros.astro.
+// Los textos (árbol, encargadas, plantillas) llegan localizados vía la prop
+// `asistente` (ver src/i18n/contacto.ts) y se inyectan como JSON para el
+// script del cliente. Los nombres y correos no se traducen.
+import { getContacto } from "../i18n/contacto";
+
+type AsistenteDic = ReturnType<typeof getContacto>["asistente"];
+interface Props { asistente: AsistenteDic }
+const { asistente } = Astro.props;
+const encargadas = Object.values(asistente.encargadas);
 ---
 
 <div class="asistente" id="asistente">
   <div class="asistente-cabecera">
-    <p class="asistente-eyebrow">Asistente de contacto</p>
-    <h2 class="asistente-titulo">Cuéntenos qué necesita</h2>
-    <p class="asistente-intro">
-      Responda un par de preguntas y lo conectamos directo con la persona
-      indicada de la firma. Toma menos de un minuto.
-    </p>
+    <p class="asistente-eyebrow">{asistente.eyebrow}</p>
+    <h2 class="asistente-titulo">{asistente.titulo}</h2>
+    <p class="asistente-intro">{asistente.intro}</p>
   </div>
 
   <!-- El motor renderiza aquí los pasos. aria-live anuncia cada paso. -->
   <div class="asistente-cuerpo" id="asistente-cuerpo" aria-live="polite"></div>
 
+  <!-- Diccionario localizado para el script del cliente -->
+  <script type="application/json" id="asistente-datos" set:html={JSON.stringify(asistente)}></script>
+
   <noscript>
     <p class="asistente-noscript">
-      Para usar el asistente active JavaScript, o escríbanos directamente a
-      <a href="mailto:despacho@rmp.mx">despacho@rmp.mx</a>. Correos por área:
-      Contabilidad <a href="mailto:paola@rmp.mx">paola@rmp.mx</a>,
-      Auditoría <a href="mailto:citlaly@rmp.mx">citlaly@rmp.mx</a>,
-      Asesoría <a href="mailto:marisela@rmp.mx">marisela@rmp.mx</a>,
-      Legal <a href="mailto:eugenia@rmp.mx">eugenia@rmp.mx</a>.
+      {asistente.noscriptPre}<a href="mailto:despacho@rmp.mx">despacho@rmp.mx</a>{asistente.noscriptPost}
+      {encargadas.map((e, i) => (
+        <Fragment>
+          {" "}{e.area} <a href={`mailto:${e.correo}`}>{e.correo}</a>{i < encargadas.length - 1 ? "," : "."}
+        </Fragment>
+      ))}
     </p>
   </noscript>
 </div>
@@ -262,54 +270,34 @@
   type Area = "contabilidad" | "auditoria" | "asesoria" | "legal";
   interface Opcion { label: string; next?: string; area?: Area }
   interface Nodo { pregunta: string; opciones: Opcion[] }
+  interface Encargada { area: string; nombre: string; primer: string; correo: string }
+  interface AsistenteDatos {
+    pasoLabel: string;
+    volver: string;
+    reiniciar: string;
+    arbol: Record<string, Nodo>;
+    encargadas: Record<Area, Encargada>;
+    resultado: {
+      tituloPre: string; tituloPost: string;
+      encargadaPre: string; encargadaPost: string;
+      correoBtn: string; waBtn: string; waTitle: string;
+      notaPre: string; notaPost: string;
+      asunto: string; saludo: string; cuerpoIntro: string;
+      loQueBusco: string; miConsulta: string;
+    };
+  }
 
-  const ARBOL: Record<string, Nodo> = {
-    inicio: {
-      pregunta: "¿Con qué necesita ayuda?",
-      opciones: [
-        { label: "Mi contabilidad, los impuestos del mes o la nómina", area: "contabilidad" },
-        { label: "Un dictamen o auditoría de mis estados financieros", area: "auditoria" },
-        { label: "Un problema o trámite con una autoridad (SAT, IMSS, una multa o requerimiento)", next: "autoridad" },
-        { label: "Planear, optimizar o resolver algo de mi negocio o patrimonio", next: "negocio" },
-        { label: "No estoy seguro", next: "no_seguro" },
-      ],
-    },
-    autoridad: {
-      pregunta: "Sobre ese asunto con la autoridad, ¿qué describe mejor su situación?",
-      opciones: [
-        { label: "Ya recibí una notificación, multa o requerimiento, o tengo un juicio", area: "legal" },
-        { label: "Quiero prevenir o planear para evitar problemas a futuro", area: "asesoria" },
-        { label: "Solo necesito presentar o declarar los impuestos del mes", area: "contabilidad" },
-      ],
-    },
-    negocio: {
-      pregunta: "¿Qué se acerca más a lo que busca?",
-      opciones: [
-        { label: "Planeación fiscal o patrimonial, optimizar o reestructurar", area: "asesoria" },
-        { label: "Constituir o modificar una sociedad, contratos, una fusión, escisión o due diligence", area: "legal" },
-        { label: "Mediar o resolver un conflicto entre socios", area: "asesoria" },
-      ],
-    },
-    no_seguro: {
-      pregunta: "Le orientamos con una pregunta. ¿Lo suyo es más sobre…?",
-      opciones: [
-        { label: "Cumplir mis obligaciones del día a día (contabilidad, impuestos, nómina)", area: "contabilidad" },
-        { label: "Que revisen o certifiquen mis números (dictamen o auditoría)", area: "auditoria" },
-        { label: "Un conflicto o trámite legal con una autoridad o un tercero", area: "legal" },
-        { label: "Mejorar, planear o hacer crecer mi negocio", area: "asesoria" },
-      ],
-    },
-  };
+  // Plantilla simple: reemplaza {clave} por su valor.
+  const fmt = (s: string, vars: Record<string, string>) =>
+    s.replace(/\{(\w+)\}/g, (_, k) => vars[k] ?? `{${k}}`);
 
-  const ENCARGADAS: Record<Area, { area: string; nombre: string; primer: string; correo: string }> = {
-    contabilidad: { area: "Contabilidad", nombre: "Paola Guadalupe Guevara Moreno", primer: "Paola", correo: "paola@rmp.mx" },
-    auditoria: { area: "Auditoría", nombre: "Citlaly Reyes Jaime", primer: "Citlaly", correo: "citlaly@rmp.mx" },
-    asesoria: { area: "Asesoría de Negocios", nombre: "Marisela Elisea Martínez", primer: "Marisela", correo: "marisela@rmp.mx" },
-    legal: { area: "Legal", nombre: "Eugenia Eloisa Navarro González", primer: "Eugenia", correo: "eugenia@rmp.mx" },
-  };
-
+  const datosEl = document.getElementById("asistente-datos");
   const cuerpo = document.getElementById("asistente-cuerpo");
-  if (cuerpo) {
+  if (datosEl && cuerpo) {
+    const D = JSON.parse(datosEl.textContent || "{}") as AsistenteDatos;
+    const ARBOL = D.arbol;
+    const ENCARGADAS = D.encargadas;
+    const R = D.resultado;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const historial: { nodeId: string; label: string }[] = [];
 
@@ -334,11 +322,11 @@
         })
         .join("");
       const volver = historial.length
-        ? `<button type="button" class="paso-volver" data-volver><span aria-hidden="true">‹</span> Volver</button>`
+        ? `<button type="button" class="paso-volver" data-volver><span aria-hidden="true">‹</span> ${esc(D.volver)}</button>`
         : "";
       cuerpo!.innerHTML = `
         <div class="paso${reduce ? "" : " paso-anim"}">
-          <p class="paso-progreso">Paso ${paso}</p>
+          <p class="paso-progreso">${esc(D.pasoLabel)} ${paso}</p>
           <h3 class="paso-pregunta" tabindex="-1">${esc(nodo.pregunta)}</h3>
           <div class="opciones" data-nodo="${esc(nodeId)}">${opciones}</div>
           ${volver}
@@ -349,30 +337,30 @@
     function renderResultado(area: Area) {
       const e = ENCARGADAS[area];
       const resumen = historial.map((h) => h.label).join(" › ") || e.area;
-      const asunto = `Consulta de ${e.area} — sitio web`;
+      const asunto = fmt(R.asunto, { area: e.area });
       const cuerpoCorreo =
-        `Hola ${e.primer}:\n\n` +
-        `Le escribo desde el sitio web de Ramírez Medellín.\n\n` +
-        `Lo que busco: ${resumen}\n\n` +
-        `Mi consulta:\n`;
+        `${fmt(R.saludo, { primer: e.primer })}\n\n` +
+        `${R.cuerpoIntro}\n\n` +
+        `${fmt(R.loQueBusco, { resumen })}\n\n` +
+        `${R.miConsulta}\n`;
       const mailto = `mailto:${e.correo}?subject=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpoCorreo)}`;
       cuerpo!.innerHTML = `
         <div class="resultado${reduce ? "" : " paso-anim"}">
           <p class="resultado-area">${esc(e.area)}</p>
-          <h3 class="resultado-titulo" tabindex="-1">Por lo que nos cuenta, esto corresponde al área de <strong>${esc(e.area)}</strong>.</h3>
-          <p class="resultado-encargada">Le atenderá <span class="nombre">${esc(e.nombre)}</span>. Escríbale y le responderá a la brevedad.</p>
+          <h3 class="resultado-titulo" tabindex="-1">${esc(R.tituloPre)}<strong>${esc(e.area)}</strong>${esc(R.tituloPost)}</h3>
+          <p class="resultado-encargada">${esc(R.encargadaPre)}<span class="nombre">${esc(e.nombre)}</span>${esc(R.encargadaPost)}</p>
           <div class="resultado-acciones">
             <a class="accion accion--correo" href="${mailto}">
-              <span aria-hidden="true">✉</span> Escribir a ${esc(e.primer)} por correo
+              <span aria-hidden="true">✉</span> ${esc(fmt(R.correoBtn, { primer: e.primer }))}
             </a>
             <!-- TODO: activar cuando el cliente proporcione el WhatsApp Business
                  (usar https://wa.me/<numero>?text=<resumen prellenado>) -->
-            <button type="button" class="accion accion--wa" disabled aria-disabled="true" title="Disponible próximamente">
-              <span aria-hidden="true">●</span> WhatsApp (próximamente)
+            <button type="button" class="accion accion--wa" disabled aria-disabled="true" title="${esc(R.waTitle)}">
+              <span aria-hidden="true">●</span> ${esc(R.waBtn)}
             </button>
           </div>
-          <p class="resultado-nota">Se abrirá su correo con un mensaje listo para enviar a <strong>${esc(e.correo)}</strong>.</p>
-          <button type="button" class="resultado-reiniciar" data-reiniciar><span aria-hidden="true">↺</span> Volver a empezar</button>
+          <p class="resultado-nota">${esc(R.notaPre)}<strong>${esc(e.correo)}</strong>${esc(R.notaPost)}</p>
+          <button type="button" class="resultado-reiniciar" data-reiniciar><span aria-hidden="true">↺</span> ${esc(D.reiniciar)}</button>
         </div>`;
       enfocar(".resultado-titulo");
     }

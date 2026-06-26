@@ -1,0 +1,280 @@
+---
+import Base from "@layouts/Base.astro";
+import { getLang, localizedUrl } from "../../i18n/utils";
+import { getIndicadores } from "../../i18n/indicadores";
+
+const lang = getLang(Astro.currentLocale);
+const ind = getIndicadores(lang);
+---
+
+<Base title={ind.metaTitle} description={ind.metaDesc} translated={true}>
+
+  <!-- ═══════════════════════════════ HERO ═══ -->
+  <section class="phero fondo-oscuro">
+    <div class="phero-lineas" aria-hidden="true"></div>
+    <div class="contenedor phero-inner">
+      <p class="eyebrow phero-anim-1">
+        <span class="eyebrow-linea" aria-hidden="true"></span>
+        {ind.heroEyebrow}
+      </p>
+      <h1 class="phero-h1 phero-anim-2">
+        {ind.heroH1[0]}<br />
+        <em class="texto-oro">{ind.heroH1[1]}</em>
+      </h1>
+      <p class="phero-sub phero-anim-3">{ind.heroSub}</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════ TABLA DE INDICADORES ═══ -->
+  <section class="tabla" aria-label={ind.tablaAria}>
+    <div class="contenedor">
+      <ul class="tabla-lista" role="list">
+        {ind.lista.map(({ folio, nombre, desc, fuente, url }, i) => (
+          <li class="revela" style={`--retraso: ${i * 70}ms`}>
+            <a
+              href={url}
+              class="fila"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span class="fila-folio" aria-hidden="true">{folio}</span>
+              <span class="fila-principal">
+                <span class="fila-nombre">{nombre}</span>
+                <span class="fila-desc">{desc}</span>
+              </span>
+              <span class="fila-fuente">{fuente}</span>
+              <span class="fila-flecha" aria-hidden="true">↗</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <p class="tabla-nota revela">
+        {ind.notaPre}<a href={localizedUrl("/contacto", lang)}>{ind.notaLink}</a>{ind.notaPost}
+      </p>
+    </div>
+  </section>
+
+</Base>
+
+<style>
+  .contenedor {
+    max-width: var(--ancho-max);
+    margin: 0 auto;
+    padding-inline: calc(var(--espacio) * 3);
+  }
+
+  .eyebrow {
+    font-family: var(--fuente-datos);
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--oro);
+    margin-bottom: calc(var(--espacio) * 2.5);
+  }
+
+  .eyebrow-linea {
+    display: inline-block;
+    width: 48px;
+    height: 1px;
+    background: var(--oro);
+    vertical-align: middle;
+    margin-inline-end: calc(var(--espacio) * 1.5);
+  }
+
+  .texto-oro { color: var(--oro); font-style: italic; }
+
+
+  /* ═══════ HERO ═══════ */
+  .phero {
+    position: relative;
+    background-color: var(--tinta);
+    background-image: radial-gradient(
+      ellipse 90% 70% at 70% 10%,
+      rgb(26 53 101 / 0.5),
+      transparent 60%
+    );
+    overflow: hidden;
+  }
+
+  .phero-lineas {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 47px,
+      rgb(216 210 196 / 0.07) 47px,
+      rgb(216 210 196 / 0.07) 48px
+    );
+    mask-image: linear-gradient(to bottom, transparent, black 20%);
+  }
+
+  .phero-inner {
+    position: relative;
+    z-index: 1;
+    padding-block: calc(64px + var(--espacio) * 10) calc(var(--espacio) * 10);
+  }
+
+  .phero-h1 {
+    font-family: var(--fuente-display);
+    font-weight: 500;
+    font-size: clamp(44px, 6.5vw, 92px);
+    line-height: 1.0;
+    letter-spacing: -0.025em;
+    color: var(--papel);
+    margin: 0 0 calc(var(--espacio) * 3);
+  }
+
+  .phero-sub {
+    font-size: clamp(16px, 1.6vw, 18px);
+    line-height: 1.7;
+    color: rgb(250 247 240 / 0.6);
+    max-width: 520px;
+  }
+
+  .phero-anim-1 { animation: sube 0.5s ease 0.1s both; }
+  .phero-anim-2 { animation: sube 0.6s ease 0.25s both; }
+  .phero-anim-3 { animation: sube 0.5s ease 0.4s both; }
+
+  @keyframes sube {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .phero-anim-1, .phero-anim-2, .phero-anim-3 { animation: none; }
+  }
+
+  /* ═══════ TABLA — aquí el libro mayor brilla ═══════ */
+  .tabla { padding-block: calc(var(--espacio) * 12) calc(var(--espacio) * 14); }
+
+  .tabla-lista {
+    list-style: none;
+    border-top: 1px solid var(--oro);
+    position: relative;
+    margin-bottom: calc(var(--espacio) * 6);
+  }
+
+  .tabla-lista::before {
+    content: "";
+    position: absolute;
+    inset: 3px 0 auto 0;
+    border-top: 1px solid var(--oro);
+  }
+
+  .fila {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    align-items: center;
+    gap: calc(var(--espacio) * 4);
+    padding: calc(var(--espacio) * 3.5) calc(var(--espacio) * 1.5);
+    border-bottom: 1px solid var(--regla);
+    text-decoration: none;
+    transition: background 0.2s ease, padding-inline 0.25s ease;
+  }
+
+  .fila:hover {
+    background: var(--blanco);
+    padding-inline: calc(var(--espacio) * 3);
+  }
+
+  .fila-folio {
+    font-family: var(--fuente-datos);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--oro);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .fila-principal {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .fila-nombre {
+    font-family: var(--fuente-display);
+    font-weight: 600;
+    font-size: clamp(20px, 2.4vw, 26px);
+    color: var(--tinta);
+    transition: color 0.2s ease;
+  }
+
+  .fila:hover .fila-nombre { color: var(--oro); }
+
+  .fila-desc {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--pizarra);
+  }
+
+  .fila-fuente {
+    font-family: var(--fuente-datos);
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--pizarra);
+    white-space: nowrap;
+  }
+
+  .fila-flecha {
+    font-family: var(--fuente-datos);
+    font-size: 18px;
+    color: var(--regla);
+    transition: color 0.2s ease, transform 0.25s ease;
+  }
+
+  .fila:hover .fila-flecha {
+    color: var(--oro);
+    transform: translate(3px, -3px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fila, .fila-nombre, .fila-flecha { transition: none; }
+  }
+
+  .tabla-nota {
+    font-size: 15px;
+    color: var(--pizarra);
+    text-align: center;
+  }
+
+  .tabla-nota a { color: var(--oro); }
+
+  /* ═══════ Responsive ═══════ */
+  @media (max-width: 767px) {
+    .contenedor { padding-inline: calc(var(--espacio) * 2); }
+
+    .fila {
+      grid-template-columns: auto 1fr auto;
+      gap: calc(var(--espacio) * 2);
+    }
+
+    .fila-fuente { display: none; }
+  }
+</style>
+
+<script>
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const revelables = document.querySelectorAll(".revela");
+  if (reduceMotion) {
+    revelables.forEach((el) => el.classList.add("visible"));
+  } else {
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            io.unobserve(entry.target);
+          }
+        }
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -30px 0px" }
+    );
+    revelables.forEach((el) => io.observe(el));
+  }
+</script>
