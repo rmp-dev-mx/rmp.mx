@@ -1,6 +1,7 @@
 ---
 import Base from "@layouts/Base.astro";
 import Boton from "@components/Boton.astro";
+import { url } from "../../lib/url";
 import { getLang, localizedUrl } from "../../i18n/utils";
 import { getServicios } from "../../i18n/servicios";
 
@@ -55,6 +56,16 @@ const areas = s.areas;
 
           <!-- Columna izquierda: folio + título + intro (sticky) -->
           <header class="area-encabezado revela">
+            <figure class="area-figura">
+              <img
+                src={url(`/images/fotos/servicio-${id}.webp`)}
+                alt=""
+                width="800"
+                height="800"
+                loading="lazy"
+                decoding="async"
+              />
+            </figure>
             <span class="area-folio" aria-hidden="true">{folio}</span>
             <h2 id={`${id}-titulo`} class="area-titulo">{titulo}</h2>
             <p class="area-intro">{intro}</p>
@@ -302,6 +313,19 @@ const areas = s.areas;
   .area-encabezado {
     position: sticky;
     top: calc(64px + var(--espacio) * 4);
+  }
+
+  .area-figura {
+    margin: 0 0 calc(var(--espacio) * 4);
+    line-height: 0;
+  }
+  .area-figura img {
+    width: 100%;
+    height: clamp(180px, 22vw, 240px);
+    object-fit: cover;
+    object-position: center;
+    border: 1px solid var(--regla);
+    border-radius: var(--radio);
   }
 
   .area-folio {

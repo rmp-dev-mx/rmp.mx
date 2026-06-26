@@ -1,5 +1,6 @@
 ---
 import Base from "@layouts/Base.astro";
+import { url } from "../../lib/url";
 import { getLang } from "../../i18n/utils";
 import { getRecursos } from "../../i18n/recursos";
 
@@ -24,6 +25,18 @@ const r = getRecursos(lang);
       <p class="phero-sub phero-anim-3">{r.heroSub}</p>
     </div>
   </section>
+
+  <!-- ════════════════════════════ BANDA TEXTURA ═══ -->
+  <div class="banda-textura" role="presentation">
+    <img
+      src={url("/images/fotos/textura-libro-mayor.webp")}
+      alt=""
+      width="2560"
+      height="1440"
+      loading="lazy"
+      decoding="async"
+    />
+  </div>
 
   <!-- ═══════════════════════════════ DIRECTORIO ═══ -->
   <section class="directorio" aria-label={r.directorioAria}>
@@ -79,6 +92,19 @@ const r = getRecursos(lang);
   }
 
   .texto-oro { color: var(--oro); font-style: italic; }
+
+  /* ═══════ Banda de textura (papel de libro mayor) ═══════ */
+  .banda-textura {
+    line-height: 0;
+    border-bottom: 1px solid var(--regla);
+  }
+  .banda-textura img {
+    display: block;
+    width: 100%;
+    height: clamp(120px, 16vw, 200px);
+    object-fit: cover;
+    object-position: center 50%;
+  }
 
 
   /* ═══════ HERO ═══════ */

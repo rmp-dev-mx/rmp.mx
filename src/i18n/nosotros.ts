@@ -12,6 +12,7 @@ export const nosotros = {
     heroH1: ["El oficio", "bien llevado."],
     heroSub:
       "Somos una firma de Contadores Públicos y Abogados fundada en el año 1998, en la ciudad de San Luis Potosí, México. Nos especializamos en prestar servicios profesionales en contabilidad, auditoría, asesoría de negocios, servicio legal empresarial y patrimonial.",
+    slpAlt: "Fachada de cantera de un edificio histórico en el centro de San Luis Potosí.",
 
     historiaEyebrow: "Nuestra historia",
     historiaTitulo: ["Desde 1998,", "asiento por asiento"],
@@ -117,6 +118,7 @@ export const nosotros = {
     heroH1: ["The craft", "done right."],
     heroSub:
       "We are a firm of Public Accountants and Attorneys founded in 1998 in the city of San Luis Potosí, Mexico. We specialize in professional services in accounting, auditing, business advisory, and corporate and estate legal counsel.",
+    slpAlt: "Quarry-stone facade of a historic building in downtown San Luis Potosí.",
 
     historiaEyebrow: "Our history",
     historiaTitulo: ["Since 1998,", "entry by entry"],

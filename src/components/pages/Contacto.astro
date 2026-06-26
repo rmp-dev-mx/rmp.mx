@@ -1,6 +1,7 @@
 ---
 import Base from "@layouts/Base.astro";
 import AsistenteContacto from "@components/AsistenteContacto.astro";
+import { url } from "../../lib/url";
 import { getLang } from "../../i18n/utils";
 import { getContacto } from "../../i18n/contacto";
 
@@ -23,6 +24,17 @@ const mapaSrc =
 
   <!-- ═══════════════════════════════ HERO ═══ -->
   <section class="phero fondo-oscuro">
+    <img
+      class="phero-fondo"
+      src={url("/images/fotos/contacto-oficina.webp")}
+      alt=""
+      width="2400"
+      height="1600"
+      loading="eager"
+      fetchpriority="high"
+      decoding="async"
+    />
+    <div class="phero-velo" aria-hidden="true"></div>
     <div class="phero-lineas" aria-hidden="true"></div>
     <div class="contenedor phero-inner">
       <p class="eyebrow phero-anim-1">
@@ -139,6 +151,29 @@ const mapaSrc =
   }
 
   .texto-oro { color: var(--oro); font-style: italic; }
+
+  /* ═══════ Imagen de fondo del hero + velo ═══════ */
+  .phero-fondo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 60%;
+    z-index: 0;
+  }
+  .phero-velo {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: linear-gradient(
+      105deg,
+      var(--tinta) 0%,
+      rgb(22 36 58 / 0.94) 32%,
+      rgb(22 36 58 / 0.78) 66%,
+      rgb(22 36 58 / 0.6) 100%
+    );
+  }
 
 
   /* ═══════ HERO ═══════ */

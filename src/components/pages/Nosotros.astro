@@ -19,6 +19,17 @@ function iniciales(nombre: string): string {
 
   <!-- ═══════════════════════════════ HERO ═══ -->
   <section class="phero fondo-oscuro">
+    <img
+      class="phero-fondo"
+      src={url("/images/fotos/nosotros-slp.webp")}
+      alt={n.slpAlt}
+      width="2400"
+      height="1350"
+      loading="eager"
+      fetchpriority="high"
+      decoding="async"
+    />
+    <div class="phero-velo" aria-hidden="true"></div>
     <div class="phero-lineas" aria-hidden="true"></div>
     <div class="contenedor phero-inner">
       <p class="eyebrow phero-anim-1">
@@ -37,18 +48,28 @@ function iniciales(nombre: string): string {
   <section class="historia" aria-labelledby="historia-titulo">
     <div class="contenedor">
       <div class="historia-grid">
-        <div class="revela">
+        <div class="historia-col revela">
           <p class="eyebrow">{n.historiaEyebrow}</p>
           <h2 id="historia-titulo" class="seccion-titulo">
             {n.historiaTitulo[0]}<br />{n.historiaTitulo[1]}
           </h2>
+          <div class="historia-texto">
+            <p>{n.historiaP1}</p>
+            <p>
+              {n.historiaP2pre}<strong>{n.historiaP2strong}</strong>{n.historiaP2post}
+            </p>
+          </div>
         </div>
-        <div class="historia-texto revela">
-          <p>{n.historiaP1}</p>
-          <p>
-            {n.historiaP2pre}<strong>{n.historiaP2strong}</strong>{n.historiaP2post}
-          </p>
-        </div>
+        <figure class="historia-figura revela">
+          <img
+            src={url("/images/fotos/nosotros-historia.webp")}
+            alt=""
+            width="1000"
+            height="1250"
+            loading="lazy"
+            decoding="async"
+          />
+        </figure>
       </div>
     </div>
   </section>
@@ -342,14 +363,37 @@ function iniciales(nombre: string): string {
     .phero-anim-1, .phero-anim-2, .phero-anim-3 { animation: none; }
   }
 
+  /* ═══════ Imagen de fondo del hero + velo ═══════ */
+  .phero-fondo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+    z-index: 0;
+  }
+  .phero-velo {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: linear-gradient(
+      105deg,
+      var(--tinta) 0%,
+      rgb(22 36 58 / 0.94) 32%,
+      rgb(22 36 58 / 0.78) 66%,
+      rgb(22 36 58 / 0.6) 100%
+    );
+  }
+
   /* ═══════ HISTORIA ═══════ */
   .historia { padding-block: calc(var(--espacio) * 14); }
 
   .historia-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
     gap: calc(var(--espacio) * 8);
-    align-items: start;
+    align-items: stretch;
   }
 
   .historia-texto {
@@ -359,10 +403,25 @@ function iniciales(nombre: string): string {
     display: flex;
     flex-direction: column;
     gap: calc(var(--espacio) * 2.5);
-    padding-top: calc(var(--espacio) * 1.5);
+    margin-top: calc(var(--espacio) * 3);
   }
 
   .historia-texto strong { color: var(--tinta); }
+
+  .historia-figura {
+    margin: 0;
+    line-height: 0;
+    height: 100%;
+  }
+  .historia-figura img {
+    width: 100%;
+    height: 100%;
+    min-height: 340px;
+    object-fit: cover;
+    object-position: center 30%;
+    border: 1px solid var(--regla);
+    border-radius: var(--radio);
+  }
 
   /* ═══════ FIRMA FILIAL: PACIOLI ═══════ */
   .filial { padding-block: 0 calc(var(--espacio) * 14); }
