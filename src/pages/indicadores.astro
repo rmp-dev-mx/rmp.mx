@@ -2,48 +2,49 @@
 import Base from "@layouts/Base.astro";
 import { url } from "../lib/url";
 
+// Enlaces directos a la fuente de cada dato (no a la página principal).
 const indicadores = [
   {
     folio: "01",
     nombre: "Tipo de cambio USD",
-    desc: "Tipo de cambio del dólar publicado por el SAT para efectos fiscales.",
-    fuente: "SAT — Tablas e indicadores",
-    url: "https://www.sat.gob.mx/personas/tablas-e-indicadores",
+    desc: "Tipo de cambio FIX del dólar que publica el Banco de México, referencia para efectos fiscales.",
+    fuente: "Banco de México — Mercado cambiario",
+    url: "https://www.banxico.org.mx/portal-mercado-cambiario/",
   },
   {
     folio: "02",
     nombre: "UDIS",
     desc: "Valor de las Unidades de Inversión.",
-    fuente: "SAT — Tablas e indicadores",
-    url: "https://www.sat.gob.mx/personas/tablas-e-indicadores",
+    fuente: "Banco de México — Valores de UDIS",
+    url: "https://www.banxico.org.mx/SieInternet/consultarDirectorioInternetAction.do?sector=8&accion=consultarCuadro&idCuadro=CP150&locale=es",
   },
   {
     folio: "03",
     nombre: "INPC",
     desc: "Índice Nacional de Precios al Consumidor.",
-    fuente: "SAT — Tablas e indicadores",
-    url: "https://www.sat.gob.mx/personas/tablas-e-indicadores",
+    fuente: "INEGI — Índice de Precios",
+    url: "https://www.inegi.org.mx/temas/inpc/",
   },
   {
     folio: "04",
     nombre: "TIIE",
-    desc: "Tasa de Interés Interbancaria de Equilibrio publicada por Banxico.",
-    fuente: "Banco de México",
-    url: "https://www.banxico.org.mx",
+    desc: "Tasa de Interés Interbancaria de Equilibrio a 28 días, publicada por Banxico.",
+    fuente: "Banco de México — TIIE a 28 días",
+    url: "https://www.banxico.org.mx/mercados/tiie-4-semanas-valores-banco-.html",
   },
   {
     folio: "05",
     nombre: "Tasas de recargos",
     desc: "Tasas de recargos por mora y prórroga en pagos de contribuciones.",
-    fuente: "SAT — Tablas e indicadores",
-    url: "https://www.sat.gob.mx/personas/tablas-e-indicadores",
+    fuente: "SAT — Índices, tasas y tipo de cambio",
+    url: "https://www.sat.gob.mx/consulta/11676/consulta-indices,-tasas,-tarifas-y-tipo-de-cambio.",
   },
 ];
 ---
 
 <Base
   title="Indicadores — Ramírez Medellín, S.C."
-  description="Indicadores fiscales y financieros de consulta frecuente: tipo de cambio USD, UDIS, INPC, TIIE y tasas de recargos, con enlaces a las fuentes oficiales SAT y Banxico."
+  description="Indicadores fiscales y financieros de consulta frecuente: tipo de cambio USD, UDIS, INPC, TIIE y tasas de recargos, con enlaces directos a las fuentes oficiales: SAT, Banxico e INEGI."
 >
 
   <!-- ═══════════════════════════════ HERO ═══ -->

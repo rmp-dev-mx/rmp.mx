@@ -152,9 +152,9 @@ function isActive(href: string): boolean {
 
   .nav-link {
     display: block;
-    padding: 6px var(--espacio);
+    padding: 6px calc(var(--espacio) * 1.25);
     font-family: var(--fuente-texto);
-    font-size: 15px;
+    font-size: 17px;
     font-weight: 500;
     text-decoration: none;
     color: inherit;
@@ -216,7 +216,7 @@ function isActive(href: string): boolean {
   @media (min-width: 768px) and (max-width: 1023px) {
     .header-inner { gap: calc(var(--espacio) * 2); }
     .logo-texto { display: none; }
-    .nav-link { font-size: 14px; padding: 6px; }
+    .nav-link { font-size: 15px; padding: 6px calc(var(--espacio) * 0.75); }
   }
 
   /* ── Móvil ── */
@@ -251,7 +251,7 @@ function isActive(href: string): boolean {
 
     .nav-menu.nav-menu--open { display: flex; }
 
-    .nav-link { font-size: 16px; padding: 10px calc(var(--espacio) * 1.5); }
+    .nav-link { font-size: 17px; padding: 10px calc(var(--espacio) * 1.5); }
 
     .nav-toggle { display: flex; margin-left: auto; }
   }

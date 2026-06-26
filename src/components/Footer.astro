@@ -25,7 +25,14 @@ const accesos = [
     <!-- Columna 1: Identidad y contacto -->
     <div class="footer-col">
       <a href={url("/")} class="footer-logo">
-        <span class="footer-logo-monograma" aria-hidden="true">RM</span>
+        <img
+          class="footer-logo-marca"
+          src={url("/images/logo-rmp-claro.webp")}
+          alt=""
+          width="156"
+          height="120"
+          decoding="async"
+        />
         <span class="footer-logo-texto">
           <span class="footer-logo-firma">Ramírez Medellín</span>
           <span class="footer-logo-sc">S.C.</span>
@@ -91,12 +98,8 @@ const accesos = [
              "Ramírez Medellín S.C. Contadores Públicos y Abogados" -->
       </ul>
       <div class="footer-afiliaciones">
-        <p class="footer-titulo-seccion" style="margin-top: calc(var(--espacio) * 3)">Afiliaciones</p>
+        <p class="footer-titulo-seccion" style="margin-top: calc(var(--espacio) * 3)">Firma filial</p>
         <ul class="footer-badges" role="list">
-          <li class="footer-badge">
-            <!-- TODO: logo vector CONTPAQi -->
-            <span class="badge-texto">CONTPAQi<br><span class="badge-sub">Distribuidor Asociado</span></span>
-          </li>
           <li class="footer-badge footer-badge--logo">
             <img
               class="badge-logo"
@@ -152,19 +155,9 @@ const accesos = [
     margin-bottom: calc(var(--espacio) * 2);
   }
 
-  .footer-logo-monograma {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    background: var(--oro);
-    color: var(--tinta);
-    font-family: var(--fuente-datos);
-    font-weight: 500;
-    font-size: 12px;
-    letter-spacing: 0.05em;
-    border-radius: var(--radio);
+  .footer-logo-marca {
+    height: 38px;
+    width: auto;
     flex-shrink: 0;
   }
 
@@ -192,7 +185,7 @@ const accesos = [
 
   .footer-tagline {
     font-family: var(--fuente-datos);
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 400;
     color: rgb(250 247 240 / 0.6);
     margin-bottom: calc(var(--espacio) * 2.5);
@@ -202,9 +195,9 @@ const accesos = [
   /* --- Contacto --- */
   .footer-contacto {
     font-style: normal;
-    font-size: 14px;
-    line-height: 1.6;
-    color: rgb(250 247 240 / 0.75);
+    font-size: 15.5px;
+    line-height: 1.65;
+    color: rgb(250 247 240 / 0.78);
     display: flex;
     flex-direction: column;
     gap: calc(var(--espacio) * 1.5);
@@ -220,7 +213,7 @@ const accesos = [
   .footer-telefonos a,
   .footer-email {
     font-family: var(--fuente-datos);
-    font-size: 13px;
+    font-size: 14.5px;
     color: rgb(250 247 240 / 0.85);
     text-decoration: none;
     transition: color 0.15s ease;
@@ -251,10 +244,10 @@ const accesos = [
   }
 
   .footer-links a {
-    font-size: 14px;
-    color: rgb(250 247 240 / 0.75);
+    font-size: 15.5px;
+    color: rgb(250 247 240 / 0.78);
     text-decoration: none;
-    line-height: 1.8;
+    line-height: 1.85;
     transition: color 0.15s ease;
   }
 
