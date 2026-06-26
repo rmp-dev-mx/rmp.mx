@@ -143,8 +143,45 @@ function iniciales(nombre: string): string {
           </p>
           <p>
             Contamos con una firma filial, <strong>Pacioli Asesores de
-            Negocios, S.C.</strong>
+            Negocios, S.C.</strong>, con la que ampliamos nuestro
+            acompañamiento en materia de asesoría y consultoría de negocios.
           </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ FIRMA FILIAL: PACIOLI ═══ -->
+  <section class="filial" aria-labelledby="filial-titulo">
+    <div class="contenedor">
+      <div class="filial-card revela">
+        <div class="filial-logo">
+          <img
+            src={url("/images/pacioli.svg")}
+            alt="Pacioli Asesores de Negocios, S.C."
+            width="3196"
+            height="1256"
+            decoding="async"
+            loading="lazy"
+          />
+        </div>
+        <div class="filial-texto">
+          <p class="eyebrow">Firma filial</p>
+          <h2 id="filial-titulo" class="filial-titulo">
+            Pacioli<br />Asesores de Negocios
+          </h2>
+          <p class="filial-desc">
+            Pacioli Asesores de Negocios, S.C. es la firma filial de Ramírez
+            Medellín. Su nombre honra a <strong>Luca Pacioli</strong>,
+            considerado el padre de la contabilidad por partida doble. A
+            través de ella acercamos a empresas y personas servicios
+            especializados de asesoría y consultoría de negocios.
+            <!-- TODO: confirmar con la firma el objeto/alcance oficial de Pacioli -->
+          </p>
+          <a href={url("/servicios#asesoria")} class="filial-link">
+            Conozca nuestra asesoría de negocios
+            <span aria-hidden="true">→</span>
+          </a>
         </div>
       </div>
     </div>
@@ -447,6 +484,68 @@ function iniciales(nombre: string): string {
   }
 
   .historia-texto strong { color: var(--tinta); }
+
+  /* ═══════ FIRMA FILIAL: PACIOLI ═══════ */
+  .filial { padding-block: 0 calc(var(--espacio) * 14); }
+
+  .filial-card {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: calc(var(--espacio) * 8);
+    align-items: center;
+    background: var(--blanco);
+    border: 1px solid var(--regla);
+    border-radius: var(--radio);
+    padding: calc(var(--espacio) * 7);
+  }
+
+  .filial-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-inline-end: calc(var(--espacio) * 4);
+    border-inline-end: 1px solid var(--regla);
+  }
+  .filial-logo img {
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+  }
+
+  .filial-titulo {
+    font-family: var(--fuente-display);
+    font-weight: 500;
+    font-size: clamp(28px, 3.4vw, 44px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--tinta);
+    margin: calc(var(--espacio) * 1.5) 0 calc(var(--espacio) * 2.5);
+  }
+
+  .filial-desc {
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--pizarra);
+    margin: 0 0 calc(var(--espacio) * 3);
+  }
+  .filial-desc strong { color: var(--tinta); }
+
+  .filial-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--espacio);
+    font-family: var(--fuente-texto);
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--oro);
+    text-decoration: none;
+    transition: gap 0.15s ease;
+  }
+  .filial-link:hover { gap: calc(var(--espacio) * 1.5); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .filial-link { transition: none; }
+  }
 
   /* ═══════ MVV ═══════ */
   .mvv {
@@ -809,6 +908,14 @@ function iniciales(nombre: string): string {
   @media (max-width: 1023px) {
     .historia-grid { grid-template-columns: 1fr; gap: calc(var(--espacio) * 4); }
     .mvv-grid { grid-template-columns: 1fr; gap: calc(var(--espacio) * 5); }
+    .filial-card { grid-template-columns: 1fr; gap: calc(var(--espacio) * 5); padding: calc(var(--espacio) * 5); }
+    .filial-logo {
+      border-inline-end: none;
+      padding-inline-end: 0;
+      padding-block-end: calc(var(--espacio) * 4);
+      border-block-end: 1px solid var(--regla);
+    }
+    .filial-logo img { max-width: 280px; }
   }
 
   @media (max-width: 767px) {
