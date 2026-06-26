@@ -2,12 +2,28 @@
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
 import { url } from "../lib/url";
+import { getLang, useTranslations, localizedUrl, getLogicalPath } from "../i18n/utils";
 
 interface Props {
   title: string;
   description: string;
+  /** true si la página tiene traducción real en el idioma activo. */
+  translated?: boolean;
 }
-const { title, description } = Astro.props;
+const { title, description, translated = false } = Astro.props;
+
+const lang = getLang(Astro.currentLocale);
+const t = useTranslations(lang);
+const htmlLang = lang === "en" ? "en" : "es-MX";
+
+// Banner cuando se ve en inglés una página aún no traducida (respaldo a español).
+const mostrarBannerEN = lang === "en" && !translated;
+
+// Alternativas hreflang (misma página en cada idioma).
+const rutaLogica = getLogicalPath(Astro.url.pathname);
+const altEs = new URL(localizedUrl(rutaLogica, "es"), Astro.site).href;
+const altEn = new URL(localizedUrl(rutaLogica, "en"), Astro.site).href;
+
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
 // schema.org: la firma es a la vez despacho contable y legal
@@ -59,7 +75,7 @@ const schema = {
 ---
 
 <!doctype html>
-<html lang="es-MX">
+<html lang={htmlLang}>
   <head>
     <meta charset="UTF-8" />
     <!-- Mejora progresiva: los reveals al scroll solo aplican con JS activo -->
@@ -68,6 +84,9 @@ const schema = {
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
+    <link rel="alternate" hreflang="es" href={altEs} />
+    <link rel="alternate" hreflang="en" href={altEn} />
+    <link rel="alternate" hreflang="x-default" href={altEs} />
     <link rel="sitemap" href={url("/sitemap-index.xml")} />
     <link rel="icon" type="image/png" href={url("/favicon-96.png")} />
     <link rel="apple-touch-icon" href={url("/apple-touch-icon.png")} />
@@ -77,7 +96,7 @@ const schema = {
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:type" content="website" />
-    <meta property="og:locale" content="es_MX" />
+    <meta property="og:locale" content={lang === "en" ? "en_US" : "es_MX"} />
     <meta property="og:site_name" content="Ramírez Medellín, S.C." />
     <!-- TODO: generar imagen OG 1200x630 con la identidad (cuando el cliente apruebe el diseño) -->
 
@@ -109,11 +128,26 @@ const schema = {
     <link rel="stylesheet" href={url("/styles/global.css")} />
   </head>
   <body>
-    <a href="#contenido" class="skip-link">Saltar al contenido principal</a>
+    <a href="#contenido" class="skip-link">{t("skip")}</a>
     <Header />
+    {mostrarBannerEN && (
+      <p class="i18n-aviso" lang="en">{t("banner.enPrep")}</p>
+    )}
     <main id="contenido">
       <slot />
     </main>
     <Footer />
   </body>
 </html>
+
+<style>
+  .i18n-aviso {
+    margin: 0;
+    padding: calc(var(--espacio) * 1.25) calc(var(--espacio) * 3);
+    background: var(--oro);
+    color: var(--oro-contraste);
+    font-family: var(--fuente-datos);
+    font-size: 13px;
+    text-align: center;
+  }
+</style>

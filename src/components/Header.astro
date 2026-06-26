@@ -1,29 +1,31 @@
 ---
 import LogoMarca from "@components/LogoMarca.astro";
-import { url } from "../lib/url";
+import { getLang, useTranslations, localizedUrl, getLogicalPath } from "../i18n/utils";
+
+const lang = getLang(Astro.currentLocale);
+const t = useTranslations(lang);
 
 const navLinks = [
-  { href: "/", label: "Inicio" },
-  { href: "/nosotros", label: "Nosotros" },
-  { href: "/servicios", label: "Servicios" },
-  { href: "/boletin", label: "Boletín" },
-  { href: "/talento", label: "Talento" },
-  { href: "/contacto", label: "Contacto" },
-];
+  { href: "/", key: "nav.inicio" },
+  { href: "/nosotros", key: "nav.nosotros" },
+  { href: "/servicios", key: "nav.servicios" },
+  { href: "/boletin", key: "nav.boletin" },
+  { href: "/talento", key: "nav.talento" },
+  { href: "/contacto", key: "nav.contacto" },
+] as const;
 
-const pathname = Astro.url.pathname;
+const rutaLogica = getLogicalPath(Astro.url.pathname);
 
 function isActive(href: string): boolean {
-  const completo = url(href);
-  if (href === "/") return pathname === completo || pathname === `${completo}/`;
-  return pathname.startsWith(completo);
+  if (href === "/") return rutaLogica === "/";
+  return rutaLogica === href || rutaLogica.startsWith(`${href}/`);
 }
 ---
 
 <header class="site-header" id="site-header">
   <div class="header-inner">
 
-    <a href={url("/")} class="logo" aria-label="Ramírez Medellín, S.C. — ir al inicio">
+    <a href={localizedUrl("/", lang)} class="logo" aria-label="Ramírez Medellín, S.C.">
       <LogoMarca class="logo-svg" />
       <span class="logo-texto">
         <span class="logo-firma">Ramírez Medellín</span>
@@ -31,21 +33,37 @@ function isActive(href: string): boolean {
       </span>
     </a>
 
-    <nav aria-label="Navegación principal">
+    <nav aria-label={lang === "en" ? "Main navigation" : "Navegación principal"}>
       <ul class="nav-menu" id="nav-menu" role="list">
-        {navLinks.map(({ href, label }) => (
+        {navLinks.map(({ href, key }) => (
           <li>
             <a
-              href={url(href)}
+              href={localizedUrl(href, lang)}
               class:list={["nav-link", { "nav-link--activo": isActive(href) }]}
               aria-current={isActive(href) ? "page" : undefined}
             >
-              {label}
+              {t(key)}
             </a>
           </li>
         ))}
       </ul>
     </nav>
+
+    <div class="lang-switch" role="group" aria-label={t("lang.aria")}>
+      <a
+        href={localizedUrl(rutaLogica, "es")}
+        class:list={["lang-opt", { "lang-opt--activo": lang === "es" }]}
+        hreflang="es"
+        aria-current={lang === "es" ? "true" : undefined}
+      >ES</a>
+      <span class="lang-sep" aria-hidden="true">/</span>
+      <a
+        href={localizedUrl(rutaLogica, "en")}
+        class:list={["lang-opt", { "lang-opt--activo": lang === "en" }]}
+        hreflang="en"
+        aria-current={lang === "en" ? "true" : undefined}
+      >EN</a>
+    </div>
 
     <button
       class="nav-toggle"
@@ -53,7 +71,7 @@ function isActive(href: string): boolean {
       type="button"
       aria-expanded="false"
       aria-controls="nav-menu"
-      aria-label="Abrir menú de navegación"
+      aria-label={lang === "en" ? "Open navigation menu" : "Abrir menú de navegación"}
     >
       <span class="hamburger-bar"></span>
       <span class="hamburger-bar"></span>
@@ -169,6 +187,34 @@ function isActive(href: string): boolean {
 
   .nav-link--activo { font-weight: 700; }
 
+  /* ── Selector de idioma ── */
+  .lang-switch {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+    font-family: var(--fuente-datos);
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .lang-opt {
+    color: var(--h-color);
+    opacity: 0.5;
+    text-decoration: none;
+    padding: 4px 5px;
+    border-radius: var(--radio);
+    transition: opacity 0.15s ease, color 0.15s ease;
+  }
+  .lang-opt:hover { opacity: 1; color: var(--oro); }
+  .lang-opt--activo { opacity: 1; color: var(--oro); font-weight: 700; }
+  .lang-opt:focus-visible { outline: 2px solid var(--oro); outline-offset: 2px; }
+
+  .lang-sep {
+    color: var(--h-color);
+    opacity: 0.3;
+  }
+
   /* ── Hamburguesa ── */
   .nav-toggle {
     display: none;
@@ -253,7 +299,8 @@ function isActive(href: string): boolean {
 
     .nav-link { font-size: 17px; padding: 10px calc(var(--espacio) * 1.5); }
 
-    .nav-toggle { display: flex; margin-left: auto; }
+    .lang-switch { margin-left: auto; }
+    .nav-toggle { display: flex; margin-left: var(--espacio); }
   }
 </style>
 

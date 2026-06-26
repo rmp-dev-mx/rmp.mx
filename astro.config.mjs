@@ -11,11 +11,23 @@ export default defineConfig({
   output: "static",
   site,
   base,
+  // Español en "/", inglés en "/en/". Extensible: agregar el locale aquí,
+  // su diccionario en src/i18n y las rutas delgadas src/pages/<locale>/.
+  i18n: {
+    defaultLocale: "es",
+    locales: ["es", "en"],
+    routing: {
+      prefixDefaultLocale: false,
+      fallbackType: "rewrite",
+    },
+    // Las páginas sin versión en inglés se sirven en español bajo /en/...
+    fallback: { en: "es" },
+  },
   integrations: [
     sitemap({
       i18n: {
         defaultLocale: "es",
-        locales: { es: "es-MX" },
+        locales: { es: "es-MX", en: "en-US" },
       },
     }),
   ],

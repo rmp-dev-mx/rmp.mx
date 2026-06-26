@@ -1,22 +1,25 @@
 ---
 import { url } from "../lib/url";
+import { getLang, useTranslations, localizedUrl } from "../i18n/utils";
 
+const lang = getLang(Astro.currentLocale);
+const t = useTranslations(lang);
 const anio = new Date().getFullYear();
 
 const paginasSitio = [
-  { href: "/", label: "Inicio" },
-  { href: "/nosotros", label: "Nosotros" },
-  { href: "/servicios", label: "Servicios" },
-  { href: "/boletin", label: "Boletín Resiliencia" },
-  { href: "/talento", label: "Talento" },
-  { href: "/contacto", label: "Contacto" },
-];
+  { href: "/", key: "nav.inicio" },
+  { href: "/nosotros", key: "nav.nosotros" },
+  { href: "/servicios", key: "nav.servicios" },
+  { href: "/boletin", key: "footer.boletinResiliencia" },
+  { href: "/talento", key: "nav.talento" },
+  { href: "/contacto", key: "nav.contacto" },
+] as const;
 
 const accesos = [
-  { href: "/indicadores", label: "Indicadores fiscales" },
-  { href: "/recursos", label: "Sitios de interés" },
-  { href: "/boletin", label: "Boletín Resiliencia" },
-];
+  { href: "/indicadores", key: "footer.indicadores" },
+  { href: "/recursos", key: "footer.sitios" },
+  { href: "/boletin", key: "footer.boletinResiliencia" },
+] as const;
 ---
 
 <footer class="site-footer">
@@ -24,7 +27,7 @@ const accesos = [
 
     <!-- Columna 1: Identidad y contacto -->
     <div class="footer-col">
-      <a href={url("/")} class="footer-logo">
+      <a href={localizedUrl("/", lang)} class="footer-logo">
         <img
           class="footer-logo-marca"
           src={url("/images/logo-rmp-claro.webp")}
@@ -38,10 +41,10 @@ const accesos = [
           <span class="footer-logo-sc">S.C.</span>
         </span>
       </a>
-      <p class="footer-tagline">Contadores Públicos y Abogados desde 1998</p>
+      <p class="footer-tagline">{t("footer.tagline")}</p>
       <address class="footer-contacto">
         <p>Calle Francisco Peña 245<br>Las Águilas 3ra Sección<br>San Luis Potosí, S.L.P.</p>
-        <ul class="footer-telefonos" aria-label="Teléfonos">
+        <ul class="footer-telefonos" aria-label={t("footer.telefonos")}>
           <li><a href="tel:+524448334098">444-833-40-98</a></li>
           <li><a href="tel:+524448334099">444-833-40-99</a></li>
           <li><a href="tel:+524442116000">444-211-60-00</a></li>
@@ -52,11 +55,11 @@ const accesos = [
 
     <!-- Columna 2: Mapa del sitio -->
     <div class="footer-col">
-      <p class="footer-titulo-seccion">Sitio web</p>
-      <nav aria-label="Mapa del sitio">
+      <p class="footer-titulo-seccion">{t("footer.sitioWeb")}</p>
+      <nav aria-label={t("footer.mapaSitio")}>
         <ul class="footer-links" role="list">
-          {paginasSitio.map(({ href, label }) => (
-            <li><a href={url(href)}>{label}</a></li>
+          {paginasSitio.map(({ href, key }) => (
+            <li><a href={localizedUrl(href, lang)}>{t(key)}</a></li>
           ))}
         </ul>
       </nav>
@@ -64,19 +67,11 @@ const accesos = [
 
     <!-- Columna 3: Accesos rápidos -->
     <div class="footer-col">
-      <p class="footer-titulo-seccion">Accesos</p>
-      <nav aria-label="Accesos rápidos">
+      <p class="footer-titulo-seccion">{t("footer.accesos")}</p>
+      <nav aria-label={t("footer.accesosRapidos")}>
         <ul class="footer-links" role="list">
-          {accesos.map(({ href, label, externo }) => (
-            <li>
-              <a
-                href={externo ? href : url(href)}
-                target={externo ? "_blank" : undefined}
-                rel={externo ? "noopener noreferrer" : undefined}
-              >
-                {label}
-              </a>
-            </li>
+          {accesos.map(({ href, key }) => (
+            <li><a href={localizedUrl(href, lang)}>{t(key)}</a></li>
           ))}
         </ul>
       </nav>
@@ -84,8 +79,8 @@ const accesos = [
 
     <!-- Columna 4: Redes y afiliaciones -->
     <div class="footer-col">
-      <p class="footer-titulo-seccion">Conecta</p>
-      <ul class="footer-redes" role="list" aria-label="Redes sociales">
+      <p class="footer-titulo-seccion">{t("footer.conecta")}</p>
+      <ul class="footer-redes" role="list" aria-label={t("footer.redes")}>
         <li>
           <a href="https://www.facebook.com/ramirezmedellinfirma" target="_blank" rel="noopener noreferrer" class="footer-red">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -98,7 +93,7 @@ const accesos = [
              "Ramírez Medellín S.C. Contadores Públicos y Abogados" -->
       </ul>
       <div class="footer-afiliaciones">
-        <p class="footer-titulo-seccion" style="margin-top: calc(var(--espacio) * 3)">Firma filial</p>
+        <p class="footer-titulo-seccion" style="margin-top: calc(var(--espacio) * 3)">{t("footer.firmaFilial")}</p>
         <ul class="footer-badges" role="list">
           <li class="footer-badge footer-badge--logo">
             <img
@@ -121,9 +116,9 @@ const accesos = [
   <!-- Barra legal -->
   <div class="footer-legal">
     <div class="footer-legal-inner">
-      <p>© {anio} Ramírez Medellín, S.C. Todos los derechos reservados.</p>
+      <p>© {anio} Ramírez Medellín, S.C. {t("footer.derechos")}</p>
       <!-- TODO: redactar aviso de privacidad (obligatorio por LFPDPPP al tener formularios) -->
-      <a href={url("/aviso-de-privacidad")} class="footer-legal-link">Aviso de privacidad</a>
+      <a href={localizedUrl("/aviso-de-privacidad", lang)} class="footer-legal-link">{t("footer.aviso")}</a>
     </div>
   </div>
 </footer>
