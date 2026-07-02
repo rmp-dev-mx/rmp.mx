@@ -107,7 +107,7 @@ export const nosotros = {
       {
         area: "Desarrollo Humano",
         personas: [
-          { nombre: "Gabriela Guadalupe Ramírez González", credencial: "Licenciado en Psicología por la Universidad Marista de SLP · Maestrante en Psicoterapia Humanista · Experto en Desarrollo Humano y Organizacional", correo: "gaby@rmp.mx" },
+          { nombre: "Gabriela Guadalupe Ramírez González", credencial: "Licenciado en Psicología por la Universidad Marista de SLP · Maestra en Psicoterapia Humanista · Experto en Desarrollo Humano y Organizacional", correo: "gaby@rmp.mx" },
         ],
       },
     ],
@@ -215,7 +215,7 @@ export const nosotros = {
       {
         area: "Human Development",
         personas: [
-          { nombre: "Gabriela Guadalupe Ramírez González", credencial: "Psychology degree (Universidad Marista de SLP) · Master's candidate in Humanistic Psychotherapy · Expert in Human and Organizational Development", correo: "gaby@rmp.mx" },
+          { nombre: "Gabriela Guadalupe Ramírez González", credencial: "Psychology degree (Universidad Marista de SLP) · Master's in Humanistic Psychotherapy · Expert in Human and Organizational Development", correo: "gaby@rmp.mx" },
         ],
       },
     ],
