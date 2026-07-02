@@ -143,13 +143,30 @@ const iniciales = n.socioNombre
             <section class="equipo-grupo" aria-label={grupo.area}>
               <h3 class="dato equipo-area">{grupo.area}</h3>
               <ul class="equipo-lista" role="list">
-                {grupo.personas.map((p) => (
-                  <li class="persona">
-                    <p class="persona-nombre">{p.nombre}</p>
-                    <p class="persona-credencial">{p.credencial}</p>
-                    <a class="persona-correo" href={`mailto:${p.correo}`}>{p.correo}</a>
-                  </li>
-                ))}
+                {grupo.personas.map((p) => {
+                  // Foto opcional: se muestra sólo si la persona la trae en i18n.
+                  const foto = (p as { foto?: string }).foto;
+                  return (
+                    <li class:list={["persona", foto && "persona--foto"]}>
+                      {foto && (
+                        <img
+                          class="persona-foto"
+                          src={url(foto)}
+                          alt=""
+                          width="64"
+                          height="64"
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      )}
+                      <div>
+                        <p class="persona-nombre">{p.nombre}</p>
+                        <p class="persona-credencial">{p.credencial}</p>
+                        <a class="persona-correo" href={`mailto:${p.correo}`}>{p.correo}</a>
+                      </div>
+                    </li>
+                  );
+                })}
               </ul>
             </section>
           ))}
@@ -375,6 +392,21 @@ const iniciales = n.socioNombre
   .persona {
     padding: 16px 0;
     border-top: 1px solid var(--rm-linea);
+  }
+
+  .persona--foto {
+    display: grid;
+    grid-template-columns: 64px minmax(0, 1fr);
+    gap: 14px;
+    align-items: start;
+  }
+
+  .persona-foto {
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+    display: block;
+    background: var(--rm-papel);
   }
 
   .persona-nombre {
