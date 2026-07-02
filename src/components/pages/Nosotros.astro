@@ -56,7 +56,7 @@ const iniciales = n.socioNombre
     </section>
 
     <!-- ══════════════════════════════════════════════ PACIOLI ══ -->
-    <section class="filial" aria-labelledby="filial-titulo">
+    <section class="filial" aria-label={n.filialAlt}>
       <div class="marco filial-grid">
         <img
           class="filial-logo"
@@ -68,10 +68,7 @@ const iniciales = n.socioNombre
           decoding="async"
         />
         <div>
-          <h2 class="titulo-seccion" id="filial-titulo">
-            {n.filialTitulo[0]} {n.filialTitulo[1]}
-          </h2>
-          <p class="parrafo">
+          <p class="parrafo filial-texto">
             {n.filialDescPre}<strong>{n.filialDescStrong}</strong>{n.filialDescPost}
           </p>
           <!-- TODO: pedir al cliente el alcance y objeto de la filial -->
@@ -104,7 +101,12 @@ const iniciales = n.socioNombre
         </div>
 
         <ul class="valores" role="list" aria-label={n.valoresAria}>
-          {n.valores.map((v) => <li class="valor">{v}</li>)}
+          {n.valores.map((v) => (
+            <li class="valor">
+              <p class="valor-nombre">{v.nombre}</p>
+              <p class="valor-desc">{v.desc}</p>
+            </li>
+          ))}
         </ul>
       </div>
     </section>
@@ -178,6 +180,8 @@ const iniciales = n.socioNombre
     line-height: 1.65;
     color: var(--rm-tinta-2);
     max-width: 52ch;
+    text-align: justify;
+    hyphens: auto;
   }
 
   .parrafo strong { color: var(--rm-tinta); font-weight: 600; }
@@ -220,6 +224,8 @@ const iniciales = n.socioNombre
     align-items: start;
   }
 
+  .filial-texto { margin-top: 0; }
+
   .filial-logo {
     width: 220px;
     height: auto;
@@ -248,24 +254,36 @@ const iniciales = n.socioNombre
     font-size: 16px;
     line-height: 1.6;
     color: var(--rm-tinta-2);
+    text-align: justify;
+    hyphens: auto;
   }
 
   .valores {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px 12px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0 clamp(18px, 2.4vw, 34px);
     list-style: none;
     margin: clamp(30px, 3.6vw, 48px) 0 0;
     padding: 0;
   }
 
   .valor {
-    padding: 8px 14px;
-    border: 1px solid var(--rm-linea);
-    font-family: var(--rm-mono);
-    font-size: 11.5px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+    padding: 16px 0;
+    border-top: 1px solid var(--rm-linea);
+  }
+
+  .valor-nombre {
+    margin: 0 0 4px;
+    font-family: var(--rm-serif);
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 1.3;
+  }
+
+  .valor-desc {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.55;
     color: var(--rm-tinta-2);
   }
 
@@ -398,11 +416,13 @@ const iniciales = n.socioNombre
     .historia-grid { grid-template-columns: 1fr; }
     .historia-figura { aspect-ratio: 16 / 10; }
     .filial-grid { grid-template-columns: 1fr; }
+    .valores { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .equipo-grupo { grid-template-columns: 1fr; gap: 10px; }
   }
 
   @media (max-width: 560px) {
     .socio-grid { grid-template-columns: 1fr; }
+    .valores { grid-template-columns: 1fr; }
     .cita-texto { max-width: none; }
   }
 </style>
