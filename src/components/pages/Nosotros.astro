@@ -182,12 +182,28 @@ function iniciales(nombre: string): string {
             {area}
           </h3>
           <ul class="personas" role="list">
-            {personas.map(({ nombre, credencial, correo }, i) => (
+            {personas.map((p, i) => {
+              const { nombre, credencial, correo } = p;
+              // Si la persona tiene foto se muestra; si no, cae al monograma de iniciales.
+              const foto = (p as { foto?: string }).foto;
+              return (
               <li class="revela" style={`--retraso: ${i * 80}ms`}>
                 <article class="persona">
-                  <span class="persona-monograma" aria-hidden="true">
-                    {iniciales(nombre)}
-                  </span>
+                  {foto ? (
+                    <img
+                      class="persona-foto"
+                      src={url(foto)}
+                      alt={`Fotografía de ${nombre}`}
+                      width="56"
+                      height="56"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  ) : (
+                    <span class="persona-monograma" aria-hidden="true">
+                      {iniciales(nombre)}
+                    </span>
+                  )}
                   <div class="persona-datos">
                     <h4 class="persona-nombre">{nombre}</h4>
                     <p class="persona-credencial">{credencial}</p>
@@ -195,7 +211,8 @@ function iniciales(nombre: string): string {
                   </div>
                 </article>
               </li>
-            ))}
+              );
+            })}
           </ul>
         </div>
       ))}
@@ -697,6 +714,15 @@ function iniciales(nombre: string): string {
     font-weight: 600;
     font-size: 18px;
     border-radius: 50%;
+  }
+
+  .persona-foto {
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 1px solid var(--regla);
   }
 
   .persona-nombre {

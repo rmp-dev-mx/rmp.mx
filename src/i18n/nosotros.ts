@@ -68,6 +68,8 @@ export const nosotros = {
     ctaTitulo: ["Conozca cómo", "podemos ayudarle"],
     ctaAgenda: "Agenda una consulta",
 
+    // Fotos del equipo (opcional): agregar `foto: "/images/equipo/<archivo>.webp"`
+    // a la persona correspondiente. Si no hay foto, se muestra el monograma de iniciales.
     equipo: [
       {
         area: "Consultoría",
