@@ -25,11 +25,10 @@ export const nosotros = {
 
     filialEyebrow: "Firma filial",
     filialAlt: "Pacioli Asesores de Negocios, S.C.",
-    filialTitulo: ["Pacioli", "Asesores de Negocios"],
-    filialDescPre: "Pacioli Asesores de Negocios, S.C. es la firma filial de Ramírez Medellín. Su nombre honra a ",
+    filialDescPre: "Su nombre honra a ",
     filialDescStrong: "Luca Pacioli",
     filialDescPost:
-      ", considerado el padre de la contabilidad por partida doble. A través de ella acercamos a empresas y personas servicios especializados de asesoría y consultoría de negocios.",
+      ", considerado el padre de la contabilidad por partida doble. A través de esta firma filial acercamos a empresas y personas servicios especializados de asesoría y consultoría de negocios.",
     filialLink: "Conozca nuestra asesoría de negocios",
 
     mvvAria: "Misión, visión y valores",
@@ -43,7 +42,15 @@ export const nosotros = {
     filosofiaTexto:
       "Profesionales en constante actualización, comprometidos a prestar un servicio de la más alta calidad utilizando la mejor de las herramientas disponibles con base en la creatividad e innovación de nuestro personal.",
     valoresAria: "Valores",
-    valores: ["Confianza", "Responsabilidad", "Respeto", "Creatividad", "Innovación", "Calidad"],
+    // TODO: descripciones propuestas por el despacho; confirmar redacción con el cliente.
+    valores: [
+      { nombre: "Confianza", desc: "Cuidamos cada asunto con discreción y transparencia, para ser un aliado de largo plazo." },
+      { nombre: "Responsabilidad", desc: "Asumimos cada encargo con rigor y cumplimiento puntual de plazos y obligaciones." },
+      { nombre: "Respeto", desc: "Escuchamos y tratamos a cada cliente y colaborador con apertura y consideración." },
+      { nombre: "Creatividad", desc: "Buscamos soluciones a la medida, más allá de las respuestas convencionales." },
+      { nombre: "Innovación", desc: "Adoptamos las mejores herramientas y prácticas para servir con mayor precisión." },
+      { nombre: "Calidad", desc: "Trabajamos con estándares altos y atención al detalle en cada entregable." },
+    ],
 
     citaAria: "Cita institucional",
     citaTexto:
@@ -55,12 +62,7 @@ export const nosotros = {
       "Fundador de la firma en 1998 y de su filial Pacioli Asesores de Negocios, S.C.",
 
     equipoEyebrow: "Nuestro equipo",
-    equipoTitulo: ["Quienes llevan", "el registro"],
-
-    pacioliEyebrow: "Firma filial",
-    pacioliTitulo: ["Pacioli Asesores", "de Negocios, S.C."],
-    pacioliTexto:
-      "Nuestra firma filial lleva el nombre de Luca Pacioli, padre de la contabilidad por partida doble.",
+    equipoTitulo: ["Conoce a los profesionales", "que dan vida a nuestra filosofía"],
 
     ctaEyebrow: "Hablemos",
     ctaTitulo: ["Conozca cómo", "podemos ayudarle"],
@@ -70,28 +72,28 @@ export const nosotros = {
       {
         area: "Consultoría",
         personas: [
-          { nombre: "Marisela Elisea Martínez", credencial: "C.P. por la UASLP · Especialista en Impuestos", correo: "marisela@rmp.mx" },
+          { nombre: "Marisela Elisea Martínez", credencial: "Contador Público por la UASLP · Especialista en Impuestos", correo: "marisela@rmp.mx" },
         ],
       },
       {
         area: "Contabilidad",
         personas: [
-          { nombre: "Paola Guadalupe Guevara Moreno", credencial: "C.P. por la UASLP · Especialista en Impuestos", correo: "paola@rmp.mx" },
-          { nombre: "Yuliana Cerda Cerda", credencial: "Lic. en Contador Público por la Universidad Tangamanga", correo: "yuliana@rmp.mx" },
-          { nombre: "María Lucero Rodríguez Díaz", credencial: "Lic. en Contador Público por la Universidad Potosina", correo: "lucero.rodriguez@rmp.mx" },
+          { nombre: "Paola Guadalupe Guevara Moreno", credencial: "Contador Público por la UASLP · Especialista en Impuestos", correo: "paola@rmp.mx" },
+          { nombre: "Yuliana Cerda Cerda", credencial: "Contador Público por la Universidad Tangamanga", correo: "yuliana@rmp.mx" },
+          { nombre: "María Lucero Rodríguez Díaz", credencial: "Contador Público por la Universidad Potosina", correo: "lucero.rodriguez@rmp.mx" },
         ],
       },
       {
         area: "Auditoría",
         personas: [
-          { nombre: "Citlaly Reyes Jaime", credencial: "C.P. por la UASLP · Especialista en Auditoría", correo: "citlaly@rmp.mx" },
+          { nombre: "Citlaly Reyes Jaime", credencial: "Contador Público por la UASLP · Especialista en Auditoría", correo: "citlaly@rmp.mx" },
         ],
       },
       {
         area: "Legal",
         personas: [
-          { nombre: "Eugenia Eloisa Navarro González", credencial: "Lic. en Derecho por la UASLP", correo: "eugenia@rmp.mx" },
-          { nombre: "Alicia del Carmen Rocha Agundis", credencial: "Lic. en Derecho por la UASLP · Especialista en Justicia Administrativa (TFJA)", correo: "alicia.rocha@rmp.mx" },
+          { nombre: "Eugenia Eloisa Navarro González", credencial: "Licenciado en Derecho por la UASLP", correo: "eugenia@rmp.mx" },
+          { nombre: "Alicia del Carmen Rocha Agundis", credencial: "Licenciado en Derecho por la UASLP · Especialista en Justicia Administrativa (TFJA)", correo: "alicia.rocha@rmp.mx" },
         ],
       },
       {
@@ -103,7 +105,7 @@ export const nosotros = {
       {
         area: "Desarrollo Humano",
         personas: [
-          { nombre: "Gabriela Guadalupe Ramírez González", credencial: "Lic. en Psicología (Universidad Marista de SLP) · Maestrante en Psicoterapia Humanista · Experta en Desarrollo Humano y Organizacional", correo: "gaby@rmp.mx" },
+          { nombre: "Gabriela Guadalupe Ramírez González", credencial: "Licenciado en Psicología por la Universidad Marista de SLP · Maestrante en Psicoterapia Humanista · Experto en Desarrollo Humano y Organizacional", correo: "gaby@rmp.mx" },
         ],
       },
     ],
@@ -131,11 +133,10 @@ export const nosotros = {
 
     filialEyebrow: "Affiliate firm",
     filialAlt: "Pacioli Asesores de Negocios, S.C.",
-    filialTitulo: ["Pacioli", "Business Advisors"],
-    filialDescPre: "Pacioli Asesores de Negocios, S.C. is the affiliate firm of Ramírez Medellín. Its name honors ",
+    filialDescPre: "Its name honors ",
     filialDescStrong: "Luca Pacioli",
     filialDescPost:
-      ", regarded as the father of double-entry bookkeeping. Through it we bring companies and individuals specialized business advisory and consulting services.",
+      ", regarded as the father of double-entry bookkeeping. Through this affiliate firm we bring companies and individuals specialized business advisory and consulting services.",
     filialLink: "Discover our business advisory",
 
     mvvAria: "Mission, vision and values",
@@ -149,7 +150,15 @@ export const nosotros = {
     filosofiaTexto:
       "Continuously updated professionals, committed to delivering the highest-quality service using the best available tools, grounded in the creativity and innovation of our people.",
     valoresAria: "Values",
-    valores: ["Trust", "Responsibility", "Respect", "Creativity", "Innovation", "Quality"],
+    // TODO: proposed descriptions; confirm wording with the client.
+    valores: [
+      { nombre: "Trust", desc: "We handle every matter with discretion and transparency, to be a long-term ally." },
+      { nombre: "Responsibility", desc: "We take on each engagement with rigor and on-time compliance with deadlines and obligations." },
+      { nombre: "Respect", desc: "We listen to and treat every client and colleague with openness and consideration." },
+      { nombre: "Creativity", desc: "We seek tailored solutions beyond conventional answers." },
+      { nombre: "Innovation", desc: "We adopt the best tools and practices to serve with greater precision." },
+      { nombre: "Quality", desc: "We work to high standards with attention to detail in every deliverable." },
+    ],
 
     citaAria: "Institutional quote",
     citaTexto:
@@ -161,12 +170,7 @@ export const nosotros = {
       "Founder of the firm in 1998 and of its affiliate Pacioli Asesores de Negocios, S.C.",
 
     equipoEyebrow: "Our team",
-    equipoTitulo: ["The people who", "keep the books"],
-
-    pacioliEyebrow: "Affiliate firm",
-    pacioliTitulo: ["Pacioli Asesores", "de Negocios, S.C."],
-    pacioliTexto:
-      "Our affiliate firm bears the name of Luca Pacioli, the father of double-entry bookkeeping.",
+    equipoTitulo: ["Meet the professionals", "who bring our philosophy to life"],
 
     ctaEyebrow: "Let's talk",
     ctaTitulo: ["Find out how", "we can help you"],
@@ -176,21 +180,21 @@ export const nosotros = {
       {
         area: "Consulting",
         personas: [
-          { nombre: "Marisela Elisea Martínez", credencial: "CPA (UASLP) · Tax specialist", correo: "marisela@rmp.mx" },
+          { nombre: "Marisela Elisea Martínez", credencial: "Public Accountant, UASLP · Tax specialist", correo: "marisela@rmp.mx" },
         ],
       },
       {
         area: "Accounting",
         personas: [
-          { nombre: "Paola Guadalupe Guevara Moreno", credencial: "CPA (UASLP) · Tax specialist", correo: "paola@rmp.mx" },
-          { nombre: "Yuliana Cerda Cerda", credencial: "Public Accountant degree, Universidad Tangamanga", correo: "yuliana@rmp.mx" },
-          { nombre: "María Lucero Rodríguez Díaz", credencial: "Public Accountant degree, Universidad Potosina", correo: "lucero.rodriguez@rmp.mx" },
+          { nombre: "Paola Guadalupe Guevara Moreno", credencial: "Public Accountant, UASLP · Tax specialist", correo: "paola@rmp.mx" },
+          { nombre: "Yuliana Cerda Cerda", credencial: "Public Accountant, Universidad Tangamanga", correo: "yuliana@rmp.mx" },
+          { nombre: "María Lucero Rodríguez Díaz", credencial: "Public Accountant, Universidad Potosina", correo: "lucero.rodriguez@rmp.mx" },
         ],
       },
       {
         area: "Auditing",
         personas: [
-          { nombre: "Citlaly Reyes Jaime", credencial: "CPA (UASLP) · Auditing specialist", correo: "citlaly@rmp.mx" },
+          { nombre: "Citlaly Reyes Jaime", credencial: "Public Accountant, UASLP · Auditing specialist", correo: "citlaly@rmp.mx" },
         ],
       },
       {

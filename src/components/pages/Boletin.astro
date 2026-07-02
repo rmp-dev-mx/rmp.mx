@@ -1,7 +1,7 @@
 ---
 import Base from "@layouts/Base.astro";
 import InfografiaVisual from "@components/InfografiaVisual.astro";
-import { getLang, localizedUrl } from "../../i18n/utils";
+import { getLang } from "../../i18n/utils";
 import { getBoletin } from "../../i18n/boletin";
 
 const lang = getLang(Astro.currentLocale);
@@ -100,7 +100,8 @@ const resto = infografias.filter((i) => !i.destacada);
       </ul>
 
       <p class="feed-nota revela">
-        {b.feedNotaPre}<a href={localizedUrl("/contacto", lang)}>{b.feedNotaLink}</a>{b.feedNotaPost}
+        {b.feedNota}
+        <!-- TODO: definir mecanismo real de suscripción al boletín (Formspree/Resend/lista de correo) -->
       </p>
     </div>
   </section>

@@ -75,7 +75,7 @@ function iniciales(nombre: string): string {
   </section>
 
   <!-- ═══════════════════════════════ FIRMA FILIAL: PACIOLI ═══ -->
-  <section class="filial" aria-labelledby="filial-titulo">
+  <section class="filial" aria-label={n.filialAlt}>
     <div class="contenedor">
       <div class="filial-card revela">
         <div class="filial-logo">
@@ -90,9 +90,6 @@ function iniciales(nombre: string): string {
         </div>
         <div class="filial-texto">
           <p class="eyebrow">{n.filialEyebrow}</p>
-          <h2 id="filial-titulo" class="filial-titulo">
-            {n.filialTitulo[0]}<br />{n.filialTitulo[1]}
-          </h2>
           <p class="filial-desc">
             {n.filialDescPre}<strong>{n.filialDescStrong}</strong>{n.filialDescPost}
             <!-- TODO: confirmar con la firma el objeto/alcance oficial de Pacioli -->
@@ -112,28 +109,26 @@ function iniciales(nombre: string): string {
       <div class="doble-linea" aria-hidden="true"></div>
       <div class="mvv-grid">
         <article class="mvv-item revela">
-          <p class="mvv-folio" aria-hidden="true">M</p>
           <h3 class="mvv-titulo">{n.misionTitulo}</h3>
           <p class="mvv-texto">{n.misionTexto}</p>
         </article>
         <article class="mvv-item revela" style="--retraso: 100ms">
-          <p class="mvv-folio" aria-hidden="true">V</p>
           <h3 class="mvv-titulo">{n.visionTitulo}</h3>
           <p class="mvv-texto">{n.visionTexto}</p>
         </article>
         <article class="mvv-item revela" style="--retraso: 200ms">
-          <p class="mvv-folio" aria-hidden="true">F</p>
           <h3 class="mvv-titulo">{n.filosofiaTitulo}</h3>
           <p class="mvv-texto">{n.filosofiaTexto}</p>
         </article>
       </div>
 
-      <!-- Valores como cinta de asientos -->
+      <!-- Valores con descripción breve -->
       <ul class="valores" role="list" aria-label={n.valoresAria}>
         {n.valores.map((valor, i) => (
           <li class="valor revela" style={`--retraso: ${i * 70}ms`}>
             <span class="valor-num" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
-            {valor}
+            <h3 class="valor-nombre">{valor.nombre}</h3>
+            <p class="valor-desc">{valor.desc}</p>
           </li>
         ))}
       </ul>
@@ -204,25 +199,6 @@ function iniciales(nombre: string): string {
           </ul>
         </div>
       ))}
-    </div>
-  </section>
-
-  <!-- ═══════════════════════════════ PACIOLI ═══ -->
-  <section class="pacioli" aria-labelledby="pacioli-titulo">
-    <div class="contenedor">
-      <div class="pacioli-inner revela">
-        <div>
-          <p class="eyebrow">{n.pacioliEyebrow}</p>
-          <h2 id="pacioli-titulo" class="pacioli-titulo">
-            {n.pacioliTitulo[0]}<br />{n.pacioliTitulo[1]}
-          </h2>
-          <p class="pacioli-texto">
-            {n.pacioliTexto}
-            <!-- TODO: pedir al cliente logo vectorial y descripción de Pacioli -->
-          </p>
-        </div>
-        <p class="pacioli-año" aria-hidden="true">1494</p>
-      </div>
     </div>
   </section>
 
@@ -404,6 +380,8 @@ function iniciales(nombre: string): string {
     flex-direction: column;
     gap: calc(var(--espacio) * 2.5);
     margin-top: calc(var(--espacio) * 3);
+    text-align: justify;
+    hyphens: auto;
   }
 
   .historia-texto strong { color: var(--tinta); }
@@ -446,24 +424,16 @@ function iniciales(nombre: string): string {
   }
   .filial-logo img {
     width: 100%;
-    max-width: 320px;
+    max-width: 240px;
     height: auto;
-  }
-
-  .filial-titulo {
-    font-family: var(--fuente-display);
-    font-weight: 500;
-    font-size: clamp(28px, 3.4vw, 44px);
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    color: var(--tinta);
-    margin: calc(var(--espacio) * 1.5) 0 calc(var(--espacio) * 2.5);
   }
 
   .filial-desc {
     font-size: 16px;
     line-height: 1.75;
     color: var(--pizarra);
+    text-align: justify;
+    hyphens: auto;
     margin: 0 0 calc(var(--espacio) * 3);
   }
   .filial-desc strong { color: var(--tinta); }
@@ -498,17 +468,6 @@ function iniciales(nombre: string): string {
     margin-bottom: calc(var(--espacio) * 10);
   }
 
-  .mvv-folio {
-    font-family: var(--fuente-display);
-    font-style: italic;
-    font-size: clamp(48px, 5vw, 72px);
-    line-height: 1;
-    color: transparent;
-    -webkit-text-stroke: 1px var(--oro);
-    margin-bottom: calc(var(--espacio) * 2);
-    opacity: 0.8;
-  }
-
   .mvv-titulo {
     font-family: var(--fuente-display);
     font-weight: 600;
@@ -521,25 +480,22 @@ function iniciales(nombre: string): string {
     font-size: 15px;
     line-height: 1.7;
     color: rgb(250 247 240 / 0.6);
+    text-align: justify;
+    hyphens: auto;
   }
 
   .valores {
     list-style: none;
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: calc(var(--espacio) * 1.5);
   }
 
   .valor {
-    display: inline-flex;
-    align-items: center;
-    gap: calc(var(--espacio) * 1.25);
-    padding: calc(var(--espacio) * 1.25) calc(var(--espacio) * 2.5);
+    display: block;
+    padding: calc(var(--espacio) * 3);
     border: 1px solid rgb(216 210 196 / 0.2);
     border-radius: var(--radio);
-    font-family: var(--fuente-texto);
-    font-size: 15px;
-    font-weight: 500;
     color: var(--papel);
     transition: border-color 0.2s ease;
   }
@@ -547,10 +503,27 @@ function iniciales(nombre: string): string {
   .valor:hover { border-color: var(--oro); }
 
   .valor-num {
+    display: block;
     font-family: var(--fuente-datos);
     font-size: 11px;
     color: var(--oro);
     font-variant-numeric: tabular-nums;
+    margin-bottom: calc(var(--espacio) * 1.25);
+  }
+
+  .valor-nombre {
+    font-family: var(--fuente-display);
+    font-weight: 600;
+    font-size: 18px;
+    color: var(--papel);
+    margin: 0 0 calc(var(--espacio) * 0.75);
+  }
+
+  .valor-desc {
+    font-size: 14px;
+    line-height: 1.6;
+    color: rgb(250 247 240 / 0.6);
+    margin: 0;
   }
 
   /* ═══════ CITA ═══════ */
@@ -651,6 +624,8 @@ function iniciales(nombre: string): string {
     line-height: 1.7;
     color: rgb(250 247 240 / 0.6);
     max-width: 540px;
+    text-align: justify;
+    hyphens: auto;
   }
 
   /* ═══════ EQUIPO ═══════ */
@@ -750,50 +725,6 @@ function iniciales(nombre: string): string {
 
   .persona-correo:hover { text-decoration: underline; }
 
-  /* ═══════ PACIOLI ═══════ */
-  .pacioli {
-    background: var(--blanco);
-    border-block: 1px solid var(--regla);
-    padding-block: calc(var(--espacio) * 12);
-    overflow: hidden;
-  }
-
-  .pacioli-inner {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: calc(var(--espacio) * 6);
-    align-items: center;
-  }
-
-  .pacioli-titulo {
-    font-family: var(--fuente-display);
-    font-weight: 500;
-    font-size: clamp(28px, 3.5vw, 44px);
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    color: var(--tinta);
-    margin: 0 0 calc(var(--espacio) * 2);
-  }
-
-  .pacioli-texto {
-    font-size: 16px;
-    line-height: 1.7;
-    color: var(--pizarra);
-    max-width: 480px;
-  }
-
-  .pacioli-año {
-    font-family: var(--fuente-datos);
-    font-size: clamp(64px, 9vw, 112px);
-    font-weight: 500;
-    line-height: 1;
-    color: transparent;
-    -webkit-text-stroke: 1px var(--regla);
-    font-variant-numeric: tabular-nums;
-    letter-spacing: -0.04em;
-    user-select: none;
-  }
-
   /* ═══════ CTA ═══════ */
   .cta {
     background-color: var(--tinta);
@@ -846,6 +777,7 @@ function iniciales(nombre: string): string {
   @media (max-width: 1023px) {
     .historia-grid { grid-template-columns: 1fr; gap: calc(var(--espacio) * 4); }
     .mvv-grid { grid-template-columns: 1fr; gap: calc(var(--espacio) * 5); }
+    .valores { grid-template-columns: repeat(2, 1fr); }
     .filial-card { grid-template-columns: 1fr; gap: calc(var(--espacio) * 5); padding: calc(var(--espacio) * 5); }
     .filial-logo {
       border-inline-end: none;
@@ -853,11 +785,13 @@ function iniciales(nombre: string): string {
       padding-block-end: calc(var(--espacio) * 4);
       border-block-end: 1px solid var(--regla);
     }
-    .filial-logo img { max-width: 280px; }
+    .filial-logo img { max-width: 220px; }
   }
 
   @media (max-width: 767px) {
     .contenedor { padding-inline: calc(var(--espacio) * 2); }
+
+    .valores { grid-template-columns: 1fr; }
 
     .socio-grid {
       grid-template-columns: 1fr;
@@ -866,9 +800,6 @@ function iniciales(nombre: string): string {
     }
 
     .personas { grid-template-columns: 1fr; }
-
-    .pacioli-inner { grid-template-columns: 1fr; }
-    .pacioli-año { display: none; }
 
     .cta-inner { grid-template-columns: 1fr; }
     .cta-accion { align-items: flex-start; }

@@ -27,9 +27,8 @@ export const boletin = {
     feedAria: "Infografías del boletín",
     firmaDestacada: "Resumen con IA · revisado por la firma",
     firmaCard: "Resumen con IA · revisado",
-    feedNotaPre: "¿Le interesa recibir Resiliencia? ",
-    feedNotaLink: "Escríbanos",
-    feedNotaPost: " y con gusto le incluimos en la distribución.",
+    feedNota:
+      "¿Le interesa recibir Resiliencia? Suscríbase a nuestro boletín y reciba información, análisis y novedades de interés directamente en su correo electrónico.",
 
     infografias: [
       {
@@ -120,9 +119,8 @@ export const boletin = {
     feedAria: "Bulletin infographics",
     firmaDestacada: "AI summary · reviewed by the firm",
     firmaCard: "AI summary · reviewed",
-    feedNotaPre: "Interested in receiving Resiliencia? ",
-    feedNotaLink: "Write to us",
-    feedNotaPost: " and we'll gladly add you to the distribution list.",
+    feedNota:
+      "Interested in receiving Resiliencia? Subscribe to our bulletin and receive information, analysis and news of interest directly in your inbox.",
 
     infografias: [
       {
