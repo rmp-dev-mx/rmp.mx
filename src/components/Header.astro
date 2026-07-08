@@ -29,7 +29,7 @@ function isActive(href: string): boolean {
       <LogoMarca class="logo-svg" />
       <span class="logo-texto">
         <span class="logo-firma">Ramírez Medellín</span>
-        <span class="logo-sc">S.C.</span>
+        <span class="logo-giro">{t("header.tagline")}</span>
       </span>
     </a>
 
@@ -148,13 +148,14 @@ function isActive(href: string): boolean {
     letter-spacing: -0.01em;
   }
 
-  .logo-sc {
+  .logo-giro {
     font-family: var(--fuente-datos);
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 500;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.05em;
     color: var(--oro);
     text-transform: uppercase;
+    white-space: nowrap;
   }
 
   /* ── Nav ── */

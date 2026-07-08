@@ -22,6 +22,7 @@ export const ui = {
     "banner.enPrep":
       "La versión en inglés de esta página está en preparación; por ahora se muestra en español.",
 
+    "header.tagline": "Contadores Públicos y Abogados",
     "footer.tagline": "Contadores Públicos y Abogados desde 1998",
     "footer.sitioWeb": "Sitio web",
     "footer.accesos": "Accesos",
@@ -50,6 +51,7 @@ export const ui = {
     "banner.enPrep":
       "The English version of this page is in preparation; it is shown in Spanish for now.",
 
+    "header.tagline": "Public Accountants & Attorneys",
     "footer.tagline": "Public Accountants & Attorneys since 1998",
     "footer.sitioWeb": "Site map",
     "footer.accesos": "Quick links",
