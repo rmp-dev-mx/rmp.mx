@@ -30,7 +30,7 @@ const accesos = [
       <a href={localizedUrl("/", lang)} class="footer-logo">
         <img
           class="footer-logo-marca"
-          src={url("/images/logo-rmp-claro.webp")}
+          src={url("/images/rmp-noLetras.svg")}
           alt=""
           width="156"
           height="120"
@@ -98,10 +98,10 @@ const accesos = [
           <li class="footer-badge footer-badge--logo">
             <img
               class="badge-logo"
-              src={url("/images/logo-pacioli.webp")}
+              src={url("/images/pacioli-noLetras.svg")}
               alt=""
-              width="128"
-              height="120"
+              width="130"
+              height="100"
               decoding="async"
               loading="lazy"
             />
@@ -154,6 +154,8 @@ const accesos = [
     height: 38px;
     width: auto;
     flex-shrink: 0;
+    /* Silueta papel: el emblema a color no contrasta sobre el footer tinta. */
+    filter: brightness(0) invert(1);
   }
 
   .footer-logo-texto {
@@ -298,6 +300,8 @@ const accesos = [
     height: 30px;
     width: auto;
     flex-shrink: 0;
+    /* Silueta papel: el emblema Pacioli a color no contrasta sobre tinta. */
+    filter: brightness(0) invert(1);
   }
 
   .badge-texto {

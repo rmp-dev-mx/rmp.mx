@@ -82,8 +82,8 @@ function iniciales(nombre: string): string {
           <img
             src={url("/images/pacioli.svg")}
             alt={n.filialAlt}
-            width="3196"
-            height="1256"
+            width="3300"
+            height="930"
             decoding="async"
             loading="lazy"
           />
@@ -150,7 +150,7 @@ function iniciales(nombre: string): string {
     <div class="contenedor">
       <div class="socio-grid revela">
         <div class="socio-monograma" aria-hidden="true">
-          <img class="socio-marca" src={url("/images/logo-rmp-emblema.webp")} alt="" width="560" height="560" decoding="async" loading="lazy" />
+          <img class="socio-marca" src={url("/images/rmp-noLetras.svg")} alt="" width="560" height="429" decoding="async" loading="lazy" />
           <span class="socio-iniciales">JR</span>
         </div>
         <div>
@@ -429,7 +429,7 @@ function iniciales(nombre: string): string {
     background: var(--blanco);
     border: 1px solid var(--regla);
     border-radius: var(--radio);
-    padding: calc(var(--espacio) * 7);
+    padding: calc(var(--espacio) * 5) calc(var(--espacio) * 7);
   }
 
   .filial-logo {
@@ -441,7 +441,7 @@ function iniciales(nombre: string): string {
   }
   .filial-logo img {
     width: 100%;
-    max-width: 240px;
+    max-width: 340px;
     height: auto;
   }
 
@@ -617,6 +617,8 @@ function iniciales(nombre: string): string {
     width: 70%;
     height: auto;
     opacity: 0.12;
+    /* Silueta papel: watermark sobre la sección tinta (.fondo-oscuro). */
+    filter: brightness(0) invert(1);
   }
 
   .socio-iniciales {
@@ -811,7 +813,7 @@ function iniciales(nombre: string): string {
       padding-block-end: calc(var(--espacio) * 4);
       border-block-end: 1px solid var(--regla);
     }
-    .filial-logo img { max-width: 220px; }
+    .filial-logo img { max-width: 260px; }
   }
 
   @media (max-width: 767px) {

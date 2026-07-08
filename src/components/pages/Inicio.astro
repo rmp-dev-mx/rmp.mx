@@ -55,7 +55,7 @@ const marquee = h.marquee;
           <circle class="anillo anillo-2" cx="240" cy="240" r="196" />
           <circle class="anillo anillo-3" cx="240" cy="240" r="148" />
         </svg>
-        <img class="emblema-marca" src={url("/images/logo-rmp-emblema.webp")} alt="" width="560" height="560" decoding="async" />
+        <img class="emblema-marca" src={url("/images/rmp-noLetras.svg")} alt="" width="560" height="429" decoding="async" />
         <div class="emblema-centro">
           <span class="emblema-num" id="emblema-num" data-fin="28">00</span>
           <span class="emblema-label">{h.emblemaAnios}</span>
@@ -454,6 +454,8 @@ const marquee = h.marquee;
     width: 58%;
     height: auto;
     opacity: 0.1;
+    /* Silueta papel: watermark sobre el hero tinta. */
+    filter: brightness(0) invert(1);
     animation: marca-gira 90s linear infinite;
   }
 
