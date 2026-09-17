@@ -84,16 +84,20 @@ function isActive(href: string): boolean {
 <style>
   /* ── Variables de estado del header ── */
   .site-header {
-    --h-bg: var(--papel);
-    --h-color: var(--tinta);
-    --h-border: var(--regla);
+    --h-bg: var(--pl-piedra-alta);
+    --h-color: var(--pl-azul);
+    --h-border: rgb(7 55 109 / 0.18);
+    --h-acento: var(--pl-azul);
+    --h-tenue: #44536a; /* 6.75:1 sobre la piedra */
+    --foco: var(--pl-azul);
   }
   .site-header.scrolled {
-    --h-bg: var(--tinta);
-    --h-color: var(--papel);
+    --h-bg: var(--pl-azul-hondo);
+    --h-color: var(--pl-piedra-alta);
     --h-border: transparent;
-    --oro: var(--oro-claro); /* contraste AA del oro sobre tinta */
-    --oro-contraste: var(--tinta);
+    --h-acento: var(--pl-azul-claro);
+    --h-tenue: #a9c4e2; /* 8.61:1 sobre la placa oscura */
+    --foco: var(--pl-azul-claro);
   }
 
   .site-header {
@@ -142,18 +146,18 @@ function isActive(href: string): boolean {
   }
 
   .logo-firma {
-    font-family: var(--fuente-display);
+    font-family: var(--pl-display);
     font-weight: 600;
-    font-size: 17px;
-    letter-spacing: -0.01em;
+    font-size: 16px;
+    letter-spacing: 0.02em;
   }
 
   .logo-sc {
-    font-family: var(--fuente-datos);
+    font-family: var(--pl-texto);
     font-size: 10px;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    color: var(--oro);
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    color: var(--h-acento);
     text-transform: uppercase;
   }
 
@@ -171,8 +175,8 @@ function isActive(href: string): boolean {
   .nav-link {
     display: block;
     padding: 6px calc(var(--espacio) * 1.25);
-    font-family: var(--fuente-texto);
-    font-size: 17px;
+    font-family: var(--pl-texto);
+    font-size: 16px;
     font-weight: 500;
     text-decoration: none;
     color: inherit;
@@ -180,12 +184,13 @@ function isActive(href: string): boolean {
     transition: color 0.15s ease;
   }
 
-  .nav-link:hover,
-  .nav-link--activo {
-    color: var(--oro);
-  }
+  .nav-link:hover { color: var(--h-acento); }
 
-  .nav-link--activo { font-weight: 700; }
+  .nav-link--activo {
+    color: var(--h-acento);
+    font-weight: 700;
+    box-shadow: inset 0 -2px 0 currentColor;
+  }
 
   /* ── Selector de idioma ── */
   .lang-switch {
@@ -193,26 +198,26 @@ function isActive(href: string): boolean {
     align-items: center;
     gap: 4px;
     flex-shrink: 0;
-    font-family: var(--fuente-datos);
+    font-family: var(--pl-texto);
     font-size: 13px;
-    font-weight: 500;
+    font-weight: 600;
+    letter-spacing: 0.08em;
   }
 
   .lang-opt {
-    color: var(--h-color);
-    opacity: 0.5;
+    color: var(--h-tenue);
+    font-weight: 500;
     text-decoration: none;
     padding: 4px 5px;
     border-radius: var(--radio);
-    transition: opacity 0.15s ease, color 0.15s ease;
+    transition: color 0.15s ease;
   }
-  .lang-opt:hover { opacity: 1; color: var(--oro); }
-  .lang-opt--activo { opacity: 1; color: var(--oro); font-weight: 700; }
-  .lang-opt:focus-visible { outline: 2px solid var(--oro); outline-offset: 2px; }
+  .lang-opt:hover { color: var(--h-acento); }
+  .lang-opt--activo { color: var(--h-acento); font-weight: 700; }
+  .lang-opt:focus-visible { outline: 2px solid var(--h-acento); outline-offset: 2px; }
 
   .lang-sep {
-    color: var(--h-color);
-    opacity: 0.3;
+    color: var(--h-tenue);
   }
 
   /* ── Hamburguesa ── */
@@ -298,6 +303,19 @@ function isActive(href: string): boolean {
     .nav-menu.nav-menu--open { display: flex; }
 
     .nav-link { font-size: 17px; padding: 10px calc(var(--espacio) * 1.5); }
+
+    /* Cinzel es más ancho que la sans anterior: el logotipo cede espacio
+       para que el botón de menú no se salga de la pantalla en 360px */
+    .logo { min-width: 0; }
+    .logo-svg { height: 30px; }
+    .logo-texto { min-width: 0; overflow: hidden; }
+    .logo-firma { font-size: 13px; white-space: nowrap; }
+    .logo-sc { display: none; }
+  }
+
+  /* Por debajo de 400px sólo cabe la marca; el nombre lo lleva el H1 */
+  @media (max-width: 400px) {
+    .logo-texto { display: none; }
 
     .lang-switch { margin-left: auto; }
     .nav-toggle { display: flex; margin-left: var(--espacio); }

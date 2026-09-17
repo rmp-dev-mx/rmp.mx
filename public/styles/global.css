@@ -24,11 +24,59 @@
   --sombra: 0 1px 2px rgb(22 36 58 / 0.06), 0 8px 24px rgb(22 36 58 / 0.07);
 }
 
+/* ═══════════════════════════════════════════════════════════════
+   Mundo visual "La placa del despacho" (semilla f4d4fdab).
+   El azul y los grises salen del logo entregado por el cliente.
+   La profundidad es geometría: cuatro caras mitradas con tono
+   propio (border-color), nunca una sombra difusa haciendo de canto.
+   Prefijo --pl- mientras las otras 7 páginas siguen en el mundo
+   anterior; al migrarlas, estos tokens sustituyen a los de arriba.
+   ═══════════════════════════════════════════════════════════════ */
+:root {
+  --pl-azul: #07376d; /* tinta de grabado, del logo rmp.svg */
+  --pl-azul-hondo: #04244a;
+  --pl-azul-noche: #061c3a;
+  --pl-azul-alto: #0a4381;
+  --pl-azul-claro: #9cc0e8; /* 8.2:1 sobre placa oscura */
+  --pl-azul-tenue: #c2d4e8; /* 10.2:1 sobre placa oscura */
+  --pl-piedra: #e7e1d9; /* cantera: campo de la página */
+  --pl-piedra-honda: #d6cdc0;
+  --pl-piedra-alta: #f2eee8;
+  --pl-grafito: #43454b; /* texto secundario: 6.09:1 en el peor punto */
+  --pl-grafito-claro: #4f5157; /* etiquetas de 11px: 5.04:1 en el peor punto */
+  --pl-naranja: #f79412; /* solo donde habla Pacioli */
+
+  --pl-display: "Cinzel", "Times New Roman", serif;
+  --pl-texto: "Libre Franklin", system-ui, sans-serif;
+
+  /* Canto de placa oscura: cara de arriba iluminada, la de abajo en sombra */
+  --pl-canto-oscuro: #1d5ea3 #05294f #03162c #0b3f78;
+  --pl-canto-oscuro-hundido: #03162c #0b3f78 #1d5ea3 #05294f;
+  /* Canto de placa clara */
+  --pl-canto-claro: #fffdf9 #c8bfaf #b4a895 #f4efe7;
+  --pl-canto-claro-hundido: #b4a895 #f4efe7 #fffdf9 #c8bfaf;
+  /* Apoyo en el muro: desplazamiento y desenfoque reales */
+  --pl-apoyo: 0 10px 18px -8px rgb(4 36 74 / 0.45);
+  --pl-apoyo-corto: 0 4px 9px -5px rgb(4 36 74 / 0.4);
+}
+
+/* Superficies del navegador: selección, cursor y barra, en la paleta */
+::selection {
+  background: var(--pl-azul);
+  color: var(--pl-piedra-alta);
+}
+
+:root {
+  scrollbar-color: var(--pl-grafito-claro) var(--pl-piedra-honda);
+  caret-color: var(--pl-azul);
+}
+
 /* Sobre fondos oscuros el oro sube de luminancia para cumplir AA
    en texto pequeño (eyebrows, folios, etiquetas mono) */
 .fondo-oscuro {
   --oro: var(--oro-claro);
   --oro-contraste: var(--tinta);
+  --foco: var(--oro-claro);
 }
 
 /* Reset mínimo */
@@ -66,9 +114,10 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Foco visible — outline oro en todo elemento interactivo */
+/* Foco visible — cada superficie declara su color; el oro sólo
+   sobrevive en las páginas que aún no migran (.fondo-oscuro) */
 :focus-visible {
-  outline: 2px solid var(--oro);
+  outline: 2px solid var(--foco, var(--pl-azul));
   outline-offset: 2px;
 }
 

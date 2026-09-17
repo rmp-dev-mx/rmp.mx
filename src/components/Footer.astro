@@ -98,10 +98,10 @@ const accesos = [
           <li class="footer-badge footer-badge--logo">
             <img
               class="badge-logo"
-              src={url("/images/logo-pacioli.webp")}
+              src={url("/images/pacioli.svg")}
               alt=""
-              width="128"
-              height="120"
+              width="150"
+              height="46"
               decoding="async"
               loading="lazy"
             />
@@ -117,18 +117,21 @@ const accesos = [
   <div class="footer-legal">
     <div class="footer-legal-inner">
       <p>© {anio} Ramírez Medellín, S.C. {t("footer.derechos")}</p>
-      <!-- TODO: redactar aviso de privacidad (obligatorio por LFPDPPP al tener formularios) -->
-      <a href={localizedUrl("/aviso-de-privacidad", lang)} class="footer-legal-link">{t("footer.aviso")}</a>
+      <!-- TODO: redactar el aviso de privacidad (obligatorio por LFPDPPP al tener
+           formularios). Mientras no exista la página, se anuncia como pendiente:
+           un enlace a una ruta inexistente es peor que decir la verdad. -->
+      <p class="footer-legal-pendiente">{t("footer.aviso")} · {t("footer.avisoPendiente")}</p>
     </div>
   </div>
 </footer>
 
 <style>
   .site-footer {
-    background: var(--tinta);
-    color: var(--papel);
-    --oro: var(--oro-claro); /* contraste AA del oro sobre tinta */
-    --oro-contraste: var(--tinta);
+    background: linear-gradient(170deg, var(--pl-azul-hondo) 0%, #061c3a 100%);
+    color: var(--pl-piedra-alta);
+    --f-acento: var(--pl-azul-claro);
+    --oro-contraste: var(--pl-azul-hondo);
+    --foco: var(--pl-azul-claro);
   }
 
   .footer-inner {
@@ -163,26 +166,26 @@ const accesos = [
   }
 
   .footer-logo-firma {
-    font-family: var(--fuente-display);
+    font-family: var(--pl-display);
     font-weight: 600;
     font-size: 15px;
     letter-spacing: -0.01em;
   }
 
   .footer-logo-sc {
-    font-family: var(--fuente-datos);
+    font-family: var(--pl-texto);
     font-size: 9px;
     font-weight: 500;
     letter-spacing: 0.1em;
-    color: var(--oro);
+    color: var(--f-acento);
     text-transform: uppercase;
   }
 
   .footer-tagline {
-    font-family: var(--fuente-datos);
+    font-family: var(--pl-texto);
     font-size: 13px;
     font-weight: 400;
-    color: rgb(250 247 240 / 0.6);
+    color: rgb(242 238 232 / 0.6);
     margin-bottom: calc(var(--espacio) * 2.5);
     line-height: 1.4;
   }
@@ -192,7 +195,7 @@ const accesos = [
     font-style: normal;
     font-size: 15.5px;
     line-height: 1.65;
-    color: rgb(250 247 240 / 0.78);
+    color: rgb(242 238 232 / 0.78);
     display: flex;
     flex-direction: column;
     gap: calc(var(--espacio) * 1.5);
@@ -207,26 +210,26 @@ const accesos = [
 
   .footer-telefonos a,
   .footer-email {
-    font-family: var(--fuente-datos);
+    font-family: var(--pl-texto);
     font-size: 14.5px;
-    color: rgb(250 247 240 / 0.85);
+    color: rgb(242 238 232 / 0.85);
     text-decoration: none;
     transition: color 0.15s ease;
   }
 
   .footer-telefonos a:hover,
   .footer-email:hover {
-    color: var(--oro);
+    color: var(--f-acento);
   }
 
   /* --- Encabezados de sección --- */
   .footer-titulo-seccion {
-    font-family: var(--fuente-datos);
+    font-family: var(--pl-texto);
     font-size: 11px;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: var(--oro);
+    color: var(--f-acento);
     margin-bottom: calc(var(--espacio) * 2);
   }
 
@@ -240,14 +243,14 @@ const accesos = [
 
   .footer-links a {
     font-size: 15.5px;
-    color: rgb(250 247 240 / 0.78);
+    color: rgb(242 238 232 / 0.78);
     text-decoration: none;
     line-height: 1.85;
     transition: color 0.15s ease;
   }
 
   .footer-links a:hover {
-    color: var(--papel);
+    color: var(--pl-piedra-alta);
   }
 
   /* --- Redes sociales --- */
@@ -263,14 +266,14 @@ const accesos = [
     align-items: center;
     gap: var(--espacio);
     font-size: 14px;
-    color: rgb(250 247 240 / 0.75);
+    color: rgb(242 238 232 / 0.75);
     text-decoration: none;
     padding: 4px 0;
     transition: color 0.15s ease;
   }
 
   .footer-red:hover {
-    color: var(--oro);
+    color: var(--f-acento);
   }
 
   /* --- Badges de afiliación --- */
@@ -283,7 +286,7 @@ const accesos = [
 
   .footer-badge {
     padding: var(--espacio) calc(var(--espacio) * 1.5);
-    border: 1px solid rgb(250 247 240 / 0.12);
+    border: 1px solid rgb(242 238 232 / 0.12);
     border-radius: var(--radio);
     display: inline-block;
   }
@@ -294,29 +297,38 @@ const accesos = [
     gap: calc(var(--espacio) * 1.5);
   }
 
+  /* El vectorial de Pacioli es tinta oscura: necesita su propia placa clara */
   .badge-logo {
-    height: 30px;
+    height: 26px;
     width: auto;
     flex-shrink: 0;
+    padding: 7px 10px;
+    border-radius: 2px;
+    background: var(--pl-piedra-alta);
+    box-sizing: content-box;
   }
 
   .badge-texto {
-    font-family: var(--fuente-datos);
+    font-family: var(--pl-texto);
     font-size: 12px;
     font-weight: 500;
-    color: rgb(250 247 240 / 0.85);
+    color: rgb(242 238 232 / 0.85);
     line-height: 1.5;
   }
 
   .badge-sub {
     font-size: 10px;
     font-weight: 400;
-    color: rgb(250 247 240 / 0.7); /* AA sobre tinta */
+    color: rgb(242 238 232 / 0.7); /* AA sobre tinta */
+  }
+
+  .footer-legal-pendiente {
+    color: rgb(242 238 232 / 0.6);
   }
 
   /* --- Barra legal --- */
   .footer-legal {
-    border-top: 1px solid rgb(250 247 240 / 0.1);
+    border-top: 1px solid rgb(242 238 232 / 0.1);
   }
 
   .footer-legal-inner {
@@ -327,20 +339,20 @@ const accesos = [
     max-width: var(--ancho-max);
     margin: 0 auto;
     padding: calc(var(--espacio) * 2.5) calc(var(--espacio) * 3);
-    font-family: var(--fuente-datos);
+    font-family: var(--pl-texto);
     font-size: 12px;
-    color: rgb(250 247 240 / 0.65); /* AA sobre tinta */
+    color: rgb(242 238 232 / 0.65); /* AA sobre tinta */
   }
 
   .footer-legal-link {
-    color: rgb(250 247 240 / 0.65);
+    color: rgb(242 238 232 / 0.65);
     text-decoration: none;
     transition: color 0.15s ease;
     white-space: nowrap;
   }
 
   .footer-legal-link:hover {
-    color: rgb(250 247 240 / 0.8);
+    color: rgb(242 238 232 / 0.8);
   }
 
   /* --- Responsive --- */
