@@ -8,388 +8,263 @@ import { getContacto } from "../../i18n/contacto";
 const lang = getLang(Astro.currentLocale);
 const c = getContacto(lang);
 
-// TODO: el cliente desconoce cuáles de los 3 teléfonos están habilitados; confirmar.
 const telefonos = [
   { num: "444-833-40-98", tel: "+524448334098" },
   { num: "444-833-40-99", tel: "+524448334099" },
   { num: "444-211-60-00", tel: "+524442116000" },
 ];
 
-// Embed corregido (el original tenía la URL malformada con saltos de línea)
 const mapaSrc =
   "https://www.google.com/maps?q=Calle+Francisco+Pe%C3%B1a+245,+Las+%C3%81guilas+3ra+Secci%C3%B3n,+San+Luis+Potos%C3%AD,+S.L.P.&output=embed";
 ---
 
-<Base title={c.metaTitle} description={c.metaDesc} translated={true}>
+<Base title={c.metaTitle} description={c.metaDesc} translated={true} fuentes="nuevo">
+  <div class="mundo">
 
-  <!-- ═══════════════════════════════ HERO ═══ -->
-  <section class="phero fondo-oscuro">
-    <img
-      class="phero-fondo"
-      src={url("/images/fotos/contacto-oficina.webp")}
-      alt=""
-      width="2400"
-      height="1600"
-      loading="eager"
-      fetchpriority="high"
-      decoding="async"
-    />
-    <div class="phero-velo" aria-hidden="true"></div>
-    <div class="phero-lineas" aria-hidden="true"></div>
-    <div class="contenedor phero-inner">
-      <p class="eyebrow phero-anim-1">
-        <span class="eyebrow-linea" aria-hidden="true"></span>
-        {c.heroEyebrow}
-      </p>
-      <h1 class="phero-h1 phero-anim-2">
-        {c.heroH1[0]}<br />
-        <em class="texto-oro">{c.heroH1[1]}</em>
-      </h1>
-      <p class="phero-sub phero-anim-3">{c.heroSub}</p>
-    </div>
-  </section>
+    <!-- ═════════════════════════════════════════════ PORTADA ══ -->
+    <section class="cabecera" aria-labelledby="titulo">
+      <div class="cabecera-texto">
+        <h1 class="titular" id="titulo">{c.heroH1[0]}<br />{c.heroH1[1]}</h1>
+        <p class="cabecera-sub">{c.heroSub}</p>
+      </div>
 
-  <!-- ═══════════════════════ FORMULARIO + DATOS ═══ -->
-  <section class="contacto" aria-label={c.seccionAria}>
-    <div class="contenedor">
-      <div class="contacto-grid">
+      <figure class="cabecera-figura">
+        <img
+          src={url("/images/fotos/contacto-oficina.webp")}
+          alt=""
+          width="2528"
+          height="1696"
+          fetchpriority="high"
+          decoding="async"
+        />
+      </figure>
+    </section>
 
-        <!-- Asistente de contacto guiado -->
-        <div class="form-col revela">
+    <!-- ═════════════════════════════════ ASISTENTE + DATOS ══ -->
+    <section class="cuerpo" aria-label={c.seccionAria}>
+      <div class="marco cuerpo-grid">
+
+        <div class="columna-asistente">
           <AsistenteContacto asistente={c.asistente} />
-
           <p class="respaldo">
             {c.respaldoPre}<a href="mailto:despacho@rmp.mx">despacho@rmp.mx</a>{c.respaldoPost}
           </p>
         </div>
 
-        <!-- Datos -->
-        <aside class="datos-col revela" style="--retraso: 120ms">
-          <div class="dato">
-            <h3 class="dato-titulo">{c.datoOficina}</h3>
-            <address class="dato-texto">
+        <aside class="columna-datos">
+          <div class="ficha">
+            <h2 class="dato ficha-titulo">{c.datoOficina}</h2>
+            <address class="ficha-texto">
               Calle Francisco Peña 245<br />
               Las Águilas 3ra Sección<br />
               San Luis Potosí, S.L.P.
             </address>
           </div>
 
-          <div class="dato">
-            <h3 class="dato-titulo">{c.datoTelefonos}</h3>
-            <ul class="dato-lista" role="list">
+          <div class="ficha">
+            <h2 class="dato ficha-titulo">{c.datoTelefonos}</h2>
+            <ul class="ficha-lista" role="list">
               {telefonos.map(({ num, tel }) => (
-                <li><a href={`tel:${tel}`} class="dato-mono">{num}</a></li>
+                <li><a class="ficha-enlace" href={`tel:${tel}`}>{num}</a></li>
               ))}
             </ul>
           </div>
 
-          <div class="dato">
-            <h3 class="dato-titulo">{c.datoCorreo}</h3>
-            <a href="mailto:despacho@rmp.mx" class="dato-mono">despacho@rmp.mx</a>
-            <p class="dato-sub">{c.datoCorreoSub}</p>
-            <ul class="dato-lista" role="list">
+          <div class="ficha">
+            <h2 class="dato ficha-titulo">{c.datoCorreo}</h2>
+            <a class="ficha-enlace" href="mailto:despacho@rmp.mx">despacho@rmp.mx</a>
+            <p class="ficha-sub">{c.datoCorreoSub}</p>
+            <ul class="ficha-lista ficha-lista--areas" role="list">
               {c.correosArea.map(({ area, correo }) => (
                 <li>
-                  <span class="dato-area">{area}</span>
-                  <a href={`mailto:${correo}`} class="dato-mono">{correo}</a>
+                  <span class="dato ficha-area">{area}</span>
+                  <a class="ficha-enlace" href={`mailto:${correo}`}>{correo}</a>
                 </li>
               ))}
             </ul>
           </div>
 
-          <div class="dato">
-            <h3 class="dato-titulo">{c.datoHorario}</h3>
-            <p class="dato-texto">
-              <!-- TODO: establecer el horario de oficina con el cliente -->
-              <span class="dato-pendiente">{c.datoHorarioPendiente}</span>
-            </p>
+          <div class="ficha">
+            <h2 class="dato ficha-titulo">{c.datoHorario}</h2>
+            <!-- TODO: establecer el horario de oficina con el cliente -->
+            <p class="ficha-pendiente">{c.datoHorarioPendiente}</p>
           </div>
         </aside>
 
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ═══════════════════════════════ MAPA ═══ -->
-  <section class="mapa revela" aria-label={c.mapaAria}>
-    <iframe
-      src={mapaSrc}
-      title={c.mapaTitle}
-      loading="lazy"
-      referrerpolicy="no-referrer-when-downgrade"
-      allowfullscreen
-    ></iframe>
-  </section>
+    <!-- ════════════════════════════════════════════════ MAPA ══ -->
+    <section class="mapa" aria-label={c.mapaAria}>
+      <iframe
+        src={mapaSrc}
+        title={c.mapaTitle}
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        allowfullscreen
+      ></iframe>
+    </section>
 
+  </div>
 </Base>
 
 <style>
-  /* ═══════ Utilidades ═══════ */
-  .contenedor {
-    max-width: var(--ancho-max);
-    margin: 0 auto;
-    padding-inline: calc(var(--espacio) * 3);
+  /* ═══════════════════════════════ PORTADA ═══════════════════════════════ */
+  .cabecera {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr);
+    align-items: stretch;
+    border-bottom: 1px solid var(--rm-linea);
   }
 
-  .eyebrow {
-    font-family: var(--fuente-datos);
-    font-size: 12px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    color: var(--oro);
-    margin-bottom: calc(var(--espacio) * 2.5);
+  .cabecera-texto {
+    padding: clamp(36px, 5vw, 76px) clamp(20px, 3.4vw, 56px) clamp(36px, 5vw, 66px)
+      clamp(20px, 4vw, 64px);
+    align-self: center;
   }
 
-  .eyebrow-linea {
-    display: inline-block;
-    width: 48px;
-    height: 1px;
-    background: var(--oro);
-    vertical-align: middle;
-    margin-inline-end: calc(var(--espacio) * 1.5);
+  .cabecera-sub {
+    margin-top: clamp(16px, 1.8vw, 22px);
+    max-width: 44ch;
+    font-size: clamp(16px, 1.25vw, 18px);
+    line-height: 1.6;
+    color: var(--rm-tinta-2);
   }
 
-  .texto-oro { color: var(--oro); font-style: italic; }
+  .cabecera-figura {
+    position: relative;
+    margin: 0;
+    overflow: hidden;
+    background: var(--rm-papel-2);
+    min-height: 260px;
+  }
 
-  /* ═══════ Imagen de fondo del hero + velo ═══════ */
-  .phero-fondo {
+  .cabecera-figura img {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center 60%;
-    z-index: 0;
+    object-position: center 40%;
+    display: block;
   }
-  .phero-velo {
+
+  .cabecera-figura::before {
+    content: "";
     position: absolute;
-    inset: 0;
-    z-index: 0;
-    background: linear-gradient(
-      105deg,
-      var(--tinta) 0%,
-      rgb(22 36 58 / 0.94) 32%,
-      rgb(22 36 58 / 0.78) 66%,
-      rgb(22 36 58 / 0.6) 100%
-    );
-  }
-
-
-  /* ═══════ HERO ═══════ */
-  .phero {
-    position: relative;
-    background-color: var(--tinta);
-    background-image: radial-gradient(
-      ellipse 90% 70% at 30% 10%,
-      rgb(26 53 101 / 0.5),
-      transparent 60%
-    );
-    overflow: hidden;
-  }
-
-  .phero-lineas {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background-image: repeating-linear-gradient(
-      to bottom,
-      transparent 0,
-      transparent 47px,
-      rgb(216 210 196 / 0.07) 47px,
-      rgb(216 210 196 / 0.07) 48px
-    );
-    mask-image: linear-gradient(to bottom, transparent, black 20%);
-  }
-
-  .phero-inner {
-    position: relative;
+    inset: 0 auto 0 0;
+    width: 24%;
+    background: linear-gradient(to right, var(--rm-papel), transparent);
     z-index: 1;
-    padding-block: calc(64px + var(--espacio) * 10) calc(var(--espacio) * 10);
+    pointer-events: none;
   }
 
-  .phero-h1 {
-    font-family: var(--fuente-display);
-    font-weight: 500;
-    font-size: clamp(44px, 6.5vw, 92px);
-    line-height: 1.0;
-    letter-spacing: -0.025em;
-    color: var(--papel);
-    margin: 0 0 calc(var(--espacio) * 3);
-  }
+  /* ══════════════════════════ ASISTENTE + DATOS ══════════════════════════ */
+  .cuerpo { padding-block: clamp(44px, 6vw, 88px); }
 
-  .phero-sub {
-    font-size: clamp(16px, 1.6vw, 18px);
-    line-height: 1.7;
-    color: rgb(250 247 240 / 0.6);
-    max-width: 520px;
-  }
-
-  .phero-anim-1 { animation: sube 0.5s ease 0.1s both; }
-  .phero-anim-2 { animation: sube 0.6s ease 0.25s both; }
-  .phero-anim-3 { animation: sube 0.5s ease 0.4s both; }
-
-  @keyframes sube {
-    from { opacity: 0; transform: translateY(18px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .phero-anim-1, .phero-anim-2, .phero-anim-3 { animation: none; }
-  }
-
-  /* ═══════ CONTACTO ═══════ */
-  .contacto { padding-block: calc(var(--espacio) * 12); }
-
-  .contacto-grid {
+  .cuerpo-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
-    gap: calc(var(--espacio) * 10);
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+    gap: clamp(28px, 4vw, 64px);
     align-items: start;
   }
 
-  /* ── Asistente + respaldo ── */
   .respaldo {
-    font-size: 14px;
+    margin-top: 20px;
+    font-size: 15px;
     line-height: 1.6;
-    color: var(--pizarra);
-    margin: calc(var(--espacio) * 3) 0 0;
-  }
-  .respaldo a { color: var(--oro); }
-
-  /* ── Datos ── */
-  .datos-col {
-    display: flex;
-    flex-direction: column;
-    border-top: 1px solid var(--oro);
-    position: relative;
-    padding-top: calc(var(--espacio) * 4);
+    color: var(--rm-tinta-2);
   }
 
-  .datos-col::before {
-    content: "";
-    position: absolute;
-    inset: 3px 0 auto 0;
-    border-top: 1px solid var(--oro);
+  .respaldo a {
+    color: var(--rm-ambar);
+    text-underline-offset: 4px;
   }
 
-  .dato {
-    padding-block: calc(var(--espacio) * 3);
-    border-bottom: 1px solid var(--regla);
+  .columna-datos {
+    display: grid;
+    gap: clamp(22px, 2.6vw, 34px);
   }
 
-  .dato:last-child { border-bottom: none; }
-
-  .dato-titulo {
-    font-family: var(--fuente-datos);
-    font-size: 11px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    color: var(--oro);
-    margin: 0 0 calc(var(--espacio) * 1.5);
+  .ficha-titulo {
+    margin: 0 0 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--rm-linea);
+    font-size: 11.5px;
   }
 
-  .dato-texto {
+  .ficha-texto {
     font-style: normal;
     font-size: 16px;
-    line-height: 1.7;
-    color: var(--tinta);
+    line-height: 1.55;
   }
 
-  .dato-lista {
+  .ficha-lista {
+    display: grid;
+    gap: 4px;
     list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: calc(var(--espacio) * 0.75);
+    margin: 0;
+    padding: 0;
   }
 
-  .dato-mono {
-    font-family: var(--fuente-datos);
-    font-size: 15px;
-    color: var(--tinta);
+  .ficha-lista--areas {
+    gap: 10px;
+    margin-top: 12px;
+  }
+
+  .ficha-area {
+    display: block;
+    font-size: 10.5px;
+    margin-bottom: 1px;
+  }
+
+  .ficha-enlace {
+    font-size: 15.5px;
+    color: var(--rm-azul);
     text-decoration: none;
-    transition: color 0.15s ease;
+    font-variant-numeric: tabular-nums;
   }
 
-  .dato-mono:hover { color: var(--oro); }
-
-  .dato-sub {
-    font-size: 13px;
-    color: var(--pizarra);
-    margin: calc(var(--espacio) * 2) 0 calc(var(--espacio) * 1.25);
+  .ficha-enlace:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
   }
 
-  .dato-lista li { display: flex; flex-direction: column; }
-
-  .dato-area {
-    font-family: var(--fuente-texto);
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--pizarra);
-  }
-
-  .dato-pendiente {
-    font-family: var(--fuente-datos);
+  .ficha-sub {
+    margin-top: 14px;
     font-size: 14px;
-    color: var(--pizarra);
-    font-style: italic;
+    color: var(--rm-tinta-2);
   }
 
-  /* ═══════ MAPA ═══════ */
+  .ficha-pendiente {
+    font-size: 15px;
+    font-style: italic;
+    color: var(--rm-tinta-2);
+  }
+
+  /* ════════════════════════════════ MAPA ════════════════════════════════ */
   .mapa {
-    border-top: 1px solid var(--regla);
+    border-top: 1px solid var(--rm-linea);
     line-height: 0;
   }
 
   .mapa iframe {
     width: 100%;
-    height: clamp(320px, 45vh, 480px);
+    height: clamp(300px, 42vh, 460px);
     border: 0;
-    filter: grayscale(0.85) contrast(1.04);
-    transition: filter 0.4s ease;
+    filter: saturate(0.72) contrast(1.02);
   }
 
-  .mapa iframe:hover { filter: none; }
-
-  @media (prefers-reduced-motion: reduce) {
-    .mapa iframe { transition: none; }
-  }
-
-  /* ═══════ Responsive ═══════ */
-  @media (max-width: 1023px) {
-    .contacto-grid {
-      grid-template-columns: 1fr;
-      gap: calc(var(--espacio) * 8);
+  /* ══════════════════════════════ Adaptación ══════════════════════════════ */
+  @media (max-width: 900px) {
+    .cabecera { grid-template-columns: 1fr; }
+    .cabecera-figura { order: -1; aspect-ratio: 16 / 9; min-height: 0; }
+    .cabecera-figura::before {
+      inset: auto 0 0 auto;
+      width: 100%;
+      height: 32%;
+      background: linear-gradient(to top, var(--rm-papel), transparent);
     }
-  }
-
-  @media (max-width: 767px) {
-    .contenedor { padding-inline: calc(var(--espacio) * 2); }
-
-    .campo-fila { grid-template-columns: 1fr; gap: calc(var(--espacio) * 3); }
+    .cuerpo-grid { grid-template-columns: 1fr; }
   }
 </style>
-
-<script>
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  /* ── Reveals ── */
-  const revelables = document.querySelectorAll(".revela");
-  if (reduceMotion) {
-    revelables.forEach((el) => el.classList.add("visible"));
-  } else {
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-            io.unobserve(entry.target);
-          }
-        }
-      },
-      { threshold: 0.1, rootMargin: "0px 0px -30px 0px" }
-    );
-    revelables.forEach((el) => io.observe(el));
-  }
-</script>

@@ -16,6 +16,13 @@ export const servicios = {
     heroSub:
       "Prestamos servicios a todo tipo de personas y entidades del sector público y privado, nacionales y extranjeras.",
     indiceAria: "Índice de servicios",
+    partidas: (n: number) => `${n} partidas`,
+    irAlArea: (a: string) => `Ir al apartado de ${a}`,
+    respondeEt: "Responde",
+    escribirA: (n: string) => `Escribir a ${n}`,
+    escribirAria: (n: string, a: string) => `Escribir a ${n}, encargada de ${a}`,
+    heroFoto: "/images/fotos/inicio-escritorio.webp",
+    heroAlt: "Escritorio de trabajo en el despacho",
 
     contactanos: "Contáctanos",
 
@@ -109,6 +116,13 @@ export const servicios = {
     heroSub:
       "We serve all kinds of individuals and entities in the public and private sectors, both domestic and foreign.",
     indiceAria: "Services index",
+    partidas: (n: number) => `${n} items`,
+    irAlArea: (a: string) => `Go to the ${a} section`,
+    respondeEt: "In charge",
+    escribirA: (n: string) => `Email ${n}`,
+    escribirAria: (n: string, a: string) => `Email ${n}, in charge of ${a}`,
+    heroFoto: "/images/fotos/inicio-escritorio.webp",
+    heroAlt: "A working desk at the firm",
 
     contactanos: "Contact us",
 
