@@ -127,11 +127,11 @@ const accesos = [
 
 <style>
   .site-footer {
-    background: linear-gradient(170deg, var(--pl-azul-hondo) 0%, #061c3a 100%);
-    color: var(--pl-piedra-alta);
-    --f-acento: var(--pl-azul-claro);
-    --oro-contraste: var(--pl-azul-hondo);
-    --foco: var(--pl-azul-claro);
+    background: var(--rm-tinta);
+    color: var(--rm-papel);
+    --f-acento: #e08b45; /* 6.49:1 sobre la tinta cálida */
+    --oro-contraste: var(--rm-tinta);
+    --foco: #e08b45;
   }
 
   .footer-inner {
@@ -166,14 +166,14 @@ const accesos = [
   }
 
   .footer-logo-firma {
-    font-family: var(--pl-display);
+    font-family: var(--rm-display);
     font-weight: 600;
     font-size: 15px;
     letter-spacing: -0.01em;
   }
 
   .footer-logo-sc {
-    font-family: var(--pl-texto);
+    font-family: var(--rm-mono);
     font-size: 9px;
     font-weight: 500;
     letter-spacing: 0.1em;
@@ -182,7 +182,7 @@ const accesos = [
   }
 
   .footer-tagline {
-    font-family: var(--pl-texto);
+    font-family: var(--rm-mono);
     font-size: 13px;
     font-weight: 400;
     color: rgb(242 238 232 / 0.6);
@@ -210,7 +210,7 @@ const accesos = [
 
   .footer-telefonos a,
   .footer-email {
-    font-family: var(--pl-texto);
+    font-family: var(--rm-mono);
     font-size: 14.5px;
     color: rgb(242 238 232 / 0.85);
     text-decoration: none;
@@ -224,7 +224,7 @@ const accesos = [
 
   /* --- Encabezados de sección --- */
   .footer-titulo-seccion {
-    font-family: var(--pl-texto);
+    font-family: var(--rm-mono);
     font-size: 11px;
     font-weight: 500;
     text-transform: uppercase;
@@ -250,7 +250,7 @@ const accesos = [
   }
 
   .footer-links a:hover {
-    color: var(--pl-piedra-alta);
+    color: var(--rm-papel);
   }
 
   /* --- Redes sociales --- */
@@ -304,12 +304,12 @@ const accesos = [
     flex-shrink: 0;
     padding: 7px 10px;
     border-radius: 2px;
-    background: var(--pl-piedra-alta);
+    background: var(--rm-papel);
     box-sizing: content-box;
   }
 
   .badge-texto {
-    font-family: var(--pl-texto);
+    font-family: var(--rm-mono);
     font-size: 12px;
     font-weight: 500;
     color: rgb(242 238 232 / 0.85);
@@ -339,7 +339,7 @@ const accesos = [
     max-width: var(--ancho-max);
     margin: 0 auto;
     padding: calc(var(--espacio) * 2.5) calc(var(--espacio) * 3);
-    font-family: var(--pl-texto);
+    font-family: var(--rm-mono);
     font-size: 12px;
     color: rgb(242 238 232 / 0.65); /* AA sobre tinta */
   }

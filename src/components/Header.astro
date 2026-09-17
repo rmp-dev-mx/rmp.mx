@@ -84,20 +84,16 @@ function isActive(href: string): boolean {
 <style>
   /* ── Variables de estado del header ── */
   .site-header {
-    --h-bg: var(--pl-piedra-alta);
-    --h-color: var(--pl-azul);
-    --h-border: rgb(7 55 109 / 0.18);
-    --h-acento: var(--pl-azul);
-    --h-tenue: #44536a; /* 6.75:1 sobre la piedra */
-    --foco: var(--pl-azul);
+    --h-bg: var(--rm-papel);
+    --h-color: var(--rm-tinta);
+    --h-border: transparent;
+    --h-acento: var(--rm-ambar);
+    --h-tenue: var(--rm-tinta-2);
+    --foco: var(--rm-ambar);
   }
   .site-header.scrolled {
-    --h-bg: var(--pl-azul-hondo);
-    --h-color: var(--pl-piedra-alta);
-    --h-border: transparent;
-    --h-acento: var(--pl-azul-claro);
-    --h-tenue: #a9c4e2; /* 8.61:1 sobre la placa oscura */
-    --foco: var(--pl-azul-claro);
+    --h-bg: var(--rm-papel);
+    --h-border: var(--rm-linea);
   }
 
   .site-header {
@@ -146,16 +142,17 @@ function isActive(href: string): boolean {
   }
 
   .logo-firma {
-    font-family: var(--pl-display);
+    font-family: var(--rm-display);
     font-weight: 600;
-    font-size: 16px;
+    font-size: 15px;
     letter-spacing: 0.02em;
+    text-transform: uppercase;
   }
 
   .logo-sc {
-    font-family: var(--pl-texto);
+    font-family: var(--rm-mono);
     font-size: 10px;
-    font-weight: 600;
+    font-weight: 500;
     letter-spacing: 0.18em;
     color: var(--h-acento);
     text-transform: uppercase;
@@ -175,9 +172,11 @@ function isActive(href: string): boolean {
   .nav-link {
     display: block;
     padding: 6px calc(var(--espacio) * 1.25);
-    font-family: var(--pl-texto);
-    font-size: 16px;
+    font-family: var(--rm-mono);
+    font-size: 12.5px;
     font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     text-decoration: none;
     color: inherit;
     border-radius: var(--radio);
@@ -198,9 +197,9 @@ function isActive(href: string): boolean {
     align-items: center;
     gap: 4px;
     flex-shrink: 0;
-    font-family: var(--pl-texto);
-    font-size: 13px;
-    font-weight: 600;
+    font-family: var(--rm-mono);
+    font-size: 12px;
+    font-weight: 500;
     letter-spacing: 0.08em;
   }
 
@@ -302,7 +301,7 @@ function isActive(href: string): boolean {
 
     .nav-menu.nav-menu--open { display: flex; }
 
-    .nav-link { font-size: 17px; padding: 10px calc(var(--espacio) * 1.5); }
+    .nav-link { font-size: 13.5px; padding: 12px calc(var(--espacio) * 1.5); }
 
     /* Cinzel es más ancho que la sans anterior: el logotipo cede espacio
        para que el botón de menú no se salga de la pantalla en 360px */

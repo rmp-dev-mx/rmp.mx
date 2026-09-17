@@ -3,241 +3,172 @@ import Base from "@layouts/Base.astro";
 import { url } from "../../lib/url";
 import { getLang, localizedUrl } from "../../i18n/utils";
 import { getHome } from "../../i18n/home";
-import { getNosotros } from "../../i18n/nosotros";
 
 const lang = getLang(Astro.currentLocale);
 const h = getHome(lang);
-const equipo = getNosotros(lang).equipo;
 
-// Sistema de íconos: trazo único de 1.5, caja de 24. Dibujados, nunca glifos.
-const ICO = {
-  sobre:
-    '<rect x="3" y="5.5" width="18" height="13" rx="1.5"/><path d="m3.6 6.6 8.4 6.2 8.4-6.2"/>',
-  telefono:
-    '<path d="M8.4 4.5H5.2A1.7 1.7 0 0 0 3.5 6.3c0 7.8 6.4 14.2 14.2 14.2a1.7 1.7 0 0 0 1.8-1.7v-3.2l-4-1.6-2 2a13.6 13.6 0 0 1-5.5-5.5l2-2z"/>',
-  flecha: '<path d="M4.5 12h14"/><path d="m13 6.5 5.5 5.5L13 17.5"/>',
-};
-
-// Los cuatro tornillos de una placa, con la ranura en otro ángulo cada uno.
-const RANURAS = [
-  "M8.5 13.6 15.5 10.4",
-  "M9.4 9.1 14.6 14.9",
-  "M9.4 14.9 14.6 9.1",
-  "M8.5 10.9 15.5 13.1",
-];
+// Íconos dibujados, trazo único de 1.6 en caja de 24.
+const FLECHA = '<path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/>';
 ---
 
-<Base title={h.metaTitle} description={h.metaDesc} translated={true} fuentes="placa">
-  <div class="mundo-placa">
+<Base title={h.metaTitle} description={h.metaDesc} translated={true} fuentes="nuevo">
+  <div class="mundo">
 
-    <!-- ══════════════════════════════════════════ LA PLACA ══ -->
-    <section class="portada" aria-labelledby="firma-nombre">
-      <div class="marco portada-grid">
+    <!-- ═════════════════════════════════════════════ PORTADA ══ -->
+    <section class="portada" aria-labelledby="titular">
+      <div class="portada-texto">
+        <p class="rail" aria-hidden="true">{h.rail}</p>
 
-        <div class="portada-col">
-          <!-- Placa mayor: metal oscuro, cuatro caras de canto reales -->
-          <div class="placa placa--oscura placa-mayor">
-            {RANURAS.map((d, i) => (
-              <svg class={`tornillo tornillo--${i}`} viewBox="0 0 24 24" aria-hidden="true">
-                <circle cx="12" cy="12" r="7"></circle>
-                <path d={d}></path>
-              </svg>
-            ))}
+        <div class="portada-cuerpo">
+          <h1 class="titular" id="titular">
+            {h.titular.map((l) => <span class="titular-linea">{l}</span>)}
+          </h1>
+          <p class="acento portada-acento">{h.acento}</p>
+          <p class="portada-entrada">{h.entrada}</p>
 
-            <div class="placa-mayor-cuerpo">
-              <h1 class="firma" id="firma-nombre">{h.firma}</h1>
-              <p class="profesiones">{h.profesiones}</p>
-              <hr class="filete" />
-              <p class="fundacion">
-                <span>{h.desde}</span>
-                <span class="punto" aria-hidden="true"></span>
-                <span>{h.anios}</span>
-                <span class="punto" aria-hidden="true"></span>
-                <span>{h.lugar}</span>
-              </p>
-            </div>
-          </div>
+          <a class="boton portada-boton" href={localizedUrl("/contacto", lang)}>
+            <span>{h.cta}</span>
+            <span class="accion-circulo" aria-hidden="true">
+              <svg class="ico" viewBox="0 0 24 24" set:html={FLECHA} />
+            </span>
+          </a>
 
-          <p class="entrada">{h.entrada}</p>
+          <p class="dato portada-dato">
+            {h.contactoDomicilio[0]} · {h.contactoDomicilio[2]}
+          </p>
         </div>
-
-        <!-- Cuatro placas de área: cada una nombra a su encargada y el
-             enlace escribe directo a ella -->
-        <ul class="areas" role="list">
-          {h.areas.map((a) => (
-            <li class="area">
-              <article class="placa placa--clara placa-area">
-                {RANURAS.map((d, i) => (
-                  <svg class={`tornillo tornillo--${i}`} viewBox="0 0 24 24" aria-hidden="true">
-                    <circle cx="12" cy="12" r="7"></circle>
-                    <path d={d}></path>
-                  </svg>
-                ))}
-
-                <h2 class="area-nombre">{a.nombre}</h2>
-                <p class="area-alcance">{a.alcance}</p>
-
-                <div class="area-responde">
-                  <p class="area-responde-et">{h.areaEncargadaEtiqueta}</p>
-                  <p class="area-encargada">{a.encargada}</p>
-                  <a
-                    class="area-accion"
-                    href={`mailto:${a.correo}`}
-                    aria-label={h.areaEscribirAria(a.primer, a.nombre)}
-                  >
-                    <svg class="ico" viewBox="0 0 24 24" aria-hidden="true" set:html={ICO.sobre} />
-                    <span>{h.areaEscribir(a.primer)}</span>
-                  </a>
-                  <p class="area-correo-dir">{a.correo}</p>
-                </div>
-
-                <a
-                  class="area-detalle"
-                  href={localizedUrl(`/servicios#${a.id}`, lang)}
-                  aria-label={h.areaDetalleAria(a.nombre)}
-                >{h.areaDetalle}</a>
-              </article>
-            </li>
-          ))}
-        </ul>
       </div>
+
+      <figure class="portada-figura">
+        <img
+          src={url(h.heroFoto)}
+          alt={h.heroAlt}
+          width="2752"
+          height="1536"
+          fetchpriority="high"
+          decoding="async"
+        />
+      </figure>
     </section>
 
-    <!-- ══════════════════════════════════════════ EL PADRÓN ══ -->
-    <section class="padron" aria-labelledby="padron-titulo">
+    <!-- ═══════════════════════════════════════════════ ÁREAS ══ -->
+    <section class="areas" aria-labelledby="areas-titulo">
       <div class="marco">
-        <header class="seccion-cabeza">
-          <h2 class="seccion-titulo" id="padron-titulo">{h.padronTitulo}</h2>
-          <p class="seccion-bajada">{h.padronIntro}</p>
+        <header class="areas-cabeza">
+          <h2 class="titulo-seccion" id="areas-titulo">{h.areasTitulo}</h2>
+          <p class="areas-sub">{h.areasSub}</p>
+          <a class="accion areas-accion" href={localizedUrl("/servicios", lang)}>
+            <span>{h.verAreas}</span>
+            <span class="accion-circulo" aria-hidden="true">
+              <svg class="ico" viewBox="0 0 24 24" set:html={FLECHA} />
+            </span>
+          </a>
         </header>
 
-        <div class="registro">
-          {equipo.map((grupo) => (
-            <section class="registro-grupo" aria-label={grupo.area}>
-              <h3 class="registro-area">{grupo.area}</h3>
-              <ul class="registro-lista" role="list">
-                {grupo.personas.map((p) => (
-                  <li class="renglon">
-                    <p class="renglon-nombre">{p.nombre}</p>
-                    <p class="renglon-credencial">{p.credencial}</p>
-                    <a
-                      class="renglon-correo"
-                      href={`mailto:${p.correo}`}
-                      aria-label={h.padronCorreoAria(p.nombre)}
-                    >
-                      <svg class="ico" viewBox="0 0 24 24" aria-hidden="true" set:html={ICO.sobre} />
-                      <span>{p.correo}</span>
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          ))}
-        </div>
-
-        <p class="padron-pie">
-          <a class="enlace-grabado" href={localizedUrl("/nosotros", lang)}>
-            <span>{h.padronCta}</span>
-            <svg class="ico" viewBox="0 0 24 24" aria-hidden="true" set:html={ICO.flecha} />
-          </a>
-        </p>
-      </div>
-    </section>
-
-    <!-- ═════════════════════════════════════════ CONTINUIDAD ══ -->
-    <section class="continuidad" aria-labelledby="continuidad-titulo">
-      <div class="marco">
-        <h2 class="seccion-titulo seccion-titulo--claro" id="continuidad-titulo">
-          {h.continuidadTitulo}
-        </h2>
-
-        <ul class="hechos" role="list">
-          {h.continuidad.map((c) => (
-            <li class="hecho">
-              <p class="hecho-dato">{c.dato}</p>
-              <p class="hecho-texto">{c.texto}</p>
-              {c.dato === "Pacioli" && (
-                <span class="placa placa--clara hecho-logo">
-                  <img
-                    src={url("/images/pacioli.svg")}
-                    alt="Pacioli Asesores de Negocios, S.C."
-                    width="150"
-                    height="46"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </span>
-              )}
+        <ul class="areas-lista" role="list">
+          {h.areas.map((a) => (
+            <li class="area">
+              <span class="area-foto">
+                <img
+                  src={url(a.foto)}
+                  alt=""
+                  width="2048"
+                  height="2048"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </span>
+              <h3 class="area-nombre">
+                <a href={localizedUrl(`/servicios#${a.id}`, lang)}>{a.nombre}</a>
+              </h3>
+              <p class="area-alcance">{a.alcance}</p>
+              <p class="dato area-responde">{h.respondeEt} · {a.encargada}</p>
+              <a
+                class="area-correo"
+                href={`mailto:${a.correo}`}
+                aria-label={h.escribirAria(a.primer, a.nombre)}
+              >{h.escribirA(a.primer)}</a>
             </li>
           ))}
         </ul>
       </div>
     </section>
 
-    <!-- ════════════════════════════════════════════ BOLETÍN ══ -->
-    <section class="boletin" aria-labelledby="boletin-titulo">
-      <div class="marco marco--angosto">
-        <h2 class="seccion-titulo" id="boletin-titulo">{h.boletinTitulo}</h2>
-        <p class="boletin-desc">{h.boletinDesc}</p>
-        <a class="enlace-grabado" href={localizedUrl("/boletin", lang)}>
-          <span>{h.boletinCta}</span>
-          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true" set:html={ICO.flecha} />
-        </a>
+    <!-- ══════════════════════════════════════════════ FRANJA ══ -->
+    <section class="franja" aria-labelledby="cita-titulo">
+      <div class="franja-texto">
+        <div class="franja-cuerpo">
+          <p class="dato franja-et">{h.citaEt}</p>
+          <blockquote class="franja-cita" id="cita-titulo">{h.cita}</blockquote>
+          <a class="accion franja-accion" href={localizedUrl("/nosotros", lang)}>
+            <span>{h.citaCta}</span>
+            <span class="accion-circulo" aria-hidden="true">
+              <svg class="ico" viewBox="0 0 24 24" set:html={FLECHA} />
+            </span>
+          </a>
+        </div>
+      </div>
+      <figure class="franja-figura">
+        <img
+          src={url(h.citaFoto)}
+          alt={h.citaAlt}
+          width="1856"
+          height="2304"
+          loading="lazy"
+          decoding="async"
+        />
+      </figure>
+    </section>
+
+    <!-- ══════════════════════════════════════════════ CIFRAS ══ -->
+    <section class="cifras" aria-label={h.areasTitulo}>
+      <div class="marco">
+        <ul class="cifras-lista" role="list">
+          {h.cifras.map((c) => (
+            <li class="cifra">
+              <p class="cifra-dato">{c.dato}</p>
+              <p class="dato cifra-pie">{c.pie}</p>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
 
-    <!-- ═════════════════════════════════════════════ LA PUERTA ══ -->
-    <section class="puerta" aria-labelledby="puerta-titulo">
-      <div class="marco">
-        <div class="puerta-grid">
+    <!-- ════════════════════════════════════════════ CONTACTO ══ -->
+    <section class="contacto" aria-labelledby="contacto-titulo">
+      <div class="marco contacto-grid">
+        <div>
+          <h2 class="titulo-seccion" id="contacto-titulo">{h.contactoTitulo}</h2>
+          <a class="boton contacto-boton" href={localizedUrl("/contacto", lang)}>
+            <span>{h.contactoCta}</span>
+            <span class="accion-circulo" aria-hidden="true">
+              <svg class="ico" viewBox="0 0 24 24" set:html={FLECHA} />
+            </span>
+          </a>
+          <p class="contacto-nota">{h.contactoNota}</p>
+        </div>
 
-          <div class="placa placa--oscura placa-domicilio">
-            {RANURAS.map((d, i) => (
-              <svg class={`tornillo tornillo--${i}`} viewBox="0 0 24 24" aria-hidden="true">
-                <circle cx="12" cy="12" r="7"></circle>
-                <path d={d}></path>
-              </svg>
-            ))}
-            <h2 class="seccion-titulo seccion-titulo--claro" id="puerta-titulo">
-              {h.puertaTitulo}
-            </h2>
-            <address class="domicilio">
-              {h.puertaDomicilio.map((l) => <span>{l}</span>)}
+        <div class="contacto-datos">
+          <div>
+            <p class="dato contacto-et">{h.contactoEtDomicilio}</p>
+            <address class="contacto-valor">
+              {h.contactoDomicilio.map((l) => <span>{l}</span>)}
             </address>
           </div>
-
-          <div class="puerta-datos">
-            <div class="dato">
-              <p class="dato-et">{h.puertaTelefonosEtiqueta}</p>
-              <ul class="tels" role="list">
-                {h.puertaTelefonos.map((t) => (
-                  <li>
-                    <a class="tel" href={`tel:${t.tel}`}>
-                      <svg class="ico" viewBox="0 0 24 24" aria-hidden="true" set:html={ICO.telefono} />
-                      <span>{t.texto}</span>
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div class="dato">
-              <p class="dato-et">{h.puertaCorreoEtiqueta}</p>
-              <a class="tel" href={`mailto:${h.puertaCorreo}`}>
-                <svg class="ico" viewBox="0 0 24 24" aria-hidden="true" set:html={ICO.sobre} />
-                <span>{h.puertaCorreo}</span>
-              </a>
-            </div>
-
-            <div class="dato">
-              <a class="placa placa--oscura boton-placa" href={localizedUrl("/contacto", lang)}>
-                <span>{h.puertaCta}</span>
-                <svg class="ico" viewBox="0 0 24 24" aria-hidden="true" set:html={ICO.flecha} />
-              </a>
-              <p class="puerta-nota">{h.puertaCtaNota}</p>
-            </div>
+          <div>
+            <p class="dato contacto-et">{h.contactoEtTelefonos}</p>
+            <ul class="contacto-valor" role="list">
+              {h.contactoTelefonos.map((t) => (
+                <li><a href={`tel:${t.tel}`}>{t.texto}</a></li>
+              ))}
+            </ul>
           </div>
-
+          <div>
+            <p class="dato contacto-et">{h.contactoEtCorreo}</p>
+            <p class="contacto-valor">
+              <a href={`mailto:${h.contactoCorreo}`}>{h.contactoCorreo}</a>
+            </p>
+          </div>
         </div>
       </div>
     </section>
@@ -246,507 +177,378 @@ const RANURAS = [
 </Base>
 
 <style>
-  /* ═══════════════════════ Campo de cantera y base ═══════════════════════ */
-  .mundo-placa {
-    /* Muro de cantera en luz plana. La veta real es un asset pendiente:
-       aquí no se imita con degradados que fingirían una piedra que no hay. */
-    background-color: var(--pl-piedra);
-    background-image: linear-gradient(
-      172deg,
-      var(--pl-piedra-alta) 0%,
-      var(--pl-piedra) 46%,
-      var(--pl-piedra-honda) 100%
-    );
-    color: var(--pl-azul);
-    font-family: var(--pl-texto);
-    --foco: var(--pl-azul);
-  }
-
-  /* ═══════════════════════════════ LA PLACA ═══════════════════════════════ */
+  /* ═══════════════════════════════ PORTADA ═══════════════════════════════ */
   .portada {
-    padding-block: clamp(40px, 6vw, 76px) clamp(48px, 8vw, 104px);
-  }
-
-  /* Contrato: la placa mayor a la izquierda, las cuatro de área a su derecha */
-  .portada-grid {
     display: grid;
-    gap: clamp(16px, 2vw, 26px);
-    align-items: start;
+    grid-template-columns: minmax(0, 0.96fr) minmax(0, 1.04fr);
+    align-items: stretch;
+    min-height: min(86vh, 860px);
+    border-bottom: 1px solid var(--rm-linea);
   }
 
-  .portada-col {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  }
-
-  @media (min-width: 1024px) {
-    .portada-grid {
-      grid-template-columns: minmax(0, 0.94fr) minmax(0, 1.06fr);
-    }
-    .portada-col .placa-mayor { flex: 1; display: flex; align-items: center; }
-    .entrada { margin-bottom: 0; }
-  }
-
-  .placa-mayor {
-    padding: clamp(32px, 5vw, 62px) clamp(24px, 5vw, 66px);
-  }
-
-  .placa-mayor-cuerpo { max-width: 22ch; }
-
-  .firma {
-    font-family: var(--pl-display);
-    font-weight: 600;
-    font-size: clamp(30px, 5.2vw, 66px);
-    line-height: 1.04;
-    letter-spacing: 0.02em;
-    color: var(--pl-piedra-alta);
-    margin: 0;
-  }
-
-  .profesiones {
-    margin: clamp(14px, 1.6vw, 22px) 0 0;
-    font-size: clamp(13px, 1.25vw, 17px);
-    font-weight: 500;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--pl-azul-tenue);
-  }
-
-  .filete {
-    border: 0;
-    border-top: 1px solid rgb(255 255 255 / 0.26);
-    border-bottom: 1px solid rgb(0 0 0 / 0.32);
-    margin: clamp(20px, 2.6vw, 34px) 0;
-    max-width: 180px;
-  }
-
-  .fundacion {
-    display: flex;
+  .portada-texto {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
     align-items: center;
-    flex-wrap: wrap;
-    gap: 12px;
-    white-space: nowrap;
-    font-size: 12.5px;
-    font-weight: 600;
-    letter-spacing: 0.2em;
+    gap: clamp(16px, 2.4vw, 34px);
+    padding: clamp(36px, 5vw, 78px) clamp(20px, 3.4vw, 56px) clamp(36px, 5vw, 70px)
+      clamp(20px, 4vw, 64px);
+  }
+
+  /* Riel vertical: el dato que acompaña al titular sin competir con él */
+  .rail {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    justify-self: start;
+    align-self: center;
+    font-family: var(--rm-mono);
+    font-size: 11.5px;
+    letter-spacing: 0.24em;
     text-transform: uppercase;
-    color: var(--pl-azul-claro);
+    color: var(--rm-tinta-2);
+    padding-block: 18px;
+    border-inline-end: 1px solid var(--rm-linea);
+    padding-inline-end: 14px;
   }
 
-  .punto {
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background: var(--pl-azul-claro);
+  .titular-linea { display: block; }
+
+  .portada-acento {
+    margin-top: clamp(14px, 1.8vw, 24px);
+    font-style: italic;
   }
 
-  .entrada {
-    margin: clamp(22px, 2.4vw, 30px) 0 clamp(18px, 2vw, 26px);
-    max-width: 52ch;
-    font-size: clamp(16px, 1.5vw, 19px);
+  .portada-entrada {
+    margin-top: clamp(16px, 1.8vw, 22px);
+    max-width: 34ch;
+    font-size: clamp(16px, 1.25vw, 18px);
     line-height: 1.6;
-    color: var(--pl-azul);
+    color: var(--rm-tinta-2);
   }
 
-  /* ── Placas de área ── */
-  .areas {
+  .portada-boton { margin-top: clamp(26px, 3vw, 38px); }
+
+  .portada-dato {
+    margin-top: clamp(26px, 3.4vw, 44px);
+    padding-top: 14px;
+    border-top: 1px solid var(--rm-linea);
+    max-width: 30ch;
+  }
+
+  .portada-figura {
+    position: relative;
+    margin: 0;
+    overflow: hidden;
+    background: var(--rm-papel-2);
+  }
+
+  .portada-figura img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 38%;
+    display: block;
+  }
+
+  /* El papel entra sobre la foto para que no quede un corte duro */
+  .portada-figura::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 22%;
+    background: linear-gradient(to right, var(--rm-papel), transparent);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* ═════════════════════════════════ ÁREAS ═════════════════════════════════ */
+  .areas { padding-block: clamp(56px, 8vw, 112px); }
+
+  .areas-cabeza {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-    gap: clamp(14px, 1.6vw, 20px);
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: clamp(16px, 2vw, 32px);
+    margin-bottom: clamp(32px, 4vw, 56px);
+  }
+
+  .areas-sub {
+    grid-column: 1;
+    margin-top: 14px;
+    font-size: clamp(15px, 1.15vw, 17px);
+    line-height: 1.6;
+    color: var(--rm-tinta-2);
+    max-width: 46ch;
+  }
+
+  .areas-accion { grid-column: 2; grid-row: 1 / span 2; align-self: end; }
+
+  .areas-lista {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(18px, 2.2vw, 34px);
     list-style: none;
     margin: 0;
     padding: 0;
   }
 
-  .placa-area {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 13px;
-    padding: clamp(22px, 2.4vw, 30px);
-    transition: border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-      box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-      transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  .area-foto {
+    display: block;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--rm-papel-2);
+    margin-bottom: 18px;
   }
 
-  /* El hundido es la respuesta de la acción, no del área entera: la placa
-     sólo se hunde cuando el enlace de la encargada tiene el cursor o el foco */
-  .placa-area:focus-within,
-  .placa-area:has(.area-accion:hover) {
-    border-color: var(--pl-canto-claro-hundido);
-    box-shadow: 0 1px 2px -1px rgb(4 36 74 / 0.3);
-    transform: translateY(2px);
+  .area-foto img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   }
+
+  .area:hover .area-foto img { transform: scale(1.03); }
 
   .area-nombre {
-    font-family: var(--pl-display);
-    font-weight: 600;
-    font-size: clamp(20px, 1.9vw, 25px);
+    font-family: var(--rm-serif);
+    font-weight: 500;
+    font-size: clamp(21px, 1.7vw, 26px);
     line-height: 1.15;
-    letter-spacing: 0.04em;
-    margin: 0;
+    margin: 0 0 8px;
   }
 
+  .area-nombre a {
+    color: inherit;
+    text-decoration: none;
+    background-image: linear-gradient(var(--rm-ambar), var(--rm-ambar));
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .area:hover .area-nombre a { background-size: 100% 1px; }
+
   .area-alcance {
-    margin: 0;
-    font-size: 14.5px;
-    line-height: 1.6;
-    color: var(--pl-grafito);
-    max-width: 44ch;
+    margin: 0 0 16px;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--rm-tinta-2);
+    max-width: 30ch;
   }
 
   .area-responde {
-    margin-top: auto;
-    padding-top: 15px;
-    border-top: 1px solid rgb(7 55 109 / 0.18);
-  }
-
-  .area-responde-et {
-    margin: 0 0 4px;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--pl-grafito-claro);
-  }
-
-  .area-encargada {
-    margin: 0 0 8px;
-    font-size: 15.5px;
-    font-weight: 600;
-    color: var(--pl-azul);
-  }
-
-  /* Enlace secundario: va por encima del destino de la placa */
-  .area-detalle {
-    position: relative;
-    z-index: 1;
-    align-self: flex-start;
-    font-size: 12.5px;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--pl-grafito-claro);
-    text-decoration: none;
-    border-bottom: 1px solid rgb(79 81 87 / 0.4);
-    padding-bottom: 2px;
-  }
-
-  .area-detalle:hover {
-    color: var(--pl-azul);
-    border-bottom-color: var(--pl-azul);
-  }
-
-  /* ═══════════════════════════════ Secciones ═══════════════════════════════ */
-  /* ═══════════════ EL PADRÓN: registro rayado, no más placas ═══════════════ */
-  .padron {
-    padding-block: clamp(48px, 7vw, 96px);
-    border-top: 1px solid rgb(7 55 109 / 0.16);
-  }
-
-  .registro {
-    display: grid;
-    gap: clamp(22px, 2.6vw, 34px);
-  }
-
-  .registro-grupo {
-    display: grid;
-    grid-template-columns: minmax(140px, 200px) 1fr;
-    gap: clamp(14px, 2.2vw, 30px);
-    align-items: start;
-  }
-
-  .registro-area {
-    font-family: var(--pl-display);
-    font-weight: 500;
-    font-size: 15px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--pl-azul);
-    margin: 0;
+    margin: 0 0 6px;
     padding-top: 14px;
-    border-top: 2px solid var(--pl-azul);
+    border-top: 1px solid var(--rm-linea);
+    font-size: 11.5px;
   }
 
-  .registro-lista {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  .renglon {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: baseline;
-    gap: 6px 20px;
-    padding: 13px 0;
-    border-top: 1px solid rgb(7 55 109 / 0.16);
-  }
-
-  .renglon:first-child { border-top-color: rgb(7 55 109 / 0.32); }
-
-  .renglon-nombre {
-    margin: 0;
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 1.3;
-    color: var(--pl-azul);
-  }
-
-  .renglon-credencial {
-    grid-column: 1;
-    margin: 0;
-    font-size: 13.5px;
-    line-height: 1.5;
-    color: var(--pl-grafito);
-    max-width: 60ch;
-  }
-
-  .renglon-correo {
-    grid-column: 2;
-    grid-row: 1 / span 2;
-    align-self: center;
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    font-size: 13.5px;
-    font-weight: 500;
-    color: var(--pl-azul);
+  .area-correo {
+    font-family: var(--rm-mono);
+    font-size: 12.5px;
+    letter-spacing: 0.06em;
+    color: var(--rm-ambar);
     text-decoration: underline;
+    text-underline-offset: 4px;
     text-decoration-thickness: 1px;
-    text-underline-offset: 3px;
-    text-decoration-color: rgb(7 55 109 / 0.4);
-    white-space: nowrap;
   }
 
-  .renglon-correo:hover { text-decoration-color: var(--pl-azul); }
-  .renglon-correo .ico { width: 15px; height: 15px; }
-
-  .padron-pie { margin: clamp(28px, 3vw, 40px) 0 0; }
-
-  /* ═════════════════════════════ CONTINUIDAD ═════════════════════════════ */
-  .continuidad {
-    background-image: linear-gradient(170deg, var(--pl-azul-hondo) 0%, var(--pl-azul-noche) 100%);
-    color: var(--pl-piedra-alta);
-    padding-block: clamp(48px, 7vw, 92px);
-    --foco: var(--pl-azul-claro);
-  }
-
-  .hechos {
+  /* ════════════════════════════════ FRANJA ════════════════════════════════ */
+  .franja {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: clamp(20px, 2.4vw, 32px);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    background: var(--rm-banda);
+    color: var(--rm-papel);
+    --foco: var(--rm-papel);
+  }
+
+  .franja-texto {
+    display: grid;
+    align-items: center;
+    padding: clamp(48px, 6vw, 96px) clamp(20px, 4vw, 72px);
+  }
+
+  .franja-cuerpo { max-width: 42ch; }
+
+  .franja-et {
+    color: rgb(244 237 226 / 0.85);
+    margin-bottom: clamp(18px, 2vw, 26px);
+  }
+
+  .franja-cita {
+    font-family: var(--rm-serif);
+    font-weight: 400;
+    font-size: clamp(21px, 2.3vw, 33px);
+    line-height: 1.3;
+    margin: 0 0 clamp(26px, 3vw, 38px);
+  }
+
+  .franja-accion { color: var(--rm-papel); }
+  .franja-accion .accion-circulo { border-color: var(--rm-papel); }
+  .franja-accion:hover .accion-circulo {
+    background: var(--rm-papel);
+    color: var(--rm-banda);
+  }
+
+  .franja-figura {
+    position: relative;
+    margin: 0;
+    overflow: hidden;
+    min-height: 420px;
+  }
+
+  .franja-figura img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 45%;
+    display: block;
+  }
+
+  /* ════════════════════════════════ CIFRAS ════════════════════════════════ */
+  .cifras { padding-block: clamp(44px, 6vw, 84px); }
+
+  .cifras-lista {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(16px, 2vw, 32px);
     list-style: none;
-    margin: clamp(28px, 3.4vw, 46px) 0 0;
+    margin: 0;
     padding: 0;
   }
 
-  .hecho {
+  .cifra {
     padding-top: 18px;
-    border-top: 1px solid rgb(255 255 255 / 0.24);
+    border-top: 1px solid var(--rm-linea);
   }
 
-  .hecho-dato {
-    font-family: var(--pl-texto);
-    font-weight: 700;
-    font-size: 17px;
-    letter-spacing: 0.1em;
-    color: var(--pl-piedra-alta);
+  .cifra-dato {
+    font-family: var(--rm-display);
+    font-weight: 500;
+    font-size: clamp(30px, 3vw, 44px);
+    line-height: 1;
+    letter-spacing: -0.02em;
     margin: 0 0 10px;
     font-variant-numeric: tabular-nums;
   }
 
-  .hecho-texto {
-    margin: 0;
-    font-size: 14.5px;
-    line-height: 1.65;
-    color: var(--pl-azul-tenue);
-    max-width: 42ch;
+  .cifra-pie { margin: 0; }
+
+  /* ═══════════════════════════════ CONTACTO ═══════════════════════════════ */
+  .contacto {
+    padding-block: clamp(48px, 7vw, 100px);
+    background: var(--rm-papel-2);
+    border-top: 1px solid var(--rm-linea);
   }
 
-  .hecho-logo {
-    display: inline-block;
-    margin-top: 16px;
-    padding: 12px 14px;
-  }
-
-  .hecho-logo img {
-    display: block;
-    width: 150px;
-    height: auto;
-  }
-
-  /* ═══════════════════════════════ BOLETÍN ═══════════════════════════════ */
-  .boletin {
-    padding-block: clamp(48px, 7vw, 92px);
-    text-align: center;
-  }
-
-  .boletin-desc {
-    margin: 16px auto clamp(24px, 2.6vw, 32px);
-    font-size: clamp(15px, 1.4vw, 17px);
-    line-height: 1.65;
-    color: var(--pl-grafito);
-    max-width: 58ch;
-  }
-
-  /* ══════════════════════════════ LA PUERTA ══════════════════════════════ */
-  .puerta {
-    padding-block: clamp(10px, 1vw, 16px) clamp(56px, 8vw, 104px);
-  }
-
-  .puerta-grid {
+  .contacto-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: clamp(18px, 2.4vw, 34px);
-    align-items: stretch;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    gap: clamp(28px, 4vw, 64px);
+    align-items: start;
   }
 
-  .placa-domicilio {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 18px;
-    padding: clamp(28px, 4vw, 46px);
-    --foco: var(--pl-azul-claro);
+  .contacto-boton { margin-top: clamp(22px, 2.6vw, 32px); }
+
+  .contacto-nota {
+    margin-top: 16px;
+    max-width: 32ch;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--rm-tinta-2);
   }
 
-  .domicilio {
+  .contacto-datos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: clamp(20px, 2.4vw, 36px);
+  }
+
+  .contacto-et {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--rm-linea);
+  }
+
+  .contacto-valor {
     display: grid;
     gap: 3px;
     font-style: normal;
-    font-size: clamp(15px, 1.4vw, 17px);
-    line-height: 1.55;
-    color: var(--pl-azul-tenue);
-  }
-
-  .puerta-datos {
-    display: grid;
-    align-content: center;
-    gap: clamp(18px, 2.2vw, 28px);
-    padding-left: clamp(0px, 1.4vw, 18px);
-  }
-
-  .dato-et {
-    margin: 0 0 8px;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--pl-grafito-claro);
-  }
-
-  .tels {
-    display: grid;
-    gap: 6px;
+    font-size: 16px;
+    line-height: 1.5;
     list-style: none;
     margin: 0;
     padding: 0;
-  }
-
-  .tel {
-    display: inline-flex;
-    align-items: center;
-    gap: 9px;
-    font-size: 16px;
-    font-weight: 500;
-    color: var(--pl-azul);
-    text-decoration: none;
     font-variant-numeric: tabular-nums;
   }
 
-  .tel:hover span {
+  .contacto-valor a {
+    color: var(--rm-azul);
+    text-decoration: none;
+  }
+
+  .contacto-valor a:hover {
     text-decoration: underline;
     text-underline-offset: 4px;
   }
 
-  .boton-placa {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    border-width: 2px;
-    padding: 13px 21px;
-    color: var(--pl-piedra-alta);
-    font-size: 15.5px;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    text-decoration: none;
-    --foco: var(--pl-azul-claro);
-    transition: border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-      box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-      transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .boton-placa:hover {
-    border-color: var(--pl-canto-oscuro-hundido);
-    box-shadow: 0 1px 2px -1px rgb(4 36 74 / 0.35);
-    transform: translateY(2px);
-  }
-
-  .boton-placa .ico { transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
-  .boton-placa:hover .ico { transform: translateX(3px); }
-
-  .puerta-nota {
-    margin: 10px 0 0;
-    font-size: 13.5px;
-    line-height: 1.55;
-    color: var(--pl-grafito);
-    max-width: 38ch;
-  }
-
-  /* ═══════════ El momento autorizado: el montaje de las placas ═══════════ */
+  /* ══════════════ El momento autorizado: la portada se compone ══════════════ */
   @media (prefers-reduced-motion: no-preference) {
-    .placa-mayor,
-    .area {
-      animation: montar 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
+    .titular-linea,
+    .portada-acento,
+    .portada-entrada,
+    .portada-boton,
+    .portada-dato {
+      animation: entra 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
     }
-    .placa-mayor-cuerpo > * {
-      animation: grabar 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
-    }
-    .placa-mayor-cuerpo > :nth-child(1) { animation-delay: 0.12s; }
-    .placa-mayor-cuerpo > :nth-child(2) { animation-delay: 0.2s; }
-    .placa-mayor-cuerpo > :nth-child(3) { animation-delay: 0.26s; }
-    .placa-mayor-cuerpo > :nth-child(4) { animation-delay: 0.32s; }
-    .area:nth-child(1) { animation-delay: 0.26s; }
-    .area:nth-child(2) { animation-delay: 0.34s; }
-    .area:nth-child(3) { animation-delay: 0.42s; }
-    .area:nth-child(4) { animation-delay: 0.5s; }
+    .titular-linea:nth-child(2) { animation-delay: 0.08s; }
+    .portada-acento { animation-delay: 0.18s; }
+    .portada-entrada { animation-delay: 0.26s; }
+    .portada-boton { animation-delay: 0.34s; }
+    .portada-dato { animation-delay: 0.42s; }
+
+    .portada-figura img { animation: asienta 1.4s cubic-bezier(0.16, 1, 0.3, 1) both; }
   }
 
-  /* El contenido nunca parte de invisible: la placa llega puesta y sólo
-     se asienta, y el grabado se descubre desde su propio recorte. */
-  @keyframes montar {
-    from { transform: translateY(-9px); filter: blur(1.5px); }
-    to { transform: translateY(0); filter: blur(0); }
+  @keyframes entra {
+    from { transform: translateY(14px); clip-path: inset(0 0 100% 0); }
+    to { transform: translateY(0); clip-path: inset(0 0 -10% 0); }
   }
 
-  @keyframes grabar {
-    from { clip-path: inset(0 0 42% 0); }
-    to { clip-path: inset(0 0 0 0); }
+  @keyframes asienta {
+    from { transform: scale(1.06); }
+    to { transform: scale(1); }
   }
 
-  /* ═══════════════════════════════ Adaptación ═══════════════════════════════ */
+  /* ══════════════════════════════ Adaptación ══════════════════════════════ */
+  @media (max-width: 1100px) {
+    .areas-lista { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .cifras-lista { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
   @media (max-width: 900px) {
-    .registro-grupo { grid-template-columns: 1fr; gap: 10px; }
-    .puerta-grid { grid-template-columns: 1fr; }
-    .puerta-datos { padding-left: 0; }
-    .placa-mayor-cuerpo { max-width: none; }
+    .portada {
+      grid-template-columns: 1fr;
+      min-height: 0;
+    }
+    .portada-figura { order: -1; aspect-ratio: 16 / 10; }
+    .portada-figura::before { inset: auto 0 0 auto; width: 100%; height: 30%;
+      background: linear-gradient(to top, var(--rm-papel), transparent); }
+    .franja { grid-template-columns: 1fr; }
+    .franja-figura { order: -1; aspect-ratio: 16 / 9; min-height: 0; }
+    .contacto-grid { grid-template-columns: 1fr; }
+    .areas-cabeza { grid-template-columns: 1fr; }
+    .areas-accion { grid-column: 1; grid-row: auto; justify-self: start; }
   }
 
-  @media (max-width: 600px) {
-    .renglon { grid-template-columns: 1fr; gap: 4px; }
-    .renglon-correo { grid-column: 1; grid-row: auto; margin-top: 4px; }
-  }
-
-  @media (max-width: 480px) {
-    .placa--oscura { border-width: 5px; }
-    .placa--clara { border-width: 4px; }
-    .tornillo { width: 12px; height: 12px; }
-    .tornillo--0, .tornillo--1 { top: 9px; }
-    .tornillo--2, .tornillo--3 { bottom: 9px; }
-    .tornillo--0, .tornillo--2 { left: 9px; }
-    .tornillo--1, .tornillo--3 { right: 9px; }
-    .fundacion { flex-wrap: wrap; gap: 8px; }
+  @media (max-width: 560px) {
+    .rail { display: none; }
+    .portada-texto { grid-template-columns: 1fr; }
+    .areas-lista { grid-template-columns: 1fr; gap: 34px; }
+    .area-alcance, .portada-entrada { max-width: none; }
   }
 </style>

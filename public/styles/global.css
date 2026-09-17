@@ -25,50 +25,37 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   Mundo visual "La placa del despacho" (semilla f4d4fdab).
-   El azul y los grises salen del logo entregado por el cliente.
-   La profundidad es geometría: cuatro caras mitradas con tono
-   propio (border-color), nunca una sombra difusa haciendo de canto.
-   Prefijo --pl- mientras las otras 7 páginas siguen en el mundo
+   Mundo visual nuevo: papel cálido, titular grande y la fotografía
+   mandando a sangre. Sin cajas ni bordes: el aire y la imagen hacen
+   la composición. El azul es el del logo entregado por el cliente;
+   el ámbar viene del naranja de Pacioli, bajado hasta cumplir AA.
+   Prefijo --rm- mientras las otras 7 páginas siguen en el mundo
    anterior; al migrarlas, estos tokens sustituyen a los de arriba.
    ═══════════════════════════════════════════════════════════════ */
 :root {
-  --pl-azul: #07376d; /* tinta de grabado, del logo rmp.svg */
-  --pl-azul-hondo: #04244a;
-  --pl-azul-noche: #061c3a;
-  --pl-azul-alto: #0a4381;
-  --pl-azul-claro: #9cc0e8; /* 8.2:1 sobre placa oscura */
-  --pl-azul-tenue: #c2d4e8; /* 10.2:1 sobre placa oscura */
-  --pl-piedra: #e7e1d9; /* cantera: campo de la página */
-  --pl-piedra-honda: #d6cdc0;
-  --pl-piedra-alta: #f2eee8;
-  --pl-grafito: #43454b; /* texto secundario: 6.09:1 en el peor punto */
-  --pl-grafito-claro: #4f5157; /* etiquetas de 11px: 5.04:1 en el peor punto */
-  --pl-naranja: #f79412; /* solo donde habla Pacioli */
+  --rm-papel: #f4ede2; /* campo cálido */
+  --rm-papel-2: #ece2d3; /* segunda banda, bordes suaves */
+  --rm-tinta: #1e1b17; /* 14.75:1 sobre papel */
+  --rm-tinta-2: #3c3630; /* texto secundario, 10.25:1 */
+  --rm-azul: #07376d; /* del logo rmp.svg, 10.17:1 */
+  --rm-ambar: #a8460b; /* acento de texto, 5.09:1 */
+  --rm-ambar-vivo: #c2540e; /* sólo superficies y elementos no textuales */
+  --rm-banda: #b23c0a; /* franja saturada; texto papel a 5.1:1 */
+  --rm-linea: rgb(30 27 23 / 0.14);
 
-  --pl-display: "Cinzel", "Times New Roman", serif;
-  --pl-texto: "Libre Franklin", system-ui, sans-serif;
-
-  /* Canto de placa oscura: cara de arriba iluminada, la de abajo en sombra */
-  --pl-canto-oscuro: #1d5ea3 #05294f #03162c #0b3f78;
-  --pl-canto-oscuro-hundido: #03162c #0b3f78 #1d5ea3 #05294f;
-  /* Canto de placa clara */
-  --pl-canto-claro: #fffdf9 #c8bfaf #b4a895 #f4efe7;
-  --pl-canto-claro-hundido: #b4a895 #f4efe7 #fffdf9 #c8bfaf;
-  /* Apoyo en el muro: desplazamiento y desenfoque reales */
-  --pl-apoyo: 0 10px 18px -8px rgb(4 36 74 / 0.45);
-  --pl-apoyo-corto: 0 4px 9px -5px rgb(4 36 74 / 0.4);
+  --rm-display: "Archivo", system-ui, sans-serif;
+  --rm-serif: "Spectral", Georgia, serif;
+  --rm-mono: "Azeret Mono", ui-monospace, monospace;
 }
 
-/* Superficies del navegador: selección, cursor y barra, en la paleta */
 ::selection {
-  background: var(--pl-azul);
-  color: var(--pl-piedra-alta);
+  background: var(--rm-ambar);
+  color: var(--rm-papel);
 }
 
 :root {
-  scrollbar-color: var(--pl-grafito-claro) var(--pl-piedra-honda);
-  caret-color: var(--pl-azul);
+  scrollbar-color: var(--rm-tinta-2) var(--rm-papel-2);
+  caret-color: var(--rm-ambar);
 }
 
 /* Sobre fondos oscuros el oro sube de luminancia para cumplir AA
@@ -117,7 +104,7 @@ body {
 /* Foco visible — cada superficie declara su color; el oro sólo
    sobrevive en las páginas que aún no migran (.fondo-oscuro) */
 :focus-visible {
-  outline: 2px solid var(--foco, var(--pl-azul));
+  outline: 2px solid var(--foco, var(--rm-azul));
   outline-offset: 2px;
 }
 
@@ -177,152 +164,129 @@ html.js .revela.visible {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   Mundo placa — primitivas compartidas por las superficies migradas.
-   Todo va acotado a .mundo-placa: las páginas que aún no migran usan
-   los mismos nombres de clase en algún caso y no deben tocarse.
+   Primitivas compartidas por las superficies migradas. Acotadas a
+   .mundo para no tocar las páginas que siguen en el diseño anterior.
    ═══════════════════════════════════════════════════════════════ */
-.mundo-placa .marco {
-  max-width: 1180px;
+.mundo {
+  background: var(--rm-papel);
+  color: var(--rm-tinta);
+  font-family: var(--rm-serif);
+  --foco: var(--rm-ambar);
+}
+
+.mundo .marco {
+  max-width: 1360px;
   margin: 0 auto;
-  padding-inline: clamp(16px, 4vw, 48px);
+  padding-inline: clamp(20px, 4vw, 64px);
 }
 
-.mundo-placa .marco--angosto { max-width: 760px; }
-
-/* La placa: la profundidad es el canto, cuatro caras mitradas */
-.mundo-placa .placa {
-  position: relative;
-  border-style: solid;
-  border-radius: 2px;
-  box-shadow: var(--pl-apoyo);
+/* Titular grande: la voz de la casa */
+.mundo .titular {
+  font-family: var(--rm-display);
+  font-weight: 500;
+  font-size: clamp(38px, 7.2vw, 104px);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--rm-tinta);
+  margin: 0;
 }
 
-.mundo-placa .placa--oscura {
-  border-width: 6px;
-  border-color: var(--pl-canto-oscuro);
-  background-image: linear-gradient(
-    168deg,
-    #0c4a8a 0%,
-    var(--pl-azul) 34%,
-    #0a3f79 52%,
-    var(--pl-azul-hondo) 100%
-  );
-  color: var(--pl-piedra-alta);
+.mundo .titulo-seccion {
+  font-family: var(--rm-display);
+  font-weight: 500;
+  font-size: clamp(28px, 4.4vw, 60px);
+  line-height: 1;
+  letter-spacing: -0.015em;
+  text-transform: uppercase;
+  margin: 0;
 }
 
-.mundo-placa .placa--clara {
-  border-width: 5px;
-  border-color: var(--pl-canto-claro);
-  background-image: linear-gradient(
-    168deg,
-    #faf7f2 0%,
-    var(--pl-piedra-alta) 38%,
-    #ece6dd 54%,
-    #e2dbd1 100%
-  );
-  color: var(--pl-azul);
-  box-shadow: var(--pl-apoyo-corto);
+/* Línea de acento en serif de color, bajo el titular */
+.mundo .acento {
+  font-family: var(--rm-serif);
+  font-weight: 500;
+  font-size: clamp(22px, 2.6vw, 36px);
+  line-height: 1.2;
+  color: var(--rm-ambar);
+  margin: 0;
 }
 
-/* Tornillos: mismo trazo que los íconos */
-.mundo-placa .tornillo {
-  position: absolute;
+/* Dato en mono: direcciones, teléfonos, fechas, cifras */
+.mundo .dato {
+  font-family: var(--rm-mono);
+  font-size: 12.5px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--rm-tinta-2);
+  line-height: 1.8;
+}
+
+/* Enlace con flecha en círculo, el gesto de acción del mundo */
+.mundo .accion {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--rm-mono);
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--rm-tinta);
+  text-decoration: none;
+}
+
+.mundo .accion-circulo {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--rm-tinta);
+  border-radius: 50%;
+  transition: background 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mundo .accion:hover .accion-circulo {
+  background: var(--rm-tinta);
+  color: var(--rm-papel);
+}
+
+.mundo .accion--ambar { color: var(--rm-ambar); }
+.mundo .accion--ambar .accion-circulo { border-color: var(--rm-ambar); }
+.mundo .accion--ambar:hover .accion-circulo {
+  background: var(--rm-ambar);
+  color: var(--rm-papel);
+}
+
+.mundo .ico {
   width: 15px;
   height: 15px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.5;
-  opacity: 0.55;
-}
-.mundo-placa .tornillo--0 { top: 12px; left: 12px; }
-.mundo-placa .tornillo--1 { top: 12px; right: 12px; }
-.mundo-placa .tornillo--2 { bottom: 12px; left: 12px; }
-.mundo-placa .tornillo--3 { bottom: 12px; right: 12px; }
-
-.mundo-placa .ico {
-  width: 17px;
-  height: 17px;
   flex: none;
   fill: none;
   stroke: currentColor;
-  stroke-width: 1.5;
+  stroke-width: 1.6;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
-.mundo-placa .seccion-cabeza {
-  max-width: 62ch;
-  margin-bottom: clamp(28px, 3.4vw, 46px);
-}
-
-.mundo-placa .seccion-titulo {
-  font-family: var(--pl-display);
+/* Botón sólido: una sola llamada fuerte por pantalla */
+.mundo .boton {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 20px;
+  background: var(--rm-ambar);
+  color: var(--rm-papel);
+  font-family: var(--rm-mono);
+  font-size: 12.5px;
   font-weight: 500;
-  font-size: clamp(25px, 3.1vw, 40px);
-  line-height: 1.15;
-  letter-spacing: 0.03em;
-  color: var(--pl-azul);
-  margin: 0;
-}
-
-.mundo-placa .seccion-titulo--claro { color: var(--pl-piedra-alta); }
-
-.mundo-placa .seccion-bajada {
-  margin: 14px 0 0;
-  font-size: clamp(15px, 1.4vw, 17px);
-  line-height: 1.6;
-  color: var(--pl-grafito);
-  max-width: 62ch;
-}
-
-.mundo-placa .enlace-grabado {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  color: var(--pl-azul);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   text-decoration: none;
-  padding-bottom: 3px;
-  border-bottom: 1px solid rgb(7 55 109 / 0.35);
+  transition: background 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.mundo-placa .enlace-grabado .ico {
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.mundo-placa .enlace-grabado:hover { border-bottom-color: var(--pl-azul); }
-.mundo-placa .enlace-grabado:hover .ico { transform: translateX(4px); }
-
-/* Acción nombrada: el destino es la persona y el texto queda seleccionable */
-.mundo-placa .area-accion {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 14.5px;
-  font-weight: 600;
-  color: var(--pl-azul);
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 4px;
-  text-decoration-color: rgb(7 55 109 / 0.5);
-}
-
-.mundo-placa .area-accion:hover { text-decoration-color: var(--pl-azul); }
-
-.mundo-placa .area-correo-dir {
-  margin: 5px 0 0;
-  font-size: 13.5px;
-  color: var(--pl-grafito);
-}
-
-@media (max-width: 480px) {
-  .mundo-placa .placa--oscura { border-width: 5px; }
-  .mundo-placa .placa--clara { border-width: 4px; }
-  .mundo-placa .tornillo { width: 12px; height: 12px; }
-  .mundo-placa .tornillo--0, .mundo-placa .tornillo--1 { top: 9px; }
-  .mundo-placa .tornillo--2, .mundo-placa .tornillo--3 { bottom: 9px; }
-  .mundo-placa .tornillo--0, .mundo-placa .tornillo--2 { left: 9px; }
-  .mundo-placa .tornillo--1, .mundo-placa .tornillo--3 { right: 9px; }
-}
+.mundo .boton .accion-circulo { border-color: currentColor; }
+.mundo .boton:hover { background: var(--rm-tinta); }
