@@ -1,0 +1,10 @@
+# pnpm 11 dejó de leer el campo "pnpm" de package.json: los ajustes viven aquí.
+# Ambas claves son el mismo permiso, escrito como lo espera cada versión:
+# onlyBuiltDependencies para pnpm 10 (el que usa el workflow de Pages) y
+# allowBuilds para pnpm 11 (el instalado en la máquina de desarrollo).
+onlyBuiltDependencies:
+  - esbuild
+  - sharp
+allowBuilds:
+  esbuild: true
+  sharp: true
