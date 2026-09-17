@@ -42,37 +42,121 @@ Para el despliegue en GitHub Pages, la variable se agrega como secreto o como
 
 ## Publicar el endpoint (Cloudflare Tunnel)
 
-Hoy n8n vive en `rmp-intranet.tail83771f.ts.net`, que es un nombre de Tailscale:
-resuelve a `100.67.15.115`, una dirección de la tailnet. **No resuelve en DNS
-público**, así que el navegador de un visitante no puede llamarlo. Comprobado
-contra 1.1.1.1 y 8.8.8.8: sin respuesta.
+### El terreno, verificado
 
-En el servidor donde corre n8n:
+- `rmp.mx` **no está en Cloudflare**: sus nameservers son de GoDaddy
+  (`ns21/ns22.domaincontrol.com`) y el dominio apunta a `50.63.8.92`, el
+  hosting viejo.
+- **El correo de la firma es Microsoft 365**: el MX es
+  `rmp-mx.mail.protection.outlook.com`. Esto es lo más delicado de todo el
+  proceso: si se mueve el DNS sin replicar los registros de correo, la firma
+  se queda sin correo, que es justo por donde entra su trabajo.
+- n8n vive en `rmp-intranet.tail83771f.ts.net`, expuesto por Tailscale en el
+  puerto 8443 (el servicio real suele escuchar en 5678). Esa dirección es de
+  la tailnet y no resuelve en DNS público.
+
+### Paso 0 — Mover el DNS de rmp.mx a Cloudflare
+
+Es el prerrequisito del subdominio `chat.rmp.mx`, y conviene igual para el
+sitio nuevo (WAF, caché, analítica). El orden importa:
+
+1. En GoDaddy, exportar o anotar **todos** los registros de la zona. En
+   especial: el MX de Outlook, el TXT de SPF, los CNAME de DKIM
+   (`selector1._domainkey`, `selector2._domainkey`), `autodiscover`, y
+   cualquier TXT de verificación de Microsoft.
+2. Bajar el TTL de esos registros a 300 segundos y esperar a que caduque el
+   TTL anterior. Así el cambio es reversible en minutos.
+3. Crear la zona en Cloudflare (plan gratuito) y **verificar registro por
+   registro** contra la lista del paso 1. Cloudflare importa casi todo, pero
+   no siempre completo.
+4. Poner el registro del sitio en modo **DNS only** (nube gris) mientras siga
+   en GoDaddy, para no meter proxy donde no se necesita todavía.
+5. Recién entonces cambiar los nameservers en GoDaddy.
+6. Comprobar el correo enviando y recibiendo un mensaje real antes de seguir.
+
+Si no quieren mover el dominio ahora, la alternativa sin tocar DNS es
+`tailscale funnel 5678`, que publica el mismo n8n en la URL de Tailscale.
+Sirve para arrancar; el túnel de Cloudflare es lo que aguanta producción.
+
+### Paso 1 — Instalar el túnel en el servidor de n8n
 
 ```bash
-# 1. Instalar y autenticar
-cloudflared tunnel login
+# Debian/Ubuntu
+curl -fsSL https://pkg.cloudflare.com/cloudflare-main.gpg \
+  | sudo tee /usr/share/keyrings/cloudflare-main.gpg >/dev/null
+echo "deb [signed-by=/usr/share/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared any main" \
+  | sudo tee /etc/apt/sources.list.d/cloudflared.list
+sudo apt update && sudo apt install cloudflared
+
+cloudflared tunnel login          # abre el navegador y autoriza la zona rmp.mx
 cloudflared tunnel create rmp-chat
-
-# 2. Apuntar un subdominio propio al túnel
 cloudflared tunnel route dns rmp-chat chat.rmp.mx
-
-# 3. Config: el túnel entrega en el n8n local
-cat > ~/.cloudflared/config.yml <<'YAML'
-tunnel: rmp-chat
-credentials-file: /root/.cloudflared/rmp-chat.json
-ingress:
-  - hostname: chat.rmp.mx
-    service: http://localhost:5678   # puerto real de n8n
-  - service: http_status:404
-YAML
-
-# 4. Correrlo como servicio
-cloudflared service install
 ```
 
-Queda `https://chat.rmp.mx/webhook/chatbot-rmp`, con certificado y sin exponer
-el puerto del servidor.
+### Paso 2 — Exponer SÓLO el webhook, nunca el editor
+
+Esto es lo más importante de la configuración. Si se publica n8n entero,
+queda su editor en internet: cualquiera que adivine la URL ve el panel de
+login, y toda la automatización de la firma detrás. El túnel enruta por
+ruta y todo lo demás cae en 404.
+
+```yaml
+# /etc/cloudflared/config.yml
+tunnel: rmp-chat
+credentials-file: /root/.cloudflared/<id-del-tunel>.json
+
+ingress:
+  # Sólo el endpoint del chatbot sale a internet
+  - hostname: chat.rmp.mx
+    path: ^/webhook/chatbot-rmp$
+    service: http://localhost:5678
+  # Cualquier otra ruta del subdominio no existe
+  - hostname: chat.rmp.mx
+    service: http_status:404
+  - service: http_status:404
+```
+
+El editor de n8n se sigue usando por Tailscale, como hasta ahora. No hay
+razón para exponerlo.
+
+```bash
+sudo cloudflared service install
+sudo systemctl enable --now cloudflared
+```
+
+Si n8n corre en Docker y `cloudflared` también, el `service` no es
+`localhost` sino el nombre del contenedor: `http://n8n:5678`.
+
+### Paso 3 — Decirle a n8n cuál es su URL pública
+
+n8n construye las URLs de sus webhooks con estas variables. Sin ellas, la
+interfaz muestra direcciones internas y el "Test URL" no coincide con lo que
+llama el sitio.
+
+```bash
+# .env de n8n (o environment del docker-compose)
+WEBHOOK_URL=https://chat.rmp.mx/
+N8N_EDITOR_BASE_URL=https://rmp-intranet.tail83771f.ts.net:8443/
+N8N_PROXY_HOPS=1          # hay un proxy delante: que confíe en X-Forwarded-For
+```
+
+`N8N_PROXY_HOPS` importa para el rate limiting: sin él, n8n ve todas las
+peticiones como si vinieran del túnel y no de cada visitante.
+
+Reiniciar n8n después de cambiarlas.
+
+### Paso 4 — Comprobar desde fuera
+
+Desde una máquina que **no** esté en la tailnet:
+
+```bash
+curl -i -X POST https://chat.rmp.mx/webhook/chatbot-rmp \
+  -H "Content-Type: application/json" \
+  -d '{"message":"hola","sessionId":"prueba","lang":"es"}'
+```
+
+Esperado: `200` con `{"reply":"..."}`. Y que `https://chat.rmp.mx/` devuelva
+404, que es la señal de que el editor no quedó expuesto.
 
 ## Protección contra abuso
 
@@ -84,9 +168,13 @@ Gemini.
 
 Lo que sí protege, en orden de importancia:
 
-1. **Rate limiting en Cloudflare** (Security → WAF → Rate limiting rules):
-   una regla sobre `chat.rmp.mx/webhook/*` con un tope tipo 20 peticiones por
-   minuto por IP. Es la barrera que de verdad detiene el abuso.
+1. **Rate limiting en Cloudflare** (Security → WAF → Rate limiting rules).
+   Una regla concreta para empezar: si `hostname eq "chat.rmp.mx"`, contar por
+   IP, 20 peticiones por minuto, acción *Block* por 10 minutos. Un visitante
+   real no manda 20 mensajes en un minuto; un script sí. Es la barrera que de
+   verdad detiene el abuso, y la única que no depende del navegador.
+   Conviene además una regla de WAF que bloquee todo método que no sea POST u
+   OPTIONS sobre esa ruta.
 2. **Tope de tamaño**: rechazar cuerpos de más de ~2 KB. El widget ya corta en
    500 caracteres, pero el servidor no debe confiar en el cliente.
 3. **Tope de turnos por sesión**: en el workflow, si la memoria de ese
