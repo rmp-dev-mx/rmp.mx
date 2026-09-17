@@ -294,7 +294,7 @@ const ICO_ENVIAR = '<path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/>';
     margin: 5px 0 0;
     font-size: 13px;
     line-height: 1.45;
-    color: #c9bfae; /* 9.43:1 sobre la tinta */
+    color: var(--rm-papel-tenue);
     max-width: 34ch;
   }
 
@@ -341,7 +341,7 @@ const ICO_ENVIAR = '<path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/>';
     margin: 0;
     padding: 11px 13px;
     max-width: 88%;
-    font-size: 15px;
+    font-size: 16px;
     line-height: 1.5;
     white-space: pre-wrap;
   }
@@ -358,11 +358,12 @@ const ICO_ENVIAR = '<path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/>';
     align-self: flex-end;
   }
 
+  /* El error se distingue por el color del texto, no por una barra lateral:
+     este sistema no separa con cajas ni con filetes de color. */
   .chat-historial :global(.burbuja--error) {
     background: var(--rm-papel-2);
-    color: var(--rm-tinta);
+    color: var(--rm-ambar); /* 4.62:1 sobre papel-2 */
     align-self: flex-start;
-    border-left: 3px solid var(--rm-banda);
   }
 
   /* Los enlaces que devuelve el asistente (correos, teléfonos) */
@@ -391,7 +392,7 @@ const ICO_ENVIAR = '<path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/>';
     color: var(--rm-tinta-2);
     cursor: pointer;
     font-family: var(--rm-mono);
-    font-size: 11px;
+    font-size: 12.5px;
     letter-spacing: 0.04em;
     transition: border-color 0.3s ease, color 0.3s ease;
   }
@@ -441,7 +442,7 @@ const ICO_ENVIAR = '<path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/>';
     padding: 10px 16px 12px;
     background: var(--rm-papel-2);
     font-family: var(--rm-mono);
-    font-size: 10.5px;
+    font-size: 12.5px;
     line-height: 1.5;
     letter-spacing: 0.04em;
     color: var(--rm-tinta-2);

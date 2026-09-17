@@ -6,6 +6,7 @@ colors:
   papel-2: "#ece2d3"
   tinta: "#1e1b17"
   tinta-2: "#3c3630"
+  papel-tenue: "#c9bfae"
   azul: "#07376d"
   ambar: "#a8460b"
   ambar-vivo: "#c2540e"
@@ -101,6 +102,7 @@ Dos tintas y un acento. El azul es de marca y trabaja de enlace; el ámbar es la
 - **Papel 2** (`#ece2d3`): segunda banda, secciones alternas y fondos de apoyo.
 - **Tinta** (`#1e1b17`): texto principal y fondo del pie. 14.75:1 sobre papel.
 - **Tinta 2** (`#3c3630`): texto secundario y párrafos largos. 10.25:1 sobre papel.
+- **Papel tenue** (`#c9bfae`): texto secundario **sobre** la tinta, donde el papel pleno pesa demasiado. 9.43:1 sobre tinta.
 - **Línea** (`rgb(30 27 23 / 0.14)`): el único separador del sistema.
 
 ### Named Rules
