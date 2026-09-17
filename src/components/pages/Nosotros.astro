@@ -1,898 +1,408 @@
 ---
 import Base from "@layouts/Base.astro";
+import Cabecera from "@components/Cabecera.astro";
 import { url } from "../../lib/url";
-import Boton from "@components/Boton.astro";
 import { getLang, localizedUrl } from "../../i18n/utils";
 import { getNosotros } from "../../i18n/nosotros";
 
 const lang = getLang(Astro.currentLocale);
 const n = getNosotros(lang);
-const equipo = n.equipo;
 
-function iniciales(nombre: string): string {
-  const partes = nombre.split(" ");
-  return (partes[0]?.[0] ?? "") + (partes[1]?.[0] ?? "");
-}
+const FLECHA = '<path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/>';
+
+// Iniciales del socio fundador, para el monograma mientras no haya foto.
+const iniciales = n.socioNombre
+  .split(" ")
+  .filter((p) => p.length > 2)
+  .slice(0, 2)
+  .map((p) => p[0])
+  .join("");
 ---
 
-<Base title={n.metaTitle} description={n.metaDesc} translated={true}>
+<Base title={n.metaTitle} description={n.metaDesc} translated={true} fuentes="nuevo">
+  <div class="mundo">
 
-  <!-- ═══════════════════════════════ HERO ═══ -->
-  <section class="phero fondo-oscuro">
-    <img
-      class="phero-fondo"
-      src={url("/images/fotos/nosotros-slp.webp")}
+    <Cabecera
+      titulo={n.heroH1}
+      sub={n.heroSub}
+      foto="/images/fotos/nosotros-slp.webp"
       alt={n.slpAlt}
-      width="2400"
-      height="1350"
-      loading="eager"
-      fetchpriority="high"
-      decoding="async"
+      foco="42%"
     />
-    <div class="phero-velo" aria-hidden="true"></div>
-    <div class="phero-lineas" aria-hidden="true"></div>
-    <div class="contenedor phero-inner">
-      <p class="eyebrow phero-anim-1">
-        <span class="eyebrow-linea" aria-hidden="true"></span>
-        {n.heroEyebrow}
-      </p>
-      <h1 class="phero-h1 phero-anim-2">
-        {n.heroH1[0]}<br />
-        <em class="texto-oro">{n.heroH1[1]}</em>
-      </h1>
-      <p class="phero-sub phero-anim-3">{n.heroSub}</p>
-    </div>
-  </section>
 
-  <!-- ═══════════════════════════════ HISTORIA ═══ -->
-  <section class="historia" aria-labelledby="historia-titulo">
-    <div class="contenedor">
-      <div class="historia-grid">
-        <div class="historia-col revela">
-          <p class="eyebrow">{n.historiaEyebrow}</p>
-          <h2 id="historia-titulo" class="seccion-titulo">
-            {n.historiaTitulo[0]}<br />{n.historiaTitulo[1]}
+    <!-- ═══════════════════════════════════════════ HISTORIA ══ -->
+    <section class="historia" aria-labelledby="historia-titulo">
+      <div class="marco historia-grid">
+        <div>
+          <h2 class="titulo-seccion" id="historia-titulo">
+            {n.historiaTitulo[0]} {n.historiaTitulo[1]}
           </h2>
-          <div class="historia-texto">
-            <p>{n.historiaP1}</p>
-            <p>
-              {n.historiaP2pre}<strong>{n.historiaP2strong}</strong>{n.historiaP2post}
-            </p>
-          </div>
+          <p class="parrafo">{n.historiaP1}</p>
+          <p class="parrafo">
+            {n.historiaP2pre}<strong>{n.historiaP2strong}</strong>{n.historiaP2post}
+          </p>
         </div>
-        <figure class="historia-figura revela">
+        <figure class="historia-figura">
           <img
             src={url("/images/fotos/nosotros-historia.webp")}
             alt=""
-            width="1000"
-            height="1250"
+            width="1856"
+            height="2304"
             loading="lazy"
             decoding="async"
           />
         </figure>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ═══════════════════════════════ FIRMA FILIAL: PACIOLI ═══ -->
-  <section class="filial" aria-labelledby="filial-titulo">
-    <div class="contenedor">
-      <div class="filial-card revela">
-        <div class="filial-logo">
-          <img
-            src={url("/images/pacioli.svg")}
-            alt={n.filialAlt}
-            width="3196"
-            height="1256"
-            decoding="async"
-            loading="lazy"
-          />
-        </div>
-        <div class="filial-texto">
-          <p class="eyebrow">{n.filialEyebrow}</p>
-          <h2 id="filial-titulo" class="filial-titulo">
-            {n.filialTitulo[0]}<br />{n.filialTitulo[1]}
+    <!-- ══════════════════════════════════════════════ PACIOLI ══ -->
+    <section class="filial" aria-labelledby="filial-titulo">
+      <div class="marco filial-grid">
+        <img
+          class="filial-logo"
+          src={url("/images/pacioli.svg")}
+          alt={n.filialAlt}
+          width="220"
+          height="68"
+          loading="lazy"
+          decoding="async"
+        />
+        <div>
+          <h2 class="titulo-seccion" id="filial-titulo">
+            {n.filialTitulo[0]} {n.filialTitulo[1]}
           </h2>
-          <p class="filial-desc">
+          <p class="parrafo">
             {n.filialDescPre}<strong>{n.filialDescStrong}</strong>{n.filialDescPost}
-            <!-- TODO: confirmar con la firma el objeto/alcance oficial de Pacioli -->
           </p>
-          <a href={localizedUrl("/servicios#asesoria", lang)} class="filial-link">
-            {n.filialLink}
-            <span aria-hidden="true">→</span>
+          <!-- TODO: pedir al cliente el alcance y objeto de la filial -->
+          <a class="accion accion--ambar" href={localizedUrl("/servicios#asesoria", lang)}>
+            <span>{n.filialLink}</span>
+            <span class="accion-circulo" aria-hidden="true">
+              <svg class="ico" viewBox="0 0 24 24" set:html={FLECHA} />
+            </span>
           </a>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ═══════════════════════ MISIÓN / VISIÓN / VALORES ═══ -->
-  <section class="mvv fondo-oscuro" aria-label={n.mvvAria}>
-    <div class="contenedor">
-      <div class="doble-linea" aria-hidden="true"></div>
-      <div class="mvv-grid">
-        <article class="mvv-item revela">
-          <p class="mvv-folio" aria-hidden="true">M</p>
-          <h3 class="mvv-titulo">{n.misionTitulo}</h3>
-          <p class="mvv-texto">{n.misionTexto}</p>
-        </article>
-        <article class="mvv-item revela" style="--retraso: 100ms">
-          <p class="mvv-folio" aria-hidden="true">V</p>
-          <h3 class="mvv-titulo">{n.visionTitulo}</h3>
-          <p class="mvv-texto">{n.visionTexto}</p>
-        </article>
-        <article class="mvv-item revela" style="--retraso: 200ms">
-          <p class="mvv-folio" aria-hidden="true">F</p>
-          <h3 class="mvv-titulo">{n.filosofiaTitulo}</h3>
-          <p class="mvv-texto">{n.filosofiaTexto}</p>
-        </article>
+    <!-- ══════════════════════════════════════ MISIÓN Y VISIÓN ══ -->
+    <section class="mvv" aria-label={n.mvvAria}>
+      <div class="marco">
+        <div class="mvv-grid">
+          <div class="mvv-bloque">
+            <h2 class="dato mvv-et">{n.misionTitulo}</h2>
+            <p class="mvv-texto">{n.misionTexto}</p>
+          </div>
+          <div class="mvv-bloque">
+            <h2 class="dato mvv-et">{n.visionTitulo}</h2>
+            <p class="mvv-texto">{n.visionTexto}</p>
+          </div>
+          <div class="mvv-bloque">
+            <h2 class="dato mvv-et">{n.filosofiaTitulo}</h2>
+            <p class="mvv-texto">{n.filosofiaTexto}</p>
+          </div>
+        </div>
+
+        <ul class="valores" role="list" aria-label={n.valoresAria}>
+          {n.valores.map((v) => <li class="valor">{v}</li>)}
+        </ul>
       </div>
+    </section>
 
-      <!-- Valores como cinta de asientos -->
-      <ul class="valores" role="list" aria-label={n.valoresAria}>
-        {n.valores.map((valor, i) => (
-          <li class="valor revela" style={`--retraso: ${i * 70}ms`}>
-            <span class="valor-num" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
-            {valor}
-          </li>
-        ))}
-      </ul>
-    </div>
-  </section>
-
-  <!-- ═══════════════════════════ CITA EQUIPO ═══ -->
-  <section class="cita" aria-label={n.citaAria}>
-    <div class="contenedor">
-      <div class="cita-inner revela">
-        <span class="cita-comilla" aria-hidden="true">❝</span>
+    <!-- ═════════════════════════════════════════════════ CITA ══ -->
+    <section class="cita" aria-label={n.citaAria}>
+      <div class="marco">
         <blockquote class="cita-texto">{n.citaTexto}</blockquote>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ═══════════════════════════ SOCIO FUNDADOR ═══ -->
-  <section class="socio fondo-oscuro" aria-labelledby="socio-titulo">
-    <div class="contenedor">
-      <div class="socio-grid revela">
-        <div class="socio-monograma" aria-hidden="true">
-          <img class="socio-marca" src={url("/images/logo-rmp-emblema.webp")} alt="" width="560" height="560" decoding="async" loading="lazy" />
-          <span class="socio-iniciales">JR</span>
-        </div>
+    <!-- ══════════════════════════════════════════════════ SOCIO ══ -->
+    <section class="socio" aria-labelledby="socio-titulo">
+      <div class="marco socio-grid">
+        <p class="monograma" aria-hidden="true">{iniciales}</p>
         <div>
-          <p class="eyebrow">{n.socioEyebrow}</p>
-          <h2 id="socio-titulo" class="socio-nombre">{n.socioNombre}</h2>
-          <p class="socio-texto">
-            {n.socioTexto}
-            <!-- TODO: pedir al cliente semblanza, cédula profesional y fotografía del socio fundador (Socios.php está rota) -->
-          </p>
+          <p class="dato">{n.socioEyebrow}</p>
+          <h2 class="socio-nombre" id="socio-titulo">{n.socioNombre}</h2>
+          <p class="parrafo socio-texto">{n.socioTexto}</p>
+          <!-- TODO: semblanza y retrato del socio fundador, pendientes del cliente -->
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ═══════════════════════════════ EQUIPO ═══ -->
-  <section class="equipo" aria-labelledby="equipo-titulo">
-    <div class="contenedor">
-      <header class="equipo-header revela">
-        <p class="eyebrow">{n.equipoEyebrow}</p>
-        <h2 id="equipo-titulo" class="seccion-titulo">
-          {n.equipoTitulo[0]}<br />{n.equipoTitulo[1]}
+    <!-- ══════════════════════════════════════════════════ EQUIPO ══ -->
+    <section class="equipo" aria-labelledby="equipo-titulo">
+      <div class="marco">
+        <h2 class="titulo-seccion" id="equipo-titulo">
+          {n.equipoTitulo[0]} {n.equipoTitulo[1]}
         </h2>
-      </header>
 
-      {equipo.map(({ area, personas }) => (
-        <div class="equipo-area">
-          <h3 class="equipo-area-titulo revela">
-            <span class="equipo-area-linea" aria-hidden="true"></span>
-            {area}
-          </h3>
-          <ul class="personas" role="list">
-            {personas.map(({ nombre, credencial, correo }, i) => (
-              <li class="revela" style={`--retraso: ${i * 80}ms`}>
-                <article class="persona">
-                  <span class="persona-monograma" aria-hidden="true">
-                    {iniciales(nombre)}
-                  </span>
-                  <div class="persona-datos">
-                    <h4 class="persona-nombre">{nombre}</h4>
-                    <p class="persona-credencial">{credencial}</p>
-                    <a href={`mailto:${correo}`} class="persona-correo">{correo}</a>
-                  </div>
-                </article>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
-    </div>
-  </section>
-
-  <!-- ═══════════════════════════════ PACIOLI ═══ -->
-  <section class="pacioli" aria-labelledby="pacioli-titulo">
-    <div class="contenedor">
-      <div class="pacioli-inner revela">
-        <div>
-          <p class="eyebrow">{n.pacioliEyebrow}</p>
-          <h2 id="pacioli-titulo" class="pacioli-titulo">
-            {n.pacioliTitulo[0]}<br />{n.pacioliTitulo[1]}
-          </h2>
-          <p class="pacioli-texto">
-            {n.pacioliTexto}
-            <!-- TODO: pedir al cliente logo vectorial y descripción de Pacioli -->
-          </p>
-        </div>
-        <p class="pacioli-año" aria-hidden="true">1494</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══════════════════════════════ CTA ═══ -->
-  <section class="cta fondo-oscuro" aria-label={n.ctaEyebrow}>
-    <div class="contenedor">
-      <div class="doble-linea" aria-hidden="true"></div>
-      <div class="cta-inner revela">
-        <div>
-          <p class="eyebrow">{n.ctaEyebrow}</p>
-          <h2 class="cta-titulo">{n.ctaTitulo[0]}<br />{n.ctaTitulo[1]}</h2>
-        </div>
-        <div class="cta-accion">
-          <Boton href={localizedUrl("/contacto", lang)} variant="primario">{n.ctaAgenda}</Boton>
-          <address class="cta-datos">
-            <a href="tel:+524448334098">444-833-40-98</a>
-            <span aria-hidden="true">·</span>
-            <a href="mailto:despacho@rmp.mx">despacho@rmp.mx</a>
-          </address>
+        <div class="equipo-areas">
+          {n.equipo.map((grupo) => (
+            <section class="equipo-grupo" aria-label={grupo.area}>
+              <h3 class="dato equipo-area">{grupo.area}</h3>
+              <ul class="equipo-lista" role="list">
+                {grupo.personas.map((p) => (
+                  <li class="persona">
+                    <p class="persona-nombre">{p.nombre}</p>
+                    <p class="persona-credencial">{p.credencial}</p>
+                    <a class="persona-correo" href={`mailto:${p.correo}`}>{p.correo}</a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))}
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
+    <!-- ════════════════════════════════════════════════ CIERRE ══ -->
+    <section class="cierre">
+      <div class="marco cierre-grid">
+        <h2 class="titulo-seccion">{n.ctaTitulo[0]} {n.ctaTitulo[1]}</h2>
+        <a class="boton" href={localizedUrl("/contacto", lang)}>
+          <span>{n.ctaAgenda}</span>
+          <span class="accion-circulo" aria-hidden="true">
+            <svg class="ico" viewBox="0 0 24 24" set:html={FLECHA} />
+          </span>
+        </a>
+      </div>
+    </section>
+
+  </div>
 </Base>
 
 <style>
-  /* ═══════ Utilidades ═══════ */
-  .contenedor {
-    max-width: var(--ancho-max);
-    margin: 0 auto;
-    padding-inline: calc(var(--espacio) * 3);
+  .parrafo {
+    margin-top: 16px;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--rm-tinta-2);
+    max-width: 52ch;
   }
 
-  .eyebrow {
-    font-family: var(--fuente-datos);
-    font-size: 12px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    color: var(--oro);
-    margin-bottom: calc(var(--espacio) * 2.5);
-  }
+  .parrafo strong { color: var(--rm-tinta); font-weight: 600; }
 
-  .eyebrow-linea {
-    display: inline-block;
-    width: 48px;
-    height: 1px;
-    background: var(--oro);
-    vertical-align: middle;
-    margin-inline-end: calc(var(--espacio) * 1.5);
-  }
-
-  .texto-oro { color: var(--oro); font-style: italic; }
-
-  .seccion-titulo {
-    font-family: var(--fuente-display);
-    font-weight: 500;
-    font-size: clamp(32px, 4vw, 52px);
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    color: var(--tinta);
-    margin: 0;
-  }
-
-  .doble-linea {
-    border-top: 1px solid var(--oro);
-    position: relative;
-    margin-bottom: calc(var(--espacio) * 8);
-  }
-  .doble-linea::after {
-    content: "";
-    position: absolute;
-    inset: 3px 0 auto 0;
-    border-top: 1px solid var(--oro);
-  }
-
-
-  /* ═══════ HERO ═══════ */
-  .phero {
-    position: relative;
-    background-color: var(--tinta);
-    background-image: radial-gradient(
-      ellipse 90% 70% at 70% 10%,
-      rgb(26 53 101 / 0.5),
-      transparent 60%
-    );
-    overflow: hidden;
-  }
-
-  .phero-lineas {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background-image: repeating-linear-gradient(
-      to bottom,
-      transparent 0,
-      transparent 47px,
-      rgb(216 210 196 / 0.07) 47px,
-      rgb(216 210 196 / 0.07) 48px
-    );
-    mask-image: linear-gradient(to bottom, transparent, black 20%);
-  }
-
-  .phero-inner {
-    position: relative;
-    z-index: 1;
-    padding-block: calc(64px + var(--espacio) * 10) calc(var(--espacio) * 12);
-  }
-
-  .phero-h1 {
-    font-family: var(--fuente-display);
-    font-weight: 500;
-    font-size: clamp(44px, 6.5vw, 92px);
-    line-height: 1.0;
-    letter-spacing: -0.025em;
-    color: var(--papel);
-    margin: 0 0 calc(var(--espacio) * 3);
-  }
-
-  .phero-sub {
-    font-size: clamp(16px, 1.6vw, 18px);
-    line-height: 1.75;
-    color: rgb(250 247 240 / 0.6);
-    max-width: 620px;
-  }
-
-  .phero-anim-1 { animation: sube 0.5s ease 0.1s both; }
-  .phero-anim-2 { animation: sube 0.6s ease 0.25s both; }
-  .phero-anim-3 { animation: sube 0.5s ease 0.4s both; }
-
-  @keyframes sube {
-    from { opacity: 0; transform: translateY(18px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .phero-anim-1, .phero-anim-2, .phero-anim-3 { animation: none; }
-  }
-
-  /* ═══════ Imagen de fondo del hero + velo ═══════ */
-  .phero-fondo {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center 30%;
-    z-index: 0;
-  }
-  .phero-velo {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    background: linear-gradient(
-      105deg,
-      var(--tinta) 0%,
-      rgb(22 36 58 / 0.94) 32%,
-      rgb(22 36 58 / 0.78) 66%,
-      rgb(22 36 58 / 0.6) 100%
-    );
-  }
-
-  /* ═══════ HISTORIA ═══════ */
-  .historia { padding-block: calc(var(--espacio) * 14); }
+  /* ═══════════════════════════════ HISTORIA ═══════════════════════════════ */
+  .historia { padding-block: clamp(44px, 6vw, 88px); }
 
   .historia-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-    gap: calc(var(--espacio) * 8);
-    align-items: stretch;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.7fr);
+    gap: clamp(26px, 4vw, 64px);
+    align-items: center;
   }
-
-  .historia-texto {
-    font-size: 16px;
-    line-height: 1.8;
-    color: var(--pizarra);
-    display: flex;
-    flex-direction: column;
-    gap: calc(var(--espacio) * 2.5);
-    margin-top: calc(var(--espacio) * 3);
-  }
-
-  .historia-texto strong { color: var(--tinta); }
 
   .historia-figura {
     margin: 0;
-    line-height: 0;
-    height: 100%;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: var(--rm-papel-2);
   }
+
   .historia-figura img {
     width: 100%;
     height: 100%;
-    min-height: 340px;
     object-fit: cover;
-    object-position: center 30%;
-    border: 1px solid var(--regla);
-    border-radius: var(--radio);
-  }
-
-  /* ═══════ FIRMA FILIAL: PACIOLI ═══════ */
-  .filial { padding-block: 0 calc(var(--espacio) * 14); }
-
-  .filial-card {
-    display: grid;
-    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-    gap: calc(var(--espacio) * 8);
-    align-items: center;
-    background: var(--blanco);
-    border: 1px solid var(--regla);
-    border-radius: var(--radio);
-    padding: calc(var(--espacio) * 7);
-  }
-
-  .filial-logo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-inline-end: calc(var(--espacio) * 4);
-    border-inline-end: 1px solid var(--regla);
-  }
-  .filial-logo img {
-    width: 100%;
-    max-width: 320px;
-    height: auto;
-  }
-
-  .filial-titulo {
-    font-family: var(--fuente-display);
-    font-weight: 500;
-    font-size: clamp(28px, 3.4vw, 44px);
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    color: var(--tinta);
-    margin: calc(var(--espacio) * 1.5) 0 calc(var(--espacio) * 2.5);
-  }
-
-  .filial-desc {
-    font-size: 16px;
-    line-height: 1.75;
-    color: var(--pizarra);
-    margin: 0 0 calc(var(--espacio) * 3);
-  }
-  .filial-desc strong { color: var(--tinta); }
-
-  .filial-link {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--espacio);
-    font-family: var(--fuente-texto);
-    font-weight: 700;
-    font-size: 15px;
-    color: var(--oro);
-    text-decoration: none;
-    transition: gap 0.15s ease;
-  }
-  .filial-link:hover { gap: calc(var(--espacio) * 1.5); }
-
-  @media (prefers-reduced-motion: reduce) {
-    .filial-link { transition: none; }
-  }
-
-  /* ═══════ MVV ═══════ */
-  .mvv {
-    background-color: var(--tinta);
-    padding-block: calc(var(--espacio) * 10) calc(var(--espacio) * 12);
-  }
-
-  .mvv-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: calc(var(--espacio) * 6);
-    margin-bottom: calc(var(--espacio) * 10);
-  }
-
-  .mvv-folio {
-    font-family: var(--fuente-display);
-    font-style: italic;
-    font-size: clamp(48px, 5vw, 72px);
-    line-height: 1;
-    color: transparent;
-    -webkit-text-stroke: 1px var(--oro);
-    margin-bottom: calc(var(--espacio) * 2);
-    opacity: 0.8;
-  }
-
-  .mvv-titulo {
-    font-family: var(--fuente-display);
-    font-weight: 600;
-    font-size: 22px;
-    color: var(--papel);
-    margin: 0 0 calc(var(--espacio) * 1.5);
-  }
-
-  .mvv-texto {
-    font-size: 15px;
-    line-height: 1.7;
-    color: rgb(250 247 240 / 0.6);
-  }
-
-  .valores {
-    list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    gap: calc(var(--espacio) * 1.5);
-  }
-
-  .valor {
-    display: inline-flex;
-    align-items: center;
-    gap: calc(var(--espacio) * 1.25);
-    padding: calc(var(--espacio) * 1.25) calc(var(--espacio) * 2.5);
-    border: 1px solid rgb(216 210 196 / 0.2);
-    border-radius: var(--radio);
-    font-family: var(--fuente-texto);
-    font-size: 15px;
-    font-weight: 500;
-    color: var(--papel);
-    transition: border-color 0.2s ease;
-  }
-
-  .valor:hover { border-color: var(--oro); }
-
-  .valor-num {
-    font-family: var(--fuente-datos);
-    font-size: 11px;
-    color: var(--oro);
-    font-variant-numeric: tabular-nums;
-  }
-
-  /* ═══════ CITA ═══════ */
-  .cita { padding-block: calc(var(--espacio) * 14); }
-
-  .cita-inner {
-    position: relative;
-    padding-block: calc(var(--espacio) * 6);
-    border-top: 1px solid var(--regla);
-    border-bottom: 1px solid var(--regla);
-    text-align: center;
-  }
-
-  .cita-inner::before {
-    content: "";
-    position: absolute;
-    inset: 3px 0 auto 0;
-    border-top: 1px solid var(--regla);
-  }
-  .cita-inner::after {
-    content: "";
-    position: absolute;
-    inset: auto 0 -4px 0;
-    border-bottom: 1px solid var(--regla);
-  }
-
-  .cita-comilla {
     display: block;
-    font-family: var(--fuente-display);
-    font-size: clamp(48px, 7vw, 80px);
-    line-height: 0.8;
-    color: var(--oro);
-    margin-bottom: calc(var(--espacio) * 2);
-    user-select: none;
   }
 
-  .cita-texto {
-    font-family: var(--fuente-display);
-    font-style: italic;
-    font-weight: 500;
-    font-size: clamp(22px, 3vw, 36px);
-    line-height: 1.45;
-    color: var(--tinta);
-    max-width: 880px;
-    margin: 0 auto;
+  /* ════════════════════════════════ PACIOLI ════════════════════════════════ */
+  .filial {
+    padding-block: clamp(44px, 6vw, 84px);
+    background: var(--rm-papel-2);
+    border-block: 1px solid var(--rm-linea);
   }
 
-  /* ═══════ SOCIO ═══════ */
-  .socio {
-    background-color: var(--tinta);
-    padding-block: calc(var(--espacio) * 12);
-  }
-
-  .socio-grid {
+  .filial-grid {
     display: grid;
-    grid-template-columns: auto 1fr;
-    gap: calc(var(--espacio) * 6);
-    align-items: center;
-  }
-
-  .socio-monograma {
-    position: relative;
-    width: clamp(120px, 16vw, 180px);
-    aspect-ratio: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid rgb(216 210 196 / 0.2);
-    border-radius: 50%;
-  }
-
-  .socio-marca {
-    position: absolute;
-    width: 70%;
-    height: auto;
-    opacity: 0.12;
-  }
-
-  .socio-iniciales {
-    font-family: var(--fuente-display);
-    font-weight: 600;
-    font-size: clamp(32px, 4vw, 48px);
-    color: var(--oro);
-  }
-
-  .socio-nombre {
-    font-family: var(--fuente-display);
-    font-weight: 500;
-    font-size: clamp(28px, 3.5vw, 44px);
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    color: var(--papel);
-    margin: 0 0 calc(var(--espacio) * 2);
-  }
-
-  .socio-texto {
-    font-size: 16px;
-    line-height: 1.7;
-    color: rgb(250 247 240 / 0.6);
-    max-width: 540px;
-  }
-
-  /* ═══════ EQUIPO ═══════ */
-  .equipo { padding-block: calc(var(--espacio) * 14); }
-
-  .equipo-header { margin-bottom: calc(var(--espacio) * 8); }
-
-  .equipo-area { margin-bottom: calc(var(--espacio) * 8); }
-
-  .equipo-area-titulo {
-    display: flex;
-    align-items: center;
-    gap: calc(var(--espacio) * 2);
-    font-family: var(--fuente-datos);
-    font-size: 13px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    color: var(--oro);
-    margin: 0 0 calc(var(--espacio) * 4);
-  }
-
-  .equipo-area-linea {
-    width: 32px;
-    height: 1px;
-    background: var(--oro);
-    flex-shrink: 0;
-  }
-
-  .personas {
-    list-style: none;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: calc(var(--espacio) * 3);
-  }
-
-  .persona {
-    display: flex;
-    gap: calc(var(--espacio) * 2.5);
-    align-items: flex-start;
-    background: var(--blanco);
-    border: 1px solid var(--regla);
-    border-radius: var(--radio);
-    padding: calc(var(--espacio) * 3);
-    height: 100%;
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
-  }
-
-  .persona:hover {
-    box-shadow: var(--sombra);
-    transform: translateY(-2px);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .persona { transition: none; }
-    .persona:hover { transform: none; box-shadow: none; }
-  }
-
-  .persona-monograma {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 56px;
-    height: 56px;
-    flex-shrink: 0;
-    background: var(--tinta);
-    color: var(--papel);
-    font-family: var(--fuente-display);
-    font-weight: 600;
-    font-size: 18px;
-    border-radius: 50%;
-  }
-
-  .persona-nombre {
-    font-family: var(--fuente-display);
-    font-weight: 600;
-    font-size: 18px;
-    line-height: 1.25;
-    color: var(--tinta);
-    margin: 0 0 calc(var(--espacio) * 0.75);
-  }
-
-  .persona-credencial {
-    font-size: 13px;
-    line-height: 1.55;
-    color: var(--pizarra);
-    margin-bottom: calc(var(--espacio) * 1.25);
-  }
-
-  .persona-correo {
-    font-family: var(--fuente-datos);
-    font-size: 12px;
-    color: var(--oro);
-    text-decoration: none;
-    letter-spacing: 0.02em;
-  }
-
-  .persona-correo:hover { text-decoration: underline; }
-
-  /* ═══════ PACIOLI ═══════ */
-  .pacioli {
-    background: var(--blanco);
-    border-block: 1px solid var(--regla);
-    padding-block: calc(var(--espacio) * 12);
-    overflow: hidden;
-  }
-
-  .pacioli-inner {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: calc(var(--espacio) * 6);
-    align-items: center;
-  }
-
-  .pacioli-titulo {
-    font-family: var(--fuente-display);
-    font-weight: 500;
-    font-size: clamp(28px, 3.5vw, 44px);
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    color: var(--tinta);
-    margin: 0 0 calc(var(--espacio) * 2);
-  }
-
-  .pacioli-texto {
-    font-size: 16px;
-    line-height: 1.7;
-    color: var(--pizarra);
-    max-width: 480px;
-  }
-
-  .pacioli-año {
-    font-family: var(--fuente-datos);
-    font-size: clamp(64px, 9vw, 112px);
-    font-weight: 500;
-    line-height: 1;
-    color: transparent;
-    -webkit-text-stroke: 1px var(--regla);
-    font-variant-numeric: tabular-nums;
-    letter-spacing: -0.04em;
-    user-select: none;
-  }
-
-  /* ═══════ CTA ═══════ */
-  .cta {
-    background-color: var(--tinta);
-    padding-block: calc(var(--espacio) * 10) calc(var(--espacio) * 14);
-  }
-
-  .cta-inner {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: calc(var(--espacio) * 8);
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: clamp(24px, 4vw, 56px);
     align-items: start;
   }
 
-  .cta-titulo {
-    font-family: var(--fuente-display);
+  .filial-logo {
+    width: 220px;
+    height: auto;
+    padding: 18px 22px;
+    background: var(--rm-papel);
+  }
+
+  /* ══════════════════════════════ MISIÓN Y VISIÓN ══════════════════════════ */
+  .mvv { padding-block: clamp(44px, 6vw, 88px); }
+
+  .mvv-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: clamp(22px, 3vw, 46px);
+  }
+
+  .mvv-bloque {
+    padding-top: 18px;
+    border-top: 2px solid var(--rm-tinta);
+  }
+
+  .mvv-et { margin: 0 0 12px; }
+
+  .mvv-texto {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--rm-tinta-2);
+  }
+
+  .valores {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 12px;
+    list-style: none;
+    margin: clamp(30px, 3.6vw, 48px) 0 0;
+    padding: 0;
+  }
+
+  .valor {
+    padding: 8px 14px;
+    border: 1px solid var(--rm-linea);
+    font-family: var(--rm-mono);
+    font-size: 11.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--rm-tinta-2);
+  }
+
+  /* ═════════════════════════════════ CITA ═════════════════════════════════ */
+  .cita {
+    padding-block: clamp(44px, 6vw, 88px);
+    background: var(--rm-banda);
+    color: var(--rm-papel);
+  }
+
+  .cita-texto {
+    margin: 0;
+    max-width: 22ch;
+    font-family: var(--rm-serif);
+    font-weight: 400;
+    font-size: clamp(24px, 3.4vw, 46px);
+    line-height: 1.25;
+  }
+
+  /* ═════════════════════════════════ SOCIO ═════════════════════════════════ */
+  .socio { padding-block: clamp(44px, 6vw, 88px); }
+
+  .socio-grid {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: clamp(24px, 3.4vw, 48px);
+    align-items: center;
+  }
+
+  /* Monograma mientras el cliente no entregue el retrato */
+  .monograma {
+    display: grid;
+    place-items: center;
+    width: clamp(96px, 11vw, 140px);
+    aspect-ratio: 1;
+    border: 1px solid var(--rm-linea);
+    font-family: var(--rm-display);
+    font-size: clamp(30px, 3.4vw, 44px);
+    letter-spacing: 0.02em;
+    color: var(--rm-ambar);
+    margin: 0;
+  }
+
+  .socio-nombre {
+    margin: 8px 0 0;
+    font-family: var(--rm-serif);
     font-weight: 500;
-    font-size: clamp(32px, 4vw, 56px);
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    color: var(--papel);
-    margin-block: calc(var(--espacio) * 2) 0;
+    font-size: clamp(24px, 2.6vw, 36px);
+    line-height: 1.2;
   }
 
-  .cta-accion {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: calc(var(--espacio) * 3);
-    padding-top: calc(var(--espacio) * 2);
+  .socio-texto { margin-top: 12px; }
+
+  /* ════════════════════════════════ EQUIPO ════════════════════════════════ */
+  .equipo {
+    padding-block: clamp(44px, 6vw, 88px);
+    background: var(--rm-papel-2);
+    border-top: 1px solid var(--rm-linea);
   }
 
-  .cta-datos {
-    font-style: normal;
-    font-family: var(--fuente-datos);
-    font-size: 14px;
-    color: rgb(250 247 240 / 0.5);
-    display: flex;
-    gap: var(--espacio);
+  .equipo-areas {
+    display: grid;
+    gap: clamp(24px, 3vw, 40px);
+    margin-top: clamp(30px, 3.6vw, 48px);
   }
 
-  .cta-datos a {
-    color: inherit;
+  .equipo-grupo {
+    display: grid;
+    grid-template-columns: minmax(140px, 200px) minmax(0, 1fr);
+    gap: clamp(14px, 2.4vw, 32px);
+    align-items: start;
+  }
+
+  .equipo-area {
+    margin: 0;
+    padding-top: 16px;
+    border-top: 2px solid var(--rm-tinta);
+  }
+
+  .equipo-lista {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 0 clamp(18px, 2.4vw, 34px);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .persona {
+    padding: 16px 0;
+    border-top: 1px solid var(--rm-linea);
+  }
+
+  .persona-nombre {
+    margin: 0 0 3px;
+    font-family: var(--rm-serif);
+    font-size: 17px;
+    line-height: 1.3;
+  }
+
+  .persona-credencial {
+    margin: 0 0 8px;
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--rm-tinta-2);
+  }
+
+  .persona-correo {
+    font-family: var(--rm-mono);
+    font-size: 12.5px;
+    color: var(--rm-azul);
     text-decoration: none;
-    transition: color 0.15s ease;
   }
 
-  .cta-datos a:hover { color: var(--oro); }
+  .persona-correo:hover { text-decoration: underline; text-underline-offset: 4px; }
 
-  /* ═══════ Responsive ═══════ */
-  @media (max-width: 1023px) {
-    .historia-grid { grid-template-columns: 1fr; gap: calc(var(--espacio) * 4); }
-    .mvv-grid { grid-template-columns: 1fr; gap: calc(var(--espacio) * 5); }
-    .filial-card { grid-template-columns: 1fr; gap: calc(var(--espacio) * 5); padding: calc(var(--espacio) * 5); }
-    .filial-logo {
-      border-inline-end: none;
-      padding-inline-end: 0;
-      padding-block-end: calc(var(--espacio) * 4);
-      border-block-end: 1px solid var(--regla);
-    }
-    .filial-logo img { max-width: 280px; }
+  /* ════════════════════════════════ CIERRE ════════════════════════════════ */
+  .cierre { padding-block: clamp(44px, 6vw, 88px); }
+
+  .cierre-grid {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: clamp(20px, 3vw, 40px);
   }
 
-  @media (max-width: 767px) {
-    .contenedor { padding-inline: calc(var(--espacio) * 2); }
+  /* ══════════════════════════════ Adaptación ══════════════════════════════ */
+  @media (max-width: 900px) {
+    .historia-grid { grid-template-columns: 1fr; }
+    .historia-figura { aspect-ratio: 16 / 10; }
+    .filial-grid { grid-template-columns: 1fr; }
+    .equipo-grupo { grid-template-columns: 1fr; gap: 10px; }
+  }
 
-    .socio-grid {
-      grid-template-columns: 1fr;
-      justify-items: start;
-      gap: calc(var(--espacio) * 4);
-    }
-
-    .personas { grid-template-columns: 1fr; }
-
-    .pacioli-inner { grid-template-columns: 1fr; }
-    .pacioli-año { display: none; }
-
-    .cta-inner { grid-template-columns: 1fr; }
-    .cta-accion { align-items: flex-start; }
+  @media (max-width: 560px) {
+    .socio-grid { grid-template-columns: 1fr; }
+    .cita-texto { max-width: none; }
   }
 </style>
-
-<script>
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  const revelables = document.querySelectorAll(".revela");
-  if (reduceMotion) {
-    revelables.forEach((el) => el.classList.add("visible"));
-  } else {
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-            io.unobserve(entry.target);
-          }
-        }
-      },
-      { threshold: 0.1, rootMargin: "0px 0px -30px 0px" }
-    );
-    revelables.forEach((el) => io.observe(el));
-  }
-</script>
