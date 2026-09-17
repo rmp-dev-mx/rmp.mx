@@ -175,3 +175,154 @@ html.js .revela.visible {
   inset: 3px 0 auto 0;
   border-top: 1px solid var(--oro);
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   Mundo placa — primitivas compartidas por las superficies migradas.
+   Todo va acotado a .mundo-placa: las páginas que aún no migran usan
+   los mismos nombres de clase en algún caso y no deben tocarse.
+   ═══════════════════════════════════════════════════════════════ */
+.mundo-placa .marco {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding-inline: clamp(16px, 4vw, 48px);
+}
+
+.mundo-placa .marco--angosto { max-width: 760px; }
+
+/* La placa: la profundidad es el canto, cuatro caras mitradas */
+.mundo-placa .placa {
+  position: relative;
+  border-style: solid;
+  border-radius: 2px;
+  box-shadow: var(--pl-apoyo);
+}
+
+.mundo-placa .placa--oscura {
+  border-width: 6px;
+  border-color: var(--pl-canto-oscuro);
+  background-image: linear-gradient(
+    168deg,
+    #0c4a8a 0%,
+    var(--pl-azul) 34%,
+    #0a3f79 52%,
+    var(--pl-azul-hondo) 100%
+  );
+  color: var(--pl-piedra-alta);
+}
+
+.mundo-placa .placa--clara {
+  border-width: 5px;
+  border-color: var(--pl-canto-claro);
+  background-image: linear-gradient(
+    168deg,
+    #faf7f2 0%,
+    var(--pl-piedra-alta) 38%,
+    #ece6dd 54%,
+    #e2dbd1 100%
+  );
+  color: var(--pl-azul);
+  box-shadow: var(--pl-apoyo-corto);
+}
+
+/* Tornillos: mismo trazo que los íconos */
+.mundo-placa .tornillo {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  opacity: 0.55;
+}
+.mundo-placa .tornillo--0 { top: 12px; left: 12px; }
+.mundo-placa .tornillo--1 { top: 12px; right: 12px; }
+.mundo-placa .tornillo--2 { bottom: 12px; left: 12px; }
+.mundo-placa .tornillo--3 { bottom: 12px; right: 12px; }
+
+.mundo-placa .ico {
+  width: 17px;
+  height: 17px;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.mundo-placa .seccion-cabeza {
+  max-width: 62ch;
+  margin-bottom: clamp(28px, 3.4vw, 46px);
+}
+
+.mundo-placa .seccion-titulo {
+  font-family: var(--pl-display);
+  font-weight: 500;
+  font-size: clamp(25px, 3.1vw, 40px);
+  line-height: 1.15;
+  letter-spacing: 0.03em;
+  color: var(--pl-azul);
+  margin: 0;
+}
+
+.mundo-placa .seccion-titulo--claro { color: var(--pl-piedra-alta); }
+
+.mundo-placa .seccion-bajada {
+  margin: 14px 0 0;
+  font-size: clamp(15px, 1.4vw, 17px);
+  line-height: 1.6;
+  color: var(--pl-grafito);
+  max-width: 62ch;
+}
+
+.mundo-placa .enlace-grabado {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--pl-azul);
+  text-decoration: none;
+  padding-bottom: 3px;
+  border-bottom: 1px solid rgb(7 55 109 / 0.35);
+}
+
+.mundo-placa .enlace-grabado .ico {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mundo-placa .enlace-grabado:hover { border-bottom-color: var(--pl-azul); }
+.mundo-placa .enlace-grabado:hover .ico { transform: translateX(4px); }
+
+/* Acción nombrada: el destino es la persona y el texto queda seleccionable */
+.mundo-placa .area-accion {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--pl-azul);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  text-decoration-color: rgb(7 55 109 / 0.5);
+}
+
+.mundo-placa .area-accion:hover { text-decoration-color: var(--pl-azul); }
+
+.mundo-placa .area-correo-dir {
+  margin: 5px 0 0;
+  font-size: 13.5px;
+  color: var(--pl-grafito);
+}
+
+@media (max-width: 480px) {
+  .mundo-placa .placa--oscura { border-width: 5px; }
+  .mundo-placa .placa--clara { border-width: 4px; }
+  .mundo-placa .tornillo { width: 12px; height: 12px; }
+  .mundo-placa .tornillo--0, .mundo-placa .tornillo--1 { top: 9px; }
+  .mundo-placa .tornillo--2, .mundo-placa .tornillo--3 { bottom: 9px; }
+  .mundo-placa .tornillo--0, .mundo-placa .tornillo--2 { left: 9px; }
+  .mundo-placa .tornillo--1, .mundo-placa .tornillo--3 { right: 9px; }
+}
