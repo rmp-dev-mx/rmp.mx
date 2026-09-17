@@ -1,273 +1,155 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-17T00:00:00.000Z",
-  "title": "Design System: Ramírez Medellín, S.C. (rmp.mx)",
+  "generatedAt": "2026-09-17",
+  "title": "Sistema de diseño: Ramírez Medellín, S.C.",
   "extensions": {
     "colorMeta": {
       "azul": {
         "role": "primary",
-        "displayName": "Azul de Grabado",
-        "canonical": "#07376d",
-        "note": "Tinta única del sistema, tomada del logotipo rmp.svg. También ::selection y caret-color.",
-        "tonalRamp": ["#000433", "#002457", "#19457b", "#3a649b", "#5b85bc", "#7ea7de", "#a5ceff", "#caf2ff"]
+        "displayName": "Azul de marca",
+        "canonical": "#07376d"
       },
-      "azul-hondo": {
+      "ambar": {
         "role": "primary",
-        "displayName": "Azul Hondo",
-        "canonical": "#04244a",
-        "note": "Fondo de superficies oscuras extensas y base tintada de toda sombra proyectada.",
-        "tonalRamp": ["#00082a", "#06264c", "#27466d", "#46658c", "#6785ad", "#89a7cf", "#afcdf4", "#d4f1ff"]
+        "displayName": "Ámbar",
+        "canonical": "#a8460b"
       },
-      "azul-noche": {
-        "role": "primary",
-        "displayName": "Azul Noche",
-        "canonical": "#061c3a",
-        "note": "Sólo como segundo punto de un degradado oscuro; nunca color plano.",
-        "tonalRamp": ["#000925", "#102645", "#2f4665", "#4e6585", "#6e85a5", "#90a6c6", "#b6ccec", "#daf0ff"]
-      },
-      "azul-claro": {
+      "banda": {
         "role": "secondary",
-        "displayName": "Azul Claro",
-        "canonical": "#9cc0e8",
-        "note": "Acento y color de foco sobre placa oscura (8.2:1). No cumple contraste sobre cantera.",
-        "tonalRamp": ["#000b20", "#0f2841", "#2c4764", "#496686", "#6686a9", "#86a8ce", "#aacef6", "#cff2ff"]
+        "displayName": "Banda",
+        "canonical": "#b23c0a"
       },
-      "azul-tenue": {
-        "role": "secondary",
-        "displayName": "Azul Tenue",
-        "canonical": "#c2d4e8",
-        "note": "Texto corrido sobre placa oscura (10.2:1): domicilio, bajadas, línea de profesiones.",
-        "tonalRamp": ["#040c16", "#1d2733", "#3a4654", "#576574", "#768596", "#96a7b9", "#bbcde0", "#dff1ff"]
-      },
-      "naranja": {
-        "role": "tertiary",
-        "displayName": "Naranja Pacioli",
-        "canonical": "#f79412",
-        "note": "Reservado a la firma filial. Declarado en tokens; sin aplicación en la portada construida.",
-        "tonalRamp": ["#2a0000", "#500400", "#772a00", "#9c4900", "#c36900", "#eb8a00", "#ffb148", "#ffd676"]
-      },
-      "piedra": {
+      "papel": {
         "role": "neutral",
-        "displayName": "Cantera",
-        "canonical": "#e7e1d9",
-        "note": "El campo de la página: el muro donde se atornillan las placas.",
-        "tonalRamp": ["#0d0b07", "#292621", "#48443f", "#67625d", "#87827c", "#a9a49d", "#cfcac2", "#f3ede6"]
+        "displayName": "Papel",
+        "canonical": "#f4ede2"
       },
-      "piedra-honda": {
+      "tinta": {
         "role": "neutral",
-        "displayName": "Cantera Honda",
-        "canonical": "#d6cdc0",
-        "note": "Extremo en sombra del muro y pista de la barra de desplazamiento.",
-        "tonalRamp": ["#0f0a05", "#2b261e", "#4a443b", "#696258", "#8a8277", "#aca397", "#d2c9bc", "#f6ede0"]
-      },
-      "piedra-alta": {
-        "role": "neutral",
-        "displayName": "Cantera Alta",
-        "canonical": "#f2eee8",
-        "note": "Cara de la placa clara, texto sobre tinta y fondo del header en reposo.",
-        "tonalRamp": ["#0d0b08", "#282623", "#474541", "#66635e", "#86837e", "#a7a49f", "#cecac4", "#f2eee8"]
-      },
-      "grafito": {
-        "role": "neutral",
-        "displayName": "Grafito",
-        "canonical": "#43454b",
-        "note": "Texto secundario sobre piedra. Medido: 6.09:1 en el peor punto.",
-        "tonalRamp": ["#0a0b0f", "#25262b", "#43454b", "#616369", "#818389", "#a2a4ab", "#c8cad0", "#eceef4"]
-      },
-      "grafito-claro": {
-        "role": "neutral",
-        "displayName": "Grafito Claro",
-        "canonical": "#4f5157",
-        "note": "Etiquetas de campo de 11px y enlaces secundarios. Medido: 5.04:1 en el peor punto. Ningún gris de texto es más claro que éste.",
-        "tonalRamp": ["#0a0b0f", "#25262b", "#43454b", "#616369", "#818389", "#a2a4aa", "#c8cad0", "#eceef4"]
+        "displayName": "Tinta",
+        "canonical": "#1e1b17"
       }
     },
-    "typographyMeta": {
-      "display": { "displayName": "Grabado mayor", "purpose": "El nombre de la firma en la placa mayor. Uno por página." },
-      "headline": { "displayName": "Título de sección", "purpose": "Encabezado de sección; la variante clara es la misma pieza sobre tinta." },
-      "title": { "displayName": "Nombre de área", "purpose": "El nombre del área dentro de su placa." },
-      "rubrica": { "displayName": "Rúbrica", "purpose": "Rótulo de columna del padrón, en versales bajo regla de 2px azul." },
-      "lead": { "displayName": "Entrada", "purpose": "La entrada bajo la placa mayor. Máximo 52ch." },
-      "body": { "displayName": "Cuerpo", "purpose": "Texto corrido. Medidas de 38ch a 62ch, nunca más." },
-      "body-menor": { "displayName": "Cuerpo menor", "purpose": "Alcance de área, hechos de continuidad, credenciales. Máximo 44ch." },
-      "grabado": { "displayName": "Línea grabada", "purpose": "Líneas rotuladas de la placa mayor: profesiones y fundación, en versales espaciadas." },
-      "label": { "displayName": "Etiqueta de campo", "purpose": "Nombra el campo que viene debajo: Responde, Teléfonos, Correo del despacho." },
-      "dato": { "displayName": "Dato", "purpose": "Cifra o nombre propio que encabeza un hecho de continuidad. Siempre tabular." }
-    },
-    "cantos": [
+    "contraste": [
       {
-        "name": "canto-oscuro",
-        "value": "border-color: #1d5ea3 #05294f #03162c #0b3f78",
-        "purpose": "Las cuatro caras de una placa oscura: arriba iluminada, abajo en sombra. Ancho 6px (5px bajo 480px)."
+        "par": "tinta sobre papel",
+        "ratio": 14.75
       },
       {
-        "name": "canto-oscuro-hundido",
-        "value": "border-color: #03162c #0b3f78 #1d5ea3 #05294f",
-        "purpose": "La misma placa oscura presionada: las cuatro caras invertidas."
+        "par": "tinta-2 sobre papel",
+        "ratio": 10.25
       },
       {
-        "name": "canto-claro",
-        "value": "border-color: #fffdf9 #c8bfaf #b4a895 #f4efe7",
-        "purpose": "Las cuatro caras de una placa clara. Ancho 5px (4px bajo 480px)."
+        "par": "azul sobre papel",
+        "ratio": 10.17
       },
       {
-        "name": "canto-claro-hundido",
-        "value": "border-color: #b4a895 #f4efe7 #fffdf9 #c8bfaf",
-        "purpose": "La placa clara presionada: las cuatro caras invertidas."
-      }
-    ],
-    "shadows": [
-      {
-        "name": "apoyo",
-        "value": "0 10px 18px -8px rgb(4 36 74 / 0.45)",
-        "purpose": "La sombra que una placa oscura proyecta sobre el muro. Sólo sombra proyectada, nunca borde."
+        "par": "ambar sobre papel",
+        "ratio": 5.09
       },
       {
-        "name": "apoyo-corto",
-        "value": "0 4px 9px -5px rgb(4 36 74 / 0.4)",
-        "purpose": "La de una placa clara, que se separa menos del muro."
+        "par": "papel sobre banda",
+        "ratio": 5.1
       },
       {
-        "name": "hundido",
-        "value": "0 1px 2px -1px rgb(4 36 74 / 0.3)",
-        "purpose": "Sombra residual mientras la pieza está presionada. En el control oscuro sube a 0.35 de alfa."
-      },
-      {
-        "name": "regla-activa",
-        "value": "inset 0 -2px 0 currentColor",
-        "purpose": "La regla inferior del enlace de navegación activo. Único inset del sistema."
+        "par": "acento del pie sobre tinta",
+        "ratio": 6.49
       }
     ],
     "motion": [
-      { "name": "ease-placa", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Easing único del mundo: estados, montaje y grabado." },
-      { "name": "dur-estado", "value": "0.35s", "purpose": "Hundido de placa y control; cambio de estado del header." },
-      { "name": "dur-icono", "value": "0.4s", "purpose": "Desplazamiento de la flecha en un enlace o control." },
-      { "name": "dur-montaje", "value": "0.85s", "purpose": "La placa baja 9px con 1.5px de desenfoque hasta asentarse (keyframes montar)." },
-      { "name": "dur-grabado", "value": "0.9s", "purpose": "Cada línea de la placa mayor se descubre desde su recorte, clip-path inset(0 0 42% 0) a inset(0) (keyframes grabar)." },
-      { "name": "escalonado-areas", "value": "0.26s / 0.34s / 0.42s / 0.5s", "purpose": "Entrada escalonada de las cuatro placas de área." }
+      {
+        "name": "salida",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Única curva del sistema. El contenido nunca parte de invisible: entra desde su propio recorte."
+      }
     ],
     "breakpoints": [
-      { "name": "placa-compacta", "value": "480px" },
-      { "name": "renglon-apilado", "value": "600px" },
-      { "name": "cromo-movil", "value": "767px" },
-      { "name": "columna-unica", "value": "900px" },
-      { "name": "portada-doble", "value": "1024px" }
+      {
+        "name": "movil",
+        "value": "560px"
+      },
+      {
+        "name": "tableta",
+        "value": "900px"
+      },
+      {
+        "name": "ancho",
+        "value": "1100px"
+      }
     ]
   },
   "components": [
     {
-      "name": "Placa mayor",
-      "kind": "custom",
-      "refersTo": "placa-oscura",
-      "description": "La pieza que lleva el nombre de la firma: placa oscura atornillada, con filete y línea de fundación. Una por página.",
-      "html": "<div class=\"ds-placa-mayor\"><svg class=\"ds-tornillo ds-t0\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"7\"/><path d=\"M8.5 13.6 15.5 10.4\"/></svg><svg class=\"ds-tornillo ds-t1\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"7\"/><path d=\"M9.4 9.1 14.6 14.9\"/></svg><svg class=\"ds-tornillo ds-t2\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"7\"/><path d=\"M9.4 14.9 14.6 9.1\"/></svg><svg class=\"ds-tornillo ds-t3\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"7\"/><path d=\"M8.5 10.9 15.5 13.1\"/></svg><div class=\"ds-placa-mayor-cuerpo\"><h1 class=\"ds-firma\">Ramírez Medellín, S.C.</h1><p class=\"ds-profesiones\">Contadores Públicos y Abogados</p><hr class=\"ds-filete\"><p class=\"ds-fundacion\"><span>Desde 1998</span><span class=\"ds-punto\"></span><span>28 años</span><span class=\"ds-punto\"></span><span>San Luis Potosí</span></p></div></div>",
-      "css": ".ds-placa-mayor { position: relative; border-style: solid; border-width: 6px; border-color: #1d5ea3 #05294f #03162c #0b3f78; border-radius: 2px; box-shadow: 0 10px 18px -8px rgb(4 36 74 / 0.45); background-image: linear-gradient(168deg, #0c4a8a 0%, var(--pl-azul, #07376d) 34%, #0a3f79 52%, var(--pl-azul-hondo, #04244a) 100%); color: var(--pl-piedra-alta, #f2eee8); padding: 48px 52px; } .ds-tornillo { position: absolute; width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.5; opacity: 0.55; } .ds-t0 { top: 12px; left: 12px; } .ds-t1 { top: 12px; right: 12px; } .ds-t2 { bottom: 12px; left: 12px; } .ds-t3 { bottom: 12px; right: 12px; } .ds-placa-mayor-cuerpo { max-width: 22ch; } .ds-firma { font-family: var(--pl-display, Cinzel, serif); font-weight: 600; font-size: 48px; line-height: 1.04; letter-spacing: 0.02em; margin: 0; } .ds-profesiones { margin: 18px 0 0; font-family: var(--pl-texto, system-ui, sans-serif); font-size: 15px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--pl-azul-tenue, #c2d4e8); } .ds-filete { border: 0; border-top: 1px solid rgb(255 255 255 / 0.26); border-bottom: 1px solid rgb(0 0 0 / 0.32); margin: 28px 0; max-width: 180px; } .ds-fundacion { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin: 0; font-family: var(--pl-texto, system-ui, sans-serif); font-size: 12.5px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--pl-azul-claro, #9cc0e8); } .ds-punto { width: 4px; height: 4px; border-radius: 50%; background: var(--pl-azul-claro, #9cc0e8); }"
-    },
-    {
-      "name": "Placa de área",
-      "kind": "card",
-      "refersTo": "placa-area",
-      "description": "La pieza firma del sistema: un área de práctica con su alcance y, al fondo, quien responde por ella con su correo directo. Se hunde cuando la acción recibe cursor o foco, no cuando lo recibe la tarjeta.",
-      "html": "<article class=\"ds-placa-area\"><svg class=\"ds-tornillo ds-t0\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"7\"/><path d=\"M8.5 13.6 15.5 10.4\"/></svg><svg class=\"ds-tornillo ds-t1\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"7\"/><path d=\"M9.4 9.1 14.6 14.9\"/></svg><svg class=\"ds-tornillo ds-t2\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"7\"/><path d=\"M9.4 14.9 14.6 9.1\"/></svg><svg class=\"ds-tornillo ds-t3\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"7\"/><path d=\"M8.5 10.9 15.5 13.1\"/></svg><h2 class=\"ds-area-nombre\">Contabilidad</h2><p class=\"ds-area-alcance\">Registros contables, estados financieros, declaraciones de impuestos y determinación de nóminas.</p><div class=\"ds-area-responde\"><p class=\"ds-etiqueta\">Responde</p><p class=\"ds-area-encargada\">Paola Guadalupe Guevara Moreno</p><a class=\"ds-accion-nombrada\" href=\"mailto:paola@rmp.mx\"><svg class=\"ds-ico\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><rect x=\"3\" y=\"5.5\" width=\"18\" height=\"13\" rx=\"1.5\"/><path d=\"m3.6 6.6 8.4 6.2 8.4-6.2\"/></svg><span>Escribir a Paola</span></a><p class=\"ds-area-correo\">paola@rmp.mx</p></div><a class=\"ds-enlace-secundario\" href=\"#\">Ver el área</a></article>",
-      "css": ".ds-placa-area { position: relative; display: flex; flex-direction: column; gap: 13px; border-style: solid; border-width: 5px; border-color: #fffdf9 #c8bfaf #b4a895 #f4efe7; border-radius: 2px; box-shadow: 0 4px 9px -5px rgb(4 36 74 / 0.4); background-image: linear-gradient(168deg, #faf7f2 0%, var(--pl-piedra-alta, #f2eee8) 38%, #ece6dd 54%, #e2dbd1 100%); color: var(--pl-azul, #07376d); font-family: var(--pl-texto, system-ui, sans-serif); padding: 28px; max-width: 340px; transition: border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1); } .ds-placa-area:focus-within, .ds-placa-area:has(.ds-accion-nombrada:hover) { border-color: #b4a895 #f4efe7 #fffdf9 #c8bfaf; box-shadow: 0 1px 2px -1px rgb(4 36 74 / 0.3); transform: translateY(2px); } .ds-tornillo { position: absolute; width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.5; opacity: 0.55; } .ds-t0 { top: 12px; left: 12px; } .ds-t1 { top: 12px; right: 12px; } .ds-t2 { bottom: 12px; left: 12px; } .ds-t3 { bottom: 12px; right: 12px; } .ds-area-nombre { font-family: var(--pl-display, Cinzel, serif); font-weight: 600; font-size: 25px; line-height: 1.15; letter-spacing: 0.04em; margin: 0; } .ds-area-alcance { margin: 0; font-size: 14.5px; line-height: 1.6; color: var(--pl-grafito, #43454b); max-width: 44ch; } .ds-area-responde { margin-top: auto; padding-top: 15px; border-top: 1px solid rgb(7 55 109 / 0.18); } .ds-etiqueta { margin: 0 0 4px; font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--pl-grafito-claro, #4f5157); } .ds-area-encargada { margin: 0 0 8px; font-size: 15.5px; font-weight: 600; } .ds-accion-nombrada { display: inline-flex; align-items: center; gap: 8px; font-size: 14.5px; font-weight: 600; color: var(--pl-azul, #07376d); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; text-decoration-color: rgb(7 55 109 / 0.5); } .ds-accion-nombrada:hover { text-decoration-color: var(--pl-azul, #07376d); } .ds-accion-nombrada:focus-visible { outline: 2px solid var(--pl-azul, #07376d); outline-offset: 2px; } .ds-area-correo { margin: 5px 0 0; font-size: 13.5px; color: var(--pl-grafito, #43454b); } .ds-ico { width: 17px; height: 17px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; } .ds-enlace-secundario { align-self: flex-start; font-size: 12.5px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--pl-grafito-claro, #4f5157); text-decoration: none; border-bottom: 1px solid rgb(79 81 87 / 0.4); padding-bottom: 2px; } .ds-enlace-secundario:hover { color: var(--pl-azul, #07376d); border-bottom-color: var(--pl-azul, #07376d); }"
-    },
-    {
-      "name": "Control de placa",
+      "name": "Botón",
       "kind": "button",
-      "refersTo": "boton-placa",
-      "description": "El único control primario de la página: placa oscura a canto reducido de 2px. Al presionar invierte las cuatro caras y baja 2px.",
-      "html": "<a class=\"ds-boton-placa\" href=\"#\"><span>Decirnos qué necesita</span><svg class=\"ds-ico\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4.5 12h14\"/><path d=\"m13 6.5 5.5 5.5L13 17.5\"/></svg></a>",
-      "css": ".ds-boton-placa { display: inline-flex; align-items: center; gap: 10px; border-style: solid; border-width: 2px; border-color: #1d5ea3 #05294f #03162c #0b3f78; border-radius: 2px; box-shadow: 0 10px 18px -8px rgb(4 36 74 / 0.45); background-image: linear-gradient(168deg, #0c4a8a 0%, var(--pl-azul, #07376d) 34%, #0a3f79 52%, var(--pl-azul-hondo, #04244a) 100%); color: var(--pl-piedra-alta, #f2eee8); font-family: var(--pl-texto, system-ui, sans-serif); font-size: 15.5px; font-weight: 600; letter-spacing: 0.02em; text-decoration: none; padding: 13px 21px; transition: border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1); } .ds-boton-placa:hover { border-color: #03162c #0b3f78 #1d5ea3 #05294f; box-shadow: 0 1px 2px -1px rgb(4 36 74 / 0.35); transform: translateY(2px); } .ds-boton-placa:focus-visible { outline: 2px solid var(--pl-azul-claro, #9cc0e8); outline-offset: 2px; } .ds-boton-placa .ds-ico { width: 17px; height: 17px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); } .ds-boton-placa:hover .ds-ico { transform: translateX(3px); }"
+      "refersTo": "boton",
+      "description": "La única llamada fuerte de cada pantalla.",
+      "html": "<a class=\"ds-boton\" href=\"#\">Hablar con la firma <span class=\"ds-circulo\">→</span></a>",
+      "css": ".ds-boton{display:inline-flex;align-items:center;gap:14px;padding:14px 20px;background:#a8460b;color:#f4ede2;font-family:'Azeret Mono',monospace;font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;transition:background .35s cubic-bezier(.16,1,.3,1)}.ds-boton:hover{background:#1e1b17}.ds-circulo{display:grid;place-items:center;width:30px;height:30px;border:1px solid currentColor;border-radius:50%}"
     },
     {
-      "name": "Enlace grabado",
+      "name": "Renglón de lista",
       "kind": "custom",
-      "refersTo": "enlace-grabado",
-      "description": "El enlace de cierre de una sección, sobre el campo desnudo: regla inferior y flecha que avanza.",
-      "html": "<a class=\"ds-enlace-grabado\" href=\"#\"><span>Conocer la firma</span><svg class=\"ds-ico\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4.5 12h14\"/><path d=\"m13 6.5 5.5 5.5L13 17.5\"/></svg></a>",
-      "css": ".ds-enlace-grabado { display: inline-flex; align-items: center; gap: 9px; font-family: var(--pl-texto, system-ui, sans-serif); font-size: 15px; font-weight: 600; letter-spacing: 0.02em; color: var(--pl-azul, #07376d); text-decoration: none; padding-bottom: 3px; border-bottom: 1px solid rgb(7 55 109 / 0.35); } .ds-enlace-grabado:hover { border-bottom-color: var(--pl-azul, #07376d); } .ds-enlace-grabado:focus-visible { outline: 2px solid var(--pl-azul, #07376d); outline-offset: 2px; } .ds-enlace-grabado .ds-ico { width: 17px; height: 17px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); } .ds-enlace-grabado:hover .ds-ico { transform: translateX(4px); }"
+      "refersTo": "renglon",
+      "description": "El patrón de listado del sistema: sin caja, separado por línea fina.",
+      "html": "<li class=\"ds-renglon\"><p class=\"ds-renglon-nombre\">Preparación de estados financieros</p><p class=\"ds-renglon-desc\">Balance, resultados y flujo de efectivo.</p></li>",
+      "css": ".ds-renglon{list-style:none;padding:16px 0;border-top:1px solid rgb(30 27 23/.14)}.ds-renglon-nombre{margin:0;font-family:Spectral,Georgia,serif;font-size:18px;color:#1e1b17}.ds-renglon-desc{margin:4px 0 0;font-family:Spectral,Georgia,serif;font-size:14.5px;color:#3c3630}"
     },
     {
-      "name": "Acción nombrada",
-      "kind": "custom",
-      "refersTo": "accion-nombrada",
-      "description": "La acción primaria de una placa de área. Dice el nombre de la persona, nunca una fórmula genérica, y deja el correo visible y seleccionable junto a ella.",
-      "html": "<div class=\"ds-accion-bloque\"><a class=\"ds-accion\" href=\"mailto:citlaly@rmp.mx\"><svg class=\"ds-ico\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><rect x=\"3\" y=\"5.5\" width=\"18\" height=\"13\" rx=\"1.5\"/><path d=\"m3.6 6.6 8.4 6.2 8.4-6.2\"/></svg><span>Escribir a Citlaly</span></a><p class=\"ds-accion-correo\">citlaly@rmp.mx</p></div>",
-      "css": ".ds-accion-bloque { font-family: var(--pl-texto, system-ui, sans-serif); } .ds-accion { display: inline-flex; align-items: center; gap: 8px; font-size: 14.5px; font-weight: 600; color: var(--pl-azul, #07376d); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; text-decoration-color: rgb(7 55 109 / 0.5); } .ds-accion:hover { text-decoration-color: var(--pl-azul, #07376d); } .ds-accion:focus-visible { outline: 2px solid var(--pl-azul, #07376d); outline-offset: 2px; } .ds-accion .ds-ico { width: 17px; height: 17px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; } .ds-accion-correo { margin: 5px 0 0; font-size: 13.5px; color: var(--pl-grafito, #43454b); }"
-    },
-    {
-      "name": "Renglón del padrón",
-      "kind": "custom",
-      "refersTo": "renglon-padron",
-      "description": "Asiento de registro sobre el campo desnudo: nombre, credencial y correo directo. Lo que lo contiene es la regla, no una tarjeta.",
-      "html": "<section class=\"ds-registro\"><h3 class=\"ds-rubrica\">Auditoría</h3><ul class=\"ds-registro-lista\"><li class=\"ds-renglon\"><p class=\"ds-renglon-nombre\">Citlaly Reyes Jaime</p><p class=\"ds-renglon-credencial\">C.P. por la UASLP · Especialista en Auditoría</p><a class=\"ds-renglon-correo\" href=\"mailto:citlaly@rmp.mx\"><svg class=\"ds-ico-mini\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><rect x=\"3\" y=\"5.5\" width=\"18\" height=\"13\" rx=\"1.5\"/><path d=\"m3.6 6.6 8.4 6.2 8.4-6.2\"/></svg><span>citlaly@rmp.mx</span></a></li></ul></section>",
-      "css": ".ds-registro { display: grid; grid-template-columns: minmax(140px, 200px) 1fr; gap: 24px; align-items: start; font-family: var(--pl-texto, system-ui, sans-serif); } .ds-rubrica { font-family: var(--pl-display, Cinzel, serif); font-weight: 500; font-size: 15px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--pl-azul, #07376d); margin: 0; padding-top: 14px; border-top: 2px solid var(--pl-azul, #07376d); } .ds-registro-lista { list-style: none; margin: 0; padding: 0; } .ds-renglon { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; gap: 6px 20px; padding: 13px 0; border-top: 1px solid rgb(7 55 109 / 0.32); } .ds-renglon-nombre { margin: 0; font-size: 16px; font-weight: 600; line-height: 1.3; color: var(--pl-azul, #07376d); } .ds-renglon-credencial { grid-column: 1; margin: 0; font-size: 13.5px; line-height: 1.5; color: var(--pl-grafito, #43454b); max-width: 60ch; } .ds-renglon-correo { grid-column: 2; grid-row: 1 / span 2; align-self: center; display: inline-flex; align-items: center; gap: 7px; font-size: 13.5px; font-weight: 500; color: var(--pl-azul, #07376d); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; text-decoration-color: rgb(7 55 109 / 0.4); white-space: nowrap; } .ds-renglon-correo:hover { text-decoration-color: var(--pl-azul, #07376d); } .ds-renglon-correo:focus-visible { outline: 2px solid var(--pl-azul, #07376d); outline-offset: 2px; } .ds-ico-mini { width: 15px; height: 15px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }"
-    },
-    {
-      "name": "Teléfono y correo",
-      "kind": "custom",
-      "refersTo": "accion-nombrada",
-      "description": "El dato de contacto marcable: ícono dibujado, cifras tabulares, subrayado sólo con el cursor.",
-      "html": "<ul class=\"ds-tels\"><li><a class=\"ds-tel\" href=\"tel:+524448334098\"><svg class=\"ds-ico\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M8.4 4.5H5.2A1.7 1.7 0 0 0 3.5 6.3c0 7.8 6.4 14.2 14.2 14.2a1.7 1.7 0 0 0 1.8-1.7v-3.2l-4-1.6-2 2a13.6 13.6 0 0 1-5.5-5.5l2-2z\"/></svg><span>444-833-40-98</span></a></li><li><a class=\"ds-tel\" href=\"mailto:despacho@rmp.mx\"><svg class=\"ds-ico\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><rect x=\"3\" y=\"5.5\" width=\"18\" height=\"13\" rx=\"1.5\"/><path d=\"m3.6 6.6 8.4 6.2 8.4-6.2\"/></svg><span>despacho@rmp.mx</span></a></li></ul>",
-      "css": ".ds-tels { display: grid; gap: 6px; list-style: none; margin: 0; padding: 0; } .ds-tel { display: inline-flex; align-items: center; gap: 9px; font-family: var(--pl-texto, system-ui, sans-serif); font-size: 16px; font-weight: 500; color: var(--pl-azul, #07376d); text-decoration: none; font-variant-numeric: tabular-nums; } .ds-tel:hover span { text-decoration: underline; text-underline-offset: 4px; } .ds-tel:focus-visible { outline: 2px solid var(--pl-azul, #07376d); outline-offset: 2px; } .ds-tel .ds-ico { width: 17px; height: 17px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }"
-    },
-    {
-      "name": "Navegación del header",
-      "kind": "nav",
-      "refersTo": "nav-link",
-      "description": "La barra pegajosa en reposo: cantera alta con tinta azul. Con más de 60px de scroll todo el bloque cambia a azul hondo reasignando sus variables de estado.",
-      "html": "<header class=\"ds-header\"><a class=\"ds-logo\" href=\"#\"><span class=\"ds-logo-firma\">Ramírez Medellín</span><span class=\"ds-logo-sc\">S.C.</span></a><nav><ul class=\"ds-nav\"><li><a class=\"ds-nav-link ds-nav-activo\" href=\"#\" aria-current=\"page\">Inicio</a></li><li><a class=\"ds-nav-link\" href=\"#\">Nosotros</a></li><li><a class=\"ds-nav-link\" href=\"#\">Servicios</a></li><li><a class=\"ds-nav-link\" href=\"#\">Contacto</a></li></ul></nav><div class=\"ds-lang\"><a class=\"ds-lang-opt ds-lang-activo\" href=\"#\">ES</a><span class=\"ds-lang-sep\">/</span><a class=\"ds-lang-opt\" href=\"#\">EN</a></div></header>",
-      "css": ".ds-header { --h-bg: var(--pl-piedra-alta, #f2eee8); --h-color: var(--pl-azul, #07376d); --h-acento: var(--pl-azul, #07376d); --h-tenue: #44536a; display: flex; align-items: center; gap: 24px; height: 64px; padding: 0 24px; background: var(--h-bg); color: var(--h-color); border-bottom: 1px solid rgb(7 55 109 / 0.18); font-family: var(--pl-texto, system-ui, sans-serif); transition: background 0.35s ease, color 0.35s ease, border-color 0.35s ease; } .ds-logo { display: flex; flex-direction: column; line-height: 1.15; text-decoration: none; color: inherit; } .ds-logo-firma { font-family: var(--pl-display, Cinzel, serif); font-weight: 600; font-size: 16px; letter-spacing: 0.02em; } .ds-logo-sc { font-size: 10px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--h-acento); } .ds-nav { display: flex; align-items: center; justify-content: flex-end; gap: 2px; list-style: none; margin: 0; padding: 0; flex: 1; } .ds-nav-link { display: block; padding: 6px 10px; font-size: 16px; font-weight: 500; text-decoration: none; color: inherit; border-radius: 4px; transition: color 0.15s ease; } .ds-nav-link:hover { color: var(--h-acento); } .ds-nav-link:focus-visible { outline: 2px solid var(--h-acento); outline-offset: 2px; } .ds-nav-activo { color: var(--h-acento); font-weight: 700; box-shadow: inset 0 -2px 0 currentColor; } .ds-lang { display: flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 600; letter-spacing: 0.08em; } .ds-lang-opt { color: var(--h-tenue); font-weight: 500; text-decoration: none; padding: 4px 5px; border-radius: 4px; } .ds-lang-opt:hover { color: var(--h-acento); } .ds-lang-activo { color: var(--h-acento); font-weight: 700; } .ds-lang-sep { color: var(--h-tenue); }"
+      "name": "Etiqueta de dato",
+      "kind": "chip",
+      "refersTo": "dato",
+      "description": "Direcciones, teléfonos, periodos y cuentas.",
+      "html": "<p class=\"ds-dato\">Calle Francisco Peña 245 · San Luis Potosí</p>",
+      "css": ".ds-dato{font-family:'Azeret Mono',monospace;font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:#3c3630;line-height:1.8}"
     }
   ],
   "narrative": {
-    "northStar": "La placa del despacho",
-    "overview": "Una firma de contadores y abogados no se anuncia: se rotula. Este sistema se comporta como la placa grabada que un despacho atornilla junto a su puerta —latón sobre cantera, letra grabada, cuatro tornillos— porque el visitante no llega a descubrir la firma, llega a comprobarla. La consecuencia es una superficie que no persuade: declara. El nombre, la profesión y el año de fundación van grabados en la pieza mayor; las cuatro áreas van en placas menores, cada una con el nombre y el correo de quien responde. Nada flota, nada brilla, nada promete.\n\nEl material manda sobre el efecto. La profundidad de este mundo es geometría, no desenfoque: cada placa es un border-style: solid cuyas cuatro caras llevan tono distinto, un canto mitrado real, y la única sombra que existe es la que la pieza proyecta sobre el muro. La paleta sale del logotipo entregado por el cliente: el azul #07376d es la tinta de grabado y la piedra clara es el campo. Dos tintas, sin una tercera voz decorativa. La densidad es la de un padrón: campos fijos, renglones rayados, cifras tabulares, márgenes anchos y medidas de línea cortas.\n\nAntirreferencia confirmada: el mundo anterior del sitio —crema, un dorado inventado que nunca fue color de marca, Spectral en cursiva e IBM Plex Mono— queda retirado. Siete páginas todavía lo cargan mientras se migran; eso es deuda, no referencia. También queda rechazada la portada de categoría: titular publicitario, subtítulo, botón dorado y cuatro tarjetas con ícono de librería.\n\nMaterial pendiente (hueco declarado, no regla): el mundo pide dos rásters producidos que aún no existen, la textura de latón grabado y la veta de cantera. La implementación se niega a fingirlos con degradados —lo dice en Inicio.astro, en el comentario de .mundo-placa— y mientras tanto sostiene el campo con luz plana. Su ausencia de hoy no es una prohibición de texturas.",
+    "northStar": "El papel y la piedra",
     "keyCharacteristics": [
-      "Profundidad fabricada con cuatro caras de canto, nunca con una sombra difusa haciendo de borde.",
-      "Dos tintas: azul de grabado sobre piedra, piedra sobre azul.",
-      "Placa escasa: cinco papeles la merecen; las listas son registros rayados sobre el campo desnudo.",
-      "Letra grabada (Cinzel) sólo para nombres; todo lo que se lee en frases va en Libre Franklin.",
-      "Cifras tabulares en cualquier dato que alguien vaya a comparar.",
-      "Contraste medido y anotado en el propio token; foco declarado por superficie.",
-      "Esquina casi recta (2px): esto es metal cortado, no una tarjeta."
+      "Papel cálido como campo, nunca blanco puro.",
+      "Titular en versales, grande, con tracking negativo.",
+      "Fotografía a sangre, con el papel entrando encima.",
+      "Datos en monoespaciada; cifras tabulares.",
+      "Una sola llamada fuerte por pantalla."
     ],
     "rules": [
-      { "name": "La regla de las dos tintas", "body": "El sistema tiene exactamente dos tintas: azul de grabado sobre piedra y piedra sobre azul. No se introduce un tercer color para jerarquizar, destacar o animar. Si algo necesita más peso, se le da tamaño, regla o canto —no color nuevo. El naranja es la única excepción y sólo donde habla Pacioli.", "section": "colors" },
-      { "name": "La regla del gris medido", "body": "Ningún gris de texto es más claro que grafito-claro (#4f5157), y cada gris entra al sistema con su ratio peor-caso escrito junto al token en public/styles/global.css. Un gris sin medición no es un gris de este sistema.", "section": "colors" },
-      { "name": "La regla del foco por superficie", "body": ":focus-visible lee var(--foco, var(--pl-azul)). Toda superficie oscura —franja de continuidad, placa de domicilio, control de contacto, header con scroll, pie— redeclara --foco: var(--pl-azul-claro) en su propio bloque. Una superficie oscura que no redeclare --foco está incompleta.", "section": "colors" },
-      { "name": "La regla del grabado", "body": "Cinzel escribe nombres: la firma, las áreas, los títulos de sección, las rúbricas del padrón. Nunca escribe párrafos, etiquetas de campo, botones ni cifras. En el momento en que una pieza de Cinzel se lea como frase, está mal asignada.", "section": "typography" },
-      { "name": "La regla de la cifra tabular", "body": "Todo número que alguien vaya a comparar, leer en voz alta o marcar —teléfonos, años, datos de continuidad— lleva font-variant-numeric: tabular-nums. Las cifras de un despacho se alinean en columna.", "section": "typography" },
-      { "name": "La regla sin etiqueta sobre el título", "body": "Ningún encabezado lleva una palabra suelta encima a modo de rótulo. Las versales espaciadas de este sistema son líneas grabadas de placa o etiquetas de campo del registro, y siempre van debajo de lo que califican.", "section": "typography" },
-      { "name": "La regla del padrón", "body": "Una lista de personas, servicios o datos se resuelve como registro rayado sobre el campo desnudo —regla de 1px arriba de cada renglón, rúbrica de columna, campos fijos— y nunca como una colección de tarjetas. Si una lista pide placas, lo que pide es menos elementos.", "section": "layout" },
-      { "name": "La regla de la medida corta", "body": "Ningún bloque de texto pasa de 62ch, y los bloques dentro de placa bajan a 22ch (grabado), 38ch (nota) o 44ch (alcance). Las medidas cortas son parte del material: una placa no lleva párrafos.", "section": "layout" },
-      { "name": "La regla del canto", "body": "La profundidad se fabrica con cuatro caras de border-color con tono distinto. Una sombra desenfocada jamás hace de borde, y un borde plano de un solo color jamás hace de canto. Si una superficie necesita parecer elevada, se le da canto; si no lo merece, se queda plana sobre el muro.", "section": "elevation" },
-      { "name": "La regla de una sola declaración", "body": "La elevación se declara una vez, y la declara el canto. No existe la pieza con borde debajo de una sombra que simula otro borde: canto y apoyo son dos cosas distintas y cada una aparece una sola vez por pieza.", "section": "elevation" },
-      { "name": "La regla de la placa escasa", "body": "El tratamiento de placa está reservado a cinco papeles: el nombre de la firma, cada una de las cuatro áreas, el domicilio, el control primario de contacto (a canto reducido, 2px) y la montura del logotipo de la firma filial. Todo lo demás vive sobre el campo desnudo. La escasez es lo que hace que una placa signifique algo.", "section": "elevation" },
-      { "name": "La regla del trazo único", "body": "Los íconos se dibujan: caja de 24, stroke-width: 1.5, fill: none, stroke: currentColor. Nunca se usa una fuente de glifos ni un paquete de íconos, y ningún ícono entra con un grosor distinto al del resto. El tornillo de la placa está dibujado con la misma pluma que el sobre del correo, y por eso pertenecen al mismo mundo.", "section": "shapes" },
-      { "name": "La regla de la esquina casi recta", "body": "2px en placa, 4px en control de cromo, nada más. Una esquina más redonda convierte el metal en tarjeta.", "section": "shapes" },
-      { "name": "La regla del contenido ya puesto", "body": "Ninguna animación de entrada parte de opacity: 0. La placa llega puesta y sólo se asienta; la letra se descubre desde su recorte. Un contenido que empieza invisible es un contenido que puede quedarse invisible.", "section": "components" }
+      {
+        "name": "La regla de las dos tintas",
+        "body": "Azul para datos que el visitante usa; ámbar para lo que quiere que haga.",
+        "section": "colors"
+      },
+      {
+        "name": "La regla del ámbar medido",
+        "body": "El ámbar de texto es #a8460b; el vivo sólo como superficie.",
+        "section": "colors"
+      },
+      {
+        "name": "La regla del foco propio",
+        "body": "Cada superficie declara su --foco; ninguna hereda uno que no contrasta.",
+        "section": "colors"
+      },
+      {
+        "name": "La regla del dato en mono",
+        "body": "La monoespaciada es para datos, nunca para párrafos ni para disfrazar de técnico.",
+        "section": "typography"
+      },
+      {
+        "name": "La regla sin etiqueta",
+        "body": "No hay etiqueta pequeña sobre un título.",
+        "section": "typography"
+      },
+      {
+        "name": "La regla de la imagen a sangre",
+        "body": "Toda cabecera llega al borde con el papel encima en degradado.",
+        "section": "layout"
+      },
+      {
+        "name": "La regla de la superficie plana",
+        "body": "Nada se eleva: sin sombras y sin tarjetas.",
+        "section": "elevation"
+      }
     ],
-    "dos": [
-      "Do fabricar la profundidad con border-style: solid y un border-color de cuatro valores de tono distinto; el estado presionado invierte esas cuatro caras y recorta la sombra a 0 1px 2px -1px.",
-      "Do reservar la placa a los cinco papeles de la regla de la placa escasa y resolver toda lista como registro rayado sobre el campo desnudo.",
-      "Do declarar --foco en cada superficie oscura (--pl-azul-claro), porque :focus-visible lee var(--foco, var(--pl-azul)).",
-      "Do escribir la acción primaria con el nombre de la persona («Escribir a Marisela») y dejar el correo visible como texto seleccionable junto a ella.",
-      "Do poner font-variant-numeric: tabular-nums en teléfonos, años y cifras de dato.",
-      "Do dibujar cada ícono en caja de 24 con stroke-width: 1.5 y stroke: currentColor.",
-      "Do anotar el ratio de contraste peor-caso junto a cada token de texto nuevo, como ya lo hacen --pl-grafito (6.09:1) y --pl-grafito-claro (5.04:1).",
-      "Do pedir el juego tipográfico por superficie con fuentes=\"placa\" en Base.astro; una superficie de este mundo no carga las fuentes del mundo retirado.",
-      "Do dejar que el contenido llegue ya visible: se asienta o se descubre, nunca aparece desde opacity: 0."
-    ],
-    "donts": [
-      "Don't usar --oro, --oro-claro, --papel, --tinta, Spectral ni IBM Plex Mono en una superficie migrada. Son el mundo retirado; el dorado nunca fue color de la marca y el azul real del logotipo es #07376d.",
-      "Don't usar una sombra desenfocada como borde, ni apilar borde y sombra para simular un segundo canto.",
-      "Don't envolver una lista en placas, ni convertir una placa entera en un enlace que se trague el texto seleccionable de adentro.",
-      "Don't introducir un tercer color para jerarquizar; el naranja #f79412 está reservado a Pacioli y a nada más.",
-      "Don't escribir párrafos, botones ni cifras en Cinzel, ni poner una etiqueta suelta encima de un título.",
-      "Don't redondear más allá de 2px en placa y 4px en control de cromo, ni usar formas de píldora.",
-      "Don't usar un gris de texto más claro que #4f5157 sobre cantera.",
-      "Don't afirmar en la interfaz un dato que el cliente no ha confirmado —horario, WhatsApp, fotos reales—; el hueco se marca como pendiente y no se rellena con material plausible."
-    ]
+    "pendiente": "No existe fotografía real de la oficina ni del equipo; las actuales son editoriales genéricas y deben sustituirse."
   }
 }
