@@ -1,0 +1,155 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-17",
+  "title": "Sistema de diseño: Ramírez Medellín, S.C.",
+  "extensions": {
+    "colorMeta": {
+      "azul": {
+        "role": "primary",
+        "displayName": "Azul de marca",
+        "canonical": "#07376d"
+      },
+      "ambar": {
+        "role": "primary",
+        "displayName": "Ámbar",
+        "canonical": "#a8460b"
+      },
+      "banda": {
+        "role": "secondary",
+        "displayName": "Banda",
+        "canonical": "#b23c0a"
+      },
+      "papel": {
+        "role": "neutral",
+        "displayName": "Papel",
+        "canonical": "#f4ede2"
+      },
+      "tinta": {
+        "role": "neutral",
+        "displayName": "Tinta",
+        "canonical": "#1e1b17"
+      }
+    },
+    "contraste": [
+      {
+        "par": "tinta sobre papel",
+        "ratio": 14.75
+      },
+      {
+        "par": "tinta-2 sobre papel",
+        "ratio": 10.25
+      },
+      {
+        "par": "azul sobre papel",
+        "ratio": 10.17
+      },
+      {
+        "par": "ambar sobre papel",
+        "ratio": 5.09
+      },
+      {
+        "par": "papel sobre banda",
+        "ratio": 5.1
+      },
+      {
+        "par": "acento del pie sobre tinta",
+        "ratio": 6.49
+      }
+    ],
+    "motion": [
+      {
+        "name": "salida",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Única curva del sistema. El contenido nunca parte de invisible: entra desde su propio recorte."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "movil",
+        "value": "560px"
+      },
+      {
+        "name": "tableta",
+        "value": "900px"
+      },
+      {
+        "name": "ancho",
+        "value": "1100px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Botón",
+      "kind": "button",
+      "refersTo": "boton",
+      "description": "La única llamada fuerte de cada pantalla.",
+      "html": "<a class=\"ds-boton\" href=\"#\">Hablar con la firma <span class=\"ds-circulo\">→</span></a>",
+      "css": ".ds-boton{display:inline-flex;align-items:center;gap:14px;padding:14px 20px;background:#a8460b;color:#f4ede2;font-family:'Azeret Mono',monospace;font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;transition:background .35s cubic-bezier(.16,1,.3,1)}.ds-boton:hover{background:#1e1b17}.ds-circulo{display:grid;place-items:center;width:30px;height:30px;border:1px solid currentColor;border-radius:50%}"
+    },
+    {
+      "name": "Renglón de lista",
+      "kind": "custom",
+      "refersTo": "renglon",
+      "description": "El patrón de listado del sistema: sin caja, separado por línea fina.",
+      "html": "<li class=\"ds-renglon\"><p class=\"ds-renglon-nombre\">Preparación de estados financieros</p><p class=\"ds-renglon-desc\">Balance, resultados y flujo de efectivo.</p></li>",
+      "css": ".ds-renglon{list-style:none;padding:16px 0;border-top:1px solid rgb(30 27 23/.14)}.ds-renglon-nombre{margin:0;font-family:Spectral,Georgia,serif;font-size:18px;color:#1e1b17}.ds-renglon-desc{margin:4px 0 0;font-family:Spectral,Georgia,serif;font-size:14.5px;color:#3c3630}"
+    },
+    {
+      "name": "Etiqueta de dato",
+      "kind": "chip",
+      "refersTo": "dato",
+      "description": "Direcciones, teléfonos, periodos y cuentas.",
+      "html": "<p class=\"ds-dato\">Calle Francisco Peña 245 · San Luis Potosí</p>",
+      "css": ".ds-dato{font-family:'Azeret Mono',monospace;font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:#3c3630;line-height:1.8}"
+    }
+  ],
+  "narrative": {
+    "northStar": "El papel y la piedra",
+    "keyCharacteristics": [
+      "Papel cálido como campo, nunca blanco puro.",
+      "Titular en versales, grande, con tracking negativo.",
+      "Fotografía a sangre, con el papel entrando encima.",
+      "Datos en monoespaciada; cifras tabulares.",
+      "Una sola llamada fuerte por pantalla."
+    ],
+    "rules": [
+      {
+        "name": "La regla de las dos tintas",
+        "body": "Azul para datos que el visitante usa; ámbar para lo que quiere que haga.",
+        "section": "colors"
+      },
+      {
+        "name": "La regla del ámbar medido",
+        "body": "El ámbar de texto es #a8460b; el vivo sólo como superficie.",
+        "section": "colors"
+      },
+      {
+        "name": "La regla del foco propio",
+        "body": "Cada superficie declara su --foco; ninguna hereda uno que no contrasta.",
+        "section": "colors"
+      },
+      {
+        "name": "La regla del dato en mono",
+        "body": "La monoespaciada es para datos, nunca para párrafos ni para disfrazar de técnico.",
+        "section": "typography"
+      },
+      {
+        "name": "La regla sin etiqueta",
+        "body": "No hay etiqueta pequeña sobre un título.",
+        "section": "typography"
+      },
+      {
+        "name": "La regla de la imagen a sangre",
+        "body": "Toda cabecera llega al borde con el papel encima en degradado.",
+        "section": "layout"
+      },
+      {
+        "name": "La regla de la superficie plana",
+        "body": "Nada se eleva: sin sombras y sin tarjetas.",
+        "section": "elevation"
+      }
+    ],
+    "pendiente": "No existe fotografía real de la oficina ni del equipo; las actuales son editoriales genéricas y deben sustituirse."
+  }
+}

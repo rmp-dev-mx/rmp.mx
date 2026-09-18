@@ -24,11 +24,46 @@
   --sombra: 0 1px 2px rgb(22 36 58 / 0.06), 0 8px 24px rgb(22 36 58 / 0.07);
 }
 
+/* ═══════════════════════════════════════════════════════════════
+   Mundo visual nuevo: papel cálido, titular grande y la fotografía
+   mandando a sangre. Sin cajas ni bordes: el aire y la imagen hacen
+   la composición. El azul es el del logo entregado por el cliente;
+   el ámbar viene del naranja de Pacioli, bajado hasta cumplir AA.
+   Prefijo --rm- mientras las otras 7 páginas siguen en el mundo
+   anterior; al migrarlas, estos tokens sustituyen a los de arriba.
+   ═══════════════════════════════════════════════════════════════ */
+:root {
+  --rm-papel: #f4ede2; /* campo cálido */
+  --rm-papel-2: #ece2d3; /* segunda banda, bordes suaves */
+  --rm-tinta: #1e1b17; /* 14.75:1 sobre papel */
+  --rm-tinta-2: #3c3630; /* texto secundario, 10.25:1 */
+  --rm-azul: #07376d; /* del logo rmp.svg, 10.17:1 */
+  --rm-ambar: #a8460b; /* acento de texto, 5.09:1 */
+  --rm-ambar-vivo: #c2540e; /* sólo superficies y elementos no textuales */
+  --rm-banda: #b23c0a; /* franja saturada; texto papel a 5.1:1 */
+  --rm-linea: rgb(30 27 23 / 0.14);
+
+  --rm-display: "Archivo", system-ui, sans-serif;
+  --rm-serif: "Spectral", Georgia, serif;
+  --rm-mono: "Azeret Mono", ui-monospace, monospace;
+}
+
+::selection {
+  background: var(--rm-ambar);
+  color: var(--rm-papel);
+}
+
+:root {
+  scrollbar-color: var(--rm-tinta-2) var(--rm-papel-2);
+  caret-color: var(--rm-ambar);
+}
+
 /* Sobre fondos oscuros el oro sube de luminancia para cumplir AA
    en texto pequeño (eyebrows, folios, etiquetas mono) */
 .fondo-oscuro {
   --oro: var(--oro-claro);
   --oro-contraste: var(--tinta);
+  --foco: var(--oro-claro);
 }
 
 /* Reset mínimo */
@@ -66,9 +101,10 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Foco visible — outline oro en todo elemento interactivo */
+/* Foco visible — cada superficie declara su color; el oro sólo
+   sobrevive en las páginas que aún no migran (.fondo-oscuro) */
 :focus-visible {
-  outline: 2px solid var(--oro);
+  outline: 2px solid var(--foco, var(--rm-azul));
   outline-offset: 2px;
 }
 
@@ -126,3 +162,131 @@ html.js .revela.visible {
   inset: 3px 0 auto 0;
   border-top: 1px solid var(--oro);
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   Primitivas compartidas por las superficies migradas. Acotadas a
+   .mundo para no tocar las páginas que siguen en el diseño anterior.
+   ═══════════════════════════════════════════════════════════════ */
+.mundo {
+  background: var(--rm-papel);
+  color: var(--rm-tinta);
+  font-family: var(--rm-serif);
+  --foco: var(--rm-ambar);
+}
+
+.mundo .marco {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding-inline: clamp(20px, 4vw, 64px);
+}
+
+/* Titular grande: la voz de la casa */
+.mundo .titular {
+  font-family: var(--rm-display);
+  font-weight: 500;
+  font-size: clamp(38px, 7.2vw, 104px);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--rm-tinta);
+  margin: 0;
+}
+
+.mundo .titulo-seccion {
+  font-family: var(--rm-display);
+  font-weight: 500;
+  font-size: clamp(28px, 4.4vw, 60px);
+  line-height: 1;
+  letter-spacing: -0.015em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+/* Línea de acento en serif de color, bajo el titular */
+.mundo .acento {
+  font-family: var(--rm-serif);
+  font-weight: 500;
+  font-size: clamp(22px, 2.6vw, 36px);
+  line-height: 1.2;
+  color: var(--rm-ambar);
+  margin: 0;
+}
+
+/* Dato en mono: direcciones, teléfonos, fechas, cifras */
+.mundo .dato {
+  font-family: var(--rm-mono);
+  font-size: 12.5px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--rm-tinta-2);
+  line-height: 1.8;
+}
+
+/* Enlace con flecha en círculo, el gesto de acción del mundo */
+.mundo .accion {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--rm-mono);
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--rm-tinta);
+  text-decoration: none;
+}
+
+.mundo .accion-circulo {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--rm-tinta);
+  border-radius: 50%;
+  transition: background 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mundo .accion:hover .accion-circulo {
+  background: var(--rm-tinta);
+  color: var(--rm-papel);
+}
+
+.mundo .accion--ambar { color: var(--rm-ambar); }
+.mundo .accion--ambar .accion-circulo { border-color: var(--rm-ambar); }
+.mundo .accion--ambar:hover .accion-circulo {
+  background: var(--rm-ambar);
+  color: var(--rm-papel);
+}
+
+.mundo .ico {
+  width: 15px;
+  height: 15px;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Botón sólido: una sola llamada fuerte por pantalla */
+.mundo .boton {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 20px;
+  background: var(--rm-ambar);
+  color: var(--rm-papel);
+  font-family: var(--rm-mono);
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mundo .boton .accion-circulo { border-color: currentColor; }
+.mundo .boton:hover { background: var(--rm-tinta); }

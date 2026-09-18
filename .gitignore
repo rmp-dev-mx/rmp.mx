@@ -6,3 +6,9 @@ dist/
 .env
 .env.local
 .claude/settings.local.json
+
+# impeccable: capturas de revisión, caché del hook y estado local por máquina
+.impeccable/review/
+.impeccable/questions/
+.impeccable/hook.cache.json
+.impeccable/config.local.json

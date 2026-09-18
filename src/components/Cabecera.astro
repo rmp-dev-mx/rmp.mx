@@ -1,0 +1,109 @@
+---
+// Cabecera de página del mundo nuevo: titular grande a la izquierda y
+// fotografía a sangre a la derecha. El slot recibe lo que cada página
+// necesite debajo del texto (un índice, un aviso, una acción).
+import { url } from "../lib/url";
+
+interface Props {
+  /** Líneas del titular; cada una cae en su propio renglón. */
+  titulo: string[];
+  sub?: string;
+  /** Ruta de la foto dentro de public/. Sin foto, el texto ocupa el ancho. */
+  foto?: string;
+  alt?: string;
+  /** Recorte vertical de la foto, por si el motivo no está al centro. */
+  foco?: string;
+}
+
+const { titulo, sub, foto, alt = "", foco = "center" } = Astro.props;
+---
+
+<section class:list={["cabecera", { "cabecera--sola": !foto }]} aria-labelledby="titulo-pagina">
+  <div class="cabecera-texto">
+    <h1 class="titular" id="titulo-pagina">
+      {titulo.map((l) => <span class="titular-linea">{l}</span>)}
+    </h1>
+    {sub && <p class="cabecera-sub">{sub}</p>}
+    <slot />
+  </div>
+
+  {foto && (
+    <figure class="cabecera-figura">
+      <img
+        src={url(foto)}
+        alt={alt}
+        width="2528"
+        height="1696"
+        fetchpriority="high"
+        decoding="async"
+        style={`object-position: center ${foco};`}
+      />
+    </figure>
+  )}
+</section>
+
+<style>
+  .cabecera {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr);
+    align-items: stretch;
+    border-bottom: 1px solid var(--rm-linea);
+  }
+
+  .cabecera--sola { grid-template-columns: 1fr; }
+
+  .cabecera-texto {
+    padding: clamp(36px, 5vw, 76px) clamp(20px, 3.4vw, 56px) clamp(36px, 5vw, 66px)
+      clamp(20px, 4vw, 64px);
+    align-self: center;
+  }
+
+  .titular-linea { display: block; }
+
+  .cabecera-sub {
+    margin-top: clamp(16px, 1.8vw, 22px);
+    max-width: 46ch;
+    font-size: clamp(16px, 1.25vw, 18px);
+    line-height: 1.6;
+    color: var(--rm-tinta-2);
+  }
+
+  .cabecera-figura {
+    position: relative;
+    margin: 0;
+    overflow: hidden;
+    background: var(--rm-papel-2);
+    min-height: 260px;
+  }
+
+  .cabecera-figura img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* El papel entra sobre la foto para que no quede un corte duro */
+  .cabecera-figura::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 24%;
+    background: linear-gradient(to right, var(--rm-papel), transparent);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  @media (max-width: 900px) {
+    .cabecera { grid-template-columns: 1fr; }
+    .cabecera-figura { order: -1; aspect-ratio: 16 / 9; min-height: 0; }
+    .cabecera-figura::before {
+      inset: auto 0 0 auto;
+      width: 100%;
+      height: 32%;
+      background: linear-gradient(to top, var(--rm-papel), transparent);
+    }
+  }
+</style>

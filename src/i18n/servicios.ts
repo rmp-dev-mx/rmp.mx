@@ -16,6 +16,13 @@ export const servicios = {
     heroSub:
       "Prestamos servicios a todo tipo de personas y entidades del sector público y privado, nacionales y extranjeras.",
     indiceAria: "Índice de servicios",
+    partidas: (n: number) => `${n} partidas`,
+    irAlArea: (a: string) => `Ir al apartado de ${a}`,
+    respondeEt: "Responde",
+    escribirA: (n: string) => `Escribir a ${n}`,
+    escribirAria: (n: string, a: string) => `Escribir a ${n}, encargada de ${a}`,
+    heroFoto: "/images/fotos/inicio-escritorio.webp",
+    heroAlt: "Escritorio de trabajo en el despacho",
 
     contactanos: "Contáctanos",
 
@@ -86,7 +93,7 @@ export const servicios = {
           "Defendemos y asesoramos a su empresa y a su patrimonio en materia fiscal, laboral y corporativa.",
         cta: "¿Enfrenta un problema fiscal o legal?",
         servicios: [
-          { n: "Defensa fiscal", d: "Lo representamos ante el SAT y los tribunales frente a multas, créditos y requerimientos." },
+          { n: "Defensa fiscal", d: "Lo representamos ante autoridades fiscales y administrativas tales como SAT, Secretaría de Finanzas, IMSS, INFONAVIT, STPS y demás, así como ante Tribunales Federales y Estatales, frente a multas, créditos y requerimientos." },
           { n: "Asesoría legal empresarial", d: "Acompañamiento jurídico en la operación diaria de su empresa." },
           { n: "Consultoría laboral", d: "Prevención y solución de temas laborales y de seguridad social." },
           { n: "Asesoría patrimonial", d: "Protección y ordenamiento legal de su patrimonio." },
@@ -109,6 +116,13 @@ export const servicios = {
     heroSub:
       "We serve all kinds of individuals and entities in the public and private sectors, both domestic and foreign.",
     indiceAria: "Services index",
+    partidas: (n: number) => `${n} items`,
+    irAlArea: (a: string) => `Go to the ${a} section`,
+    respondeEt: "In charge",
+    escribirA: (n: string) => `Email ${n}`,
+    escribirAria: (n: string, a: string) => `Email ${n}, in charge of ${a}`,
+    heroFoto: "/images/fotos/inicio-escritorio.webp",
+    heroAlt: "A working desk at the firm",
 
     contactanos: "Contact us",
 
@@ -179,7 +193,7 @@ export const servicios = {
           "We defend and advise your company and your assets in tax, labor and corporate matters.",
         cta: "Facing a tax or legal problem?",
         servicios: [
-          { n: "Tax defense", d: "We represent you before the SAT and the courts against fines, assessments and demands." },
+          { n: "Tax defense", d: "We represent you before tax and administrative authorities such as the SAT, the State Ministry of Finance, IMSS, INFONAVIT, STPS and others, as well as before Federal and State Courts, against fines, assessments and demands." },
           { n: "Corporate legal counsel", d: "Legal support in the day-to-day operation of your company." },
           { n: "Labor advisory", d: "Prevention and resolution of labor and social-security matters." },
           { n: "Estate advisory", d: "Legal protection and ordering of your assets." },

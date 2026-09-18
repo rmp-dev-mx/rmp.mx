@@ -69,6 +69,13 @@
 
 ## Equipo (Asociados)
 
+> **Corregido por el cliente (julio 2026).** Esta lista es la del sitio viejo. La
+> vigente vive en `src/i18n/nosotros.ts`: María Lucero Rodríguez Díaz y Liliana
+> Vega Betancourt ya no forman parte del equipo (el área de Administración
+> desaparece), Gabriela es **Maestra** en Psicoterapia Humanista, y las
+> credenciales se redactan completas ("Contador Público por la…", "Licenciado
+> en Derecho por la…").
+
 **Consultoría**
 - Marisela Elisea Martínez — C.P. por la UASLP, Especialista en Impuestos — marisela@rmp.mx
 

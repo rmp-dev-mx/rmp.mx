@@ -1,8 +1,7 @@
 ---
-// Símbolo oficial de Ramírez Medellín (swoosh azul/gris).
-// Dos versiones: a color para el header claro y silueta papel para
-// el header con scroll (fondo tinta). El swap lo controla Header.astro
-// según la clase .scrolled. El wordmark va en texto, no en la imagen.
+// Emblema oficial de Ramírez Medellín (SVG entregado por el cliente), sin
+// letras: el wordmark va en texto. El header del diseño nuevo es siempre
+// claro, así que basta la versión a color.
 import { url } from "../lib/url";
 
 interface Props {
@@ -13,19 +12,10 @@ const { class: className } = Astro.props;
 
 <span class:list={["logo-marca", className]} aria-hidden="true">
   <img
-    class="lm-color"
-    src={url("/images/logo-rmp.webp")}
+    src={url("/images/rmp-noLetras.svg")}
     alt=""
-    width="156"
-    height="120"
-    decoding="async"
-  />
-  <img
-    class="lm-claro"
-    src={url("/images/logo-rmp-claro.webp")}
-    alt=""
-    width="156"
-    height="120"
+    width="50"
+    height="38"
     decoding="async"
   />
 </span>
@@ -43,16 +33,5 @@ const { class: className } = Astro.props;
     display: block;
     height: 100%;
     width: auto;
-  }
-  .logo-marca .lm-claro {
-    display: none;
-  }
-  /* Header con scroll (fondo tinta): mostrar la silueta papel.
-     :global porque .scrolled vive en el ancestro <header>. */
-  :global(.site-header.scrolled) .logo-marca .lm-color {
-    display: none;
-  }
-  :global(.site-header.scrolled) .logo-marca .lm-claro {
-    display: block;
   }
 </style>

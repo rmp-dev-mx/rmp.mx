@@ -29,7 +29,7 @@ function isActive(href: string): boolean {
       <LogoMarca class="logo-svg" />
       <span class="logo-texto">
         <span class="logo-firma">Ramírez Medellín</span>
-        <span class="logo-sc">S.C.</span>
+        <span class="logo-giro">{t("header.tagline")}</span>
       </span>
     </a>
 
@@ -84,16 +84,16 @@ function isActive(href: string): boolean {
 <style>
   /* ── Variables de estado del header ── */
   .site-header {
-    --h-bg: var(--papel);
-    --h-color: var(--tinta);
-    --h-border: var(--regla);
+    --h-bg: var(--rm-papel);
+    --h-color: var(--rm-tinta);
+    --h-border: transparent;
+    --h-acento: var(--rm-ambar);
+    --h-tenue: var(--rm-tinta-2);
+    --foco: var(--rm-ambar);
   }
   .site-header.scrolled {
-    --h-bg: var(--tinta);
-    --h-color: var(--papel);
-    --h-border: transparent;
-    --oro: var(--oro-claro); /* contraste AA del oro sobre tinta */
-    --oro-contraste: var(--tinta);
+    --h-bg: var(--rm-papel);
+    --h-border: var(--rm-linea);
   }
 
   .site-header {
@@ -142,19 +142,21 @@ function isActive(href: string): boolean {
   }
 
   .logo-firma {
-    font-family: var(--fuente-display);
+    font-family: var(--rm-display);
     font-weight: 600;
-    font-size: 17px;
-    letter-spacing: -0.01em;
+    font-size: 15px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
   }
 
-  .logo-sc {
-    font-family: var(--fuente-datos);
+  .logo-giro {
+    font-family: var(--rm-mono);
     font-size: 10px;
     font-weight: 500;
-    letter-spacing: 0.1em;
-    color: var(--oro);
+    letter-spacing: 0.06em;
+    color: var(--h-acento);
     text-transform: uppercase;
+    white-space: nowrap;
   }
 
   /* ── Nav ── */
@@ -171,21 +173,24 @@ function isActive(href: string): boolean {
   .nav-link {
     display: block;
     padding: 6px calc(var(--espacio) * 1.25);
-    font-family: var(--fuente-texto);
-    font-size: 17px;
+    font-family: var(--rm-mono);
+    font-size: 12.5px;
     font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     text-decoration: none;
     color: inherit;
     border-radius: var(--radio);
     transition: color 0.15s ease;
   }
 
-  .nav-link:hover,
-  .nav-link--activo {
-    color: var(--oro);
-  }
+  .nav-link:hover { color: var(--h-acento); }
 
-  .nav-link--activo { font-weight: 700; }
+  .nav-link--activo {
+    color: var(--h-acento);
+    font-weight: 700;
+    box-shadow: inset 0 -2px 0 currentColor;
+  }
 
   /* ── Selector de idioma ── */
   .lang-switch {
@@ -193,26 +198,26 @@ function isActive(href: string): boolean {
     align-items: center;
     gap: 4px;
     flex-shrink: 0;
-    font-family: var(--fuente-datos);
-    font-size: 13px;
+    font-family: var(--rm-mono);
+    font-size: 12px;
     font-weight: 500;
+    letter-spacing: 0.08em;
   }
 
   .lang-opt {
-    color: var(--h-color);
-    opacity: 0.5;
+    color: var(--h-tenue);
+    font-weight: 500;
     text-decoration: none;
     padding: 4px 5px;
     border-radius: var(--radio);
-    transition: opacity 0.15s ease, color 0.15s ease;
+    transition: color 0.15s ease;
   }
-  .lang-opt:hover { opacity: 1; color: var(--oro); }
-  .lang-opt--activo { opacity: 1; color: var(--oro); font-weight: 700; }
-  .lang-opt:focus-visible { outline: 2px solid var(--oro); outline-offset: 2px; }
+  .lang-opt:hover { color: var(--h-acento); }
+  .lang-opt--activo { color: var(--h-acento); font-weight: 700; }
+  .lang-opt:focus-visible { outline: 2px solid var(--h-acento); outline-offset: 2px; }
 
   .lang-sep {
-    color: var(--h-color);
-    opacity: 0.3;
+    color: var(--h-tenue);
   }
 
   /* ── Hamburguesa ── */
@@ -297,7 +302,20 @@ function isActive(href: string): boolean {
 
     .nav-menu.nav-menu--open { display: flex; }
 
-    .nav-link { font-size: 17px; padding: 10px calc(var(--espacio) * 1.5); }
+    .nav-link { font-size: 13.5px; padding: 12px calc(var(--espacio) * 1.5); }
+
+    /* Cinzel es más ancho que la sans anterior: el logotipo cede espacio
+       para que el botón de menú no se salga de la pantalla en 360px */
+    .logo { min-width: 0; }
+    .logo-svg { height: 30px; }
+    .logo-texto { min-width: 0; overflow: hidden; }
+    .logo-firma { font-size: 13px; white-space: nowrap; }
+    .logo-giro { display: none; }
+  }
+
+  /* Por debajo de 400px sólo cabe la marca; el nombre lo lleva el H1 */
+  @media (max-width: 400px) {
+    .logo-texto { display: none; }
 
     .lang-switch { margin-left: auto; }
     .nav-toggle { display: flex; margin-left: var(--espacio); }
