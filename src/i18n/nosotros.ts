@@ -82,7 +82,6 @@ export const nosotros = {
         personas: [
           { nombre: "Paola Guadalupe Guevara Moreno", credencial: "Contador Público por la UASLP · Especialista en Impuestos", correo: "paola@rmp.mx" },
           { nombre: "Yuliana Cerda Cerda", credencial: "Contador Público por la Universidad Tangamanga", correo: "yuliana@rmp.mx" },
-          { nombre: "María Lucero Rodríguez Díaz", credencial: "Contador Público por la Universidad Potosina", correo: "lucero.rodriguez@rmp.mx" },
         ],
       },
       {
@@ -96,12 +95,6 @@ export const nosotros = {
         personas: [
           { nombre: "Eugenia Eloisa Navarro González", credencial: "Licenciado en Derecho por la UASLP", correo: "eugenia@rmp.mx" },
           { nombre: "Alicia del Carmen Rocha Agundis", credencial: "Licenciado en Derecho por la UASLP · Especialista en Justicia Administrativa (TFJA)", correo: "alicia.rocha@rmp.mx" },
-        ],
-      },
-      {
-        area: "Administración",
-        personas: [
-          { nombre: "Liliana Vega Betancourt", credencial: "Responsable de la Administración General de la Firma", correo: "liliana@rmp.mx" },
         ],
       },
       {
@@ -190,7 +183,6 @@ export const nosotros = {
         personas: [
           { nombre: "Paola Guadalupe Guevara Moreno", credencial: "Public Accountant, UASLP · Tax specialist", correo: "paola@rmp.mx" },
           { nombre: "Yuliana Cerda Cerda", credencial: "Public Accountant, Universidad Tangamanga", correo: "yuliana@rmp.mx" },
-          { nombre: "María Lucero Rodríguez Díaz", credencial: "Public Accountant, Universidad Potosina", correo: "lucero.rodriguez@rmp.mx" },
         ],
       },
       {
@@ -204,12 +196,6 @@ export const nosotros = {
         personas: [
           { nombre: "Eugenia Eloisa Navarro González", credencial: "Law degree, UASLP", correo: "eugenia@rmp.mx" },
           { nombre: "Alicia del Carmen Rocha Agundis", credencial: "Law degree, UASLP · Specialist in Administrative Justice (TFJA)", correo: "alicia.rocha@rmp.mx" },
-        ],
-      },
-      {
-        area: "Administration",
-        personas: [
-          { nombre: "Liliana Vega Betancourt", credencial: "Head of the firm's General Administration", correo: "liliana@rmp.mx" },
         ],
       },
       {

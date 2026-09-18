@@ -117,10 +117,8 @@ const accesos = [
   <div class="footer-legal">
     <div class="footer-legal-inner">
       <p>© {anio} Ramírez Medellín, S.C. {t("footer.derechos")}</p>
-      <!-- TODO: redactar el aviso de privacidad (obligatorio por LFPDPPP al tener
-           formularios). Mientras no exista la página, se anuncia como pendiente:
-           un enlace a una ruta inexistente es peor que decir la verdad. -->
-      <p class="footer-legal-pendiente">{t("footer.aviso")} · {t("footer.avisoPendiente")}</p>
+      <!-- Aviso de privacidad LFPDPPP: borrador en src/i18n/aviso.ts, pendiente de revisión del área legal de la firma. -->
+      <a href={localizedUrl("/aviso-de-privacidad", lang)} class="footer-legal-link">{t("footer.aviso")}</a>
     </div>
   </div>
 </footer>
@@ -320,10 +318,6 @@ const accesos = [
     font-size: 10px;
     font-weight: 400;
     color: rgb(242 238 232 / 0.7); /* AA sobre tinta */
-  }
-
-  .footer-legal-pendiente {
-    color: rgb(242 238 232 / 0.6);
   }
 
   /* --- Barra legal --- */

@@ -1,0 +1,129 @@
+---
+import Base from "@layouts/Base.astro";
+import Cabecera from "@components/Cabecera.astro";
+import { getLang } from "../../i18n/utils";
+import { getAviso } from "../../i18n/aviso";
+
+const lang = getLang(Astro.currentLocale);
+const a = getAviso(lang);
+---
+
+<Base title={a.metaTitle} description={a.metaDesc} translated={true} fuentes="nuevo">
+  <div class="mundo">
+
+    <Cabecera titulo={a.heroH1} sub={a.heroSub}>
+      <p class="dato vigencia">{a.vigenciaEtiqueta} · {a.vigenciaFecha}</p>
+    </Cabecera>
+
+    <!-- Aviso honesto: el texto todavía no lo aprueba el área legal -->
+    <p class="estado">
+      <span class="estado-tag">{a.borradorTag}</span>
+      <span>{a.borradorTexto}</span>
+    </p>
+
+    <section class="cuerpo" aria-label={a.seccionesAria}>
+      <div class="marco">
+        <ol class="secciones" role="list">
+          {a.secciones.map((s, i) => (
+            <li class="seccion">
+              <div>
+                <p class="dato folio" aria-hidden="true">{String(i + 1).padStart(2, "0")}</p>
+                <h2 class="seccion-titulo">{s.titulo}</h2>
+              </div>
+              <div class="seccion-texto">
+                {s.parrafos?.map((p) => <p>{p}</p>)}
+                {s.lista && (
+                  <ul class="puntos">
+                    {s.lista.map((punto) => <li>{punto}</li>)}
+                  </ul>
+                )}
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+  </div>
+</Base>
+
+<style>
+  .vigencia { margin-top: clamp(18px, 2vw, 26px); }
+
+  .estado {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    padding: 16px clamp(20px, 4vw, 64px);
+    background: var(--rm-papel-2);
+    border-bottom: 1px solid var(--rm-linea);
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--rm-tinta-2);
+  }
+
+  .estado-tag {
+    font-family: var(--rm-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--rm-papel);
+    background: var(--rm-ambar);
+    padding: 5px 10px;
+  }
+
+  .cuerpo { padding-block: clamp(44px, 6vw, 88px); }
+
+  .secciones {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Renglón de lista: línea fina arriba, la primera en tinta abre el bloque */
+  .seccion {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr);
+    gap: clamp(14px, 3vw, 48px);
+    padding-block: clamp(22px, 2.6vw, 34px);
+    border-top: 1px solid var(--rm-linea);
+  }
+
+  .seccion:first-child { border-top: 2px solid var(--rm-tinta); }
+
+  .folio { margin: 0 0 8px; }
+
+  .seccion-titulo {
+    margin: 0;
+    font-family: var(--rm-serif);
+    font-weight: 500;
+    font-size: clamp(19px, 1.7vw, 26px);
+    line-height: 1.25;
+    max-width: 22ch;
+  }
+
+  .seccion-texto {
+    max-width: 62ch;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--rm-tinta-2);
+  }
+
+  .seccion-texto p { margin: 0 0 14px; }
+  .seccion-texto > :last-child { margin-bottom: 0; }
+
+  .puntos {
+    margin: 0 0 14px;
+    padding-left: 1.2em;
+    display: grid;
+    gap: 8px;
+  }
+
+  .puntos li::marker { color: var(--rm-ambar); }
+
+  @media (max-width: 900px) {
+    .seccion { grid-template-columns: 1fr; }
+    .seccion-titulo { max-width: none; }
+  }
+</style>
