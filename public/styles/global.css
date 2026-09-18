@@ -37,6 +37,7 @@
   --rm-papel-2: #ece2d3; /* segunda banda, bordes suaves */
   --rm-tinta: #1e1b17; /* 14.75:1 sobre papel */
   --rm-tinta-2: #3c3630; /* texto secundario, 10.25:1 */
+  --rm-papel-tenue: #c9bfae; /* texto secundario SOBRE tinta, 9.43:1 */
   --rm-azul: #07376d; /* del logo rmp.svg, 10.17:1 */
   --rm-ambar: #a8460b; /* acento de texto, 5.09:1 */
   --rm-ambar-vivo: #c2540e; /* sólo superficies y elementos no textuales */

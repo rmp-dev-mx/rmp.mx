@@ -1,0 +1,478 @@
+---
+// Asistente de chat. Habla con el webhook de n8n y devuelve texto plano.
+//
+// Se renderiza SÓLO si hay endpoint configurado en PUBLIC_CHAT_ENDPOINT:
+// sin él, el sitio queda exactamente como está y no se publica un widget
+// que no puede responder. El endpoint es público por definición (lo llama
+// el navegador), así que la protección contra abuso vive del lado del
+// túnel y del workflow, nunca aquí: ver docs/05-CHATBOT.md.
+import { getLang } from "../i18n/utils";
+import { getChat } from "../i18n/chat";
+
+const lang = getLang(Astro.currentLocale);
+const c = getChat(lang);
+
+const endpoint = import.meta.env.PUBLIC_CHAT_ENDPOINT ?? "";
+const activo = endpoint.trim().length > 0;
+
+const ICO_CHAT =
+  '<path d="M20 15.5a2.5 2.5 0 0 1-2.5 2.5H8l-4 3.5V6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5z"/>';
+const ICO_CERRAR = '<path d="M6 6 18 18"/><path d="M18 6 6 18"/>';
+const ICO_ENVIAR = '<path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/>';
+---
+
+{activo && (
+  <div class="chat" data-chat data-endpoint={endpoint} data-lang={lang}>
+    <button class="chat-lanzador" type="button" data-chat-abrir aria-expanded="false" aria-controls="chat-panel">
+      <svg class="chat-ico" viewBox="0 0 24 24" aria-hidden="true" set:html={ICO_CHAT} />
+      <span class="chat-lanzador-texto">{c.titulo}</span>
+      <span class="visually-hidden">{c.abrir}</span>
+    </button>
+
+    <div class="chat-panel" id="chat-panel" data-chat-panel hidden>
+      <header class="chat-cabeza">
+        <div>
+          <h2 class="chat-titulo">{c.titulo}</h2>
+          <p class="chat-subtitulo">{c.subtitulo}</p>
+        </div>
+        <button class="chat-cerrar" type="button" data-chat-cerrar aria-label={c.cerrar}>
+          <svg class="chat-ico" viewBox="0 0 24 24" aria-hidden="true" set:html={ICO_CERRAR} />
+        </button>
+      </header>
+
+      <div class="chat-historial" data-chat-historial role="log" aria-live="polite" aria-label={c.historialAria}>
+        <p class="burbuja burbuja--asistente">{c.bienvenida}</p>
+      </div>
+
+      <div class="chat-sugerencias" data-chat-sugerencias>
+        {c.sugerencias.map((s) => (
+          <button class="sugerencia" type="button" data-chat-sugerencia={s}>{s}</button>
+        ))}
+      </div>
+
+      <form class="chat-forma" data-chat-forma>
+        <label class="visually-hidden" for="chat-campo">{c.etiquetaCampo}</label>
+        <input
+          class="chat-campo"
+          id="chat-campo"
+          data-chat-campo
+          type="text"
+          autocomplete="off"
+          maxlength="500"
+          placeholder={c.marcador}
+        />
+        <button class="chat-enviar" type="submit" aria-label={c.enviar}>
+          <svg class="chat-ico" viewBox="0 0 24 24" aria-hidden="true" set:html={ICO_ENVIAR} />
+        </button>
+      </form>
+
+      <p class="chat-aviso">{c.aviso}</p>
+    </div>
+
+    <script type="application/json" data-chat-textos set:html={JSON.stringify({
+      pensando: c.pensando,
+      errorRed: c.errorRed,
+      errorLargo: c.errorLargo,
+      tuMensaje: c.tuMensaje,
+      suMensaje: c.suMensaje,
+    })} />
+
+    <!-- Script en línea y dentro del bloque condicional: si no hay endpoint,
+         no se envía ni un byte de este código a las otras páginas. -->
+    <script is:inline>
+      (function () {
+        const raiz = document.querySelector("[data-chat]");
+        if (!raiz) return;
+
+        const endpoint = raiz.dataset.endpoint;
+        const lang = raiz.dataset.lang || "es";
+        const textos = JSON.parse(
+          raiz.querySelector("[data-chat-textos]")?.textContent || "{}"
+        );
+
+        const lanzador = raiz.querySelector("[data-chat-abrir]");
+        const panel = raiz.querySelector("[data-chat-panel]");
+        const cerrar = raiz.querySelector("[data-chat-cerrar]");
+        const historial = raiz.querySelector("[data-chat-historial]");
+        const sugerencias = raiz.querySelector("[data-chat-sugerencias]");
+        const forma = raiz.querySelector("[data-chat-forma]");
+        const campo = raiz.querySelector("[data-chat-campo]");
+        const enviar = raiz.querySelector(".chat-enviar");
+
+        /* La sesión vive mientras dure la pestaña: da memoria al bot sin
+           dejar rastro permanente en el navegador del visitante. */
+        const CLAVE = "rmp-chat-sesion";
+        let sesion = "";
+        try {
+          sesion = sessionStorage.getItem(CLAVE) || "";
+          if (!sesion) {
+            sesion = crypto.randomUUID();
+            sessionStorage.setItem(CLAVE, sesion);
+          }
+        } catch (e) {
+          sesion = crypto.randomUUID(); // modo privado o almacenamiento bloqueado
+        }
+
+        let ocupado = false;
+
+        function abrir() {
+          panel.hidden = false;
+          raiz.dataset.abierto = "";
+          lanzador.setAttribute("aria-expanded", "true");
+          campo.focus();
+        }
+
+        function cerrarPanel() {
+          panel.hidden = true;
+          delete raiz.dataset.abierto;
+          lanzador.setAttribute("aria-expanded", "false");
+          lanzador.focus();
+        }
+
+        lanzador.addEventListener("click", abrir);
+        cerrar.addEventListener("click", cerrarPanel);
+
+        raiz.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" && !panel.hidden) {
+            e.stopPropagation();
+            cerrarPanel();
+          }
+        });
+
+        function burbuja(texto, clase, etiqueta) {
+          const p = document.createElement("p");
+          p.className = "burbuja burbuja--" + clase;
+          if (etiqueta) {
+            const et = document.createElement("span");
+            et.className = "visually-hidden";
+            et.textContent = etiqueta + ": ";
+            p.append(et);
+          }
+          // textContent, nunca innerHTML: lo que vuelve del webhook es texto ajeno
+          p.append(document.createTextNode(texto));
+          historial.append(p);
+          historial.scrollTop = historial.scrollHeight;
+          return p;
+        }
+
+        async function preguntar(mensaje) {
+          if (ocupado) return;
+          const limpio = (mensaje || "").trim();
+          if (!limpio) return;
+          if (limpio.length > 500) {
+            burbuja(textos.errorLargo, "error");
+            return;
+          }
+
+          ocupado = true;
+          enviar.disabled = true;
+          sugerencias.hidden = true;
+          campo.value = "";
+          burbuja(limpio, "usuario", textos.tuMensaje);
+          const esperando = burbuja(textos.pensando, "pensando");
+
+          // Sin timeout, una caída del webhook deja al visitante esperando
+          const corte = new AbortController();
+          const reloj = setTimeout(function () { corte.abort(); }, 30000);
+
+          try {
+            const res = await fetch(endpoint, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ message: limpio, sessionId: sesion, lang: lang }),
+              signal: corte.signal,
+            });
+            if (!res.ok) throw new Error(String(res.status));
+            const datos = await res.json();
+            const respuesta = ((datos && datos.reply) || "").toString().trim();
+            esperando.remove();
+            burbuja(respuesta || textos.errorRed, respuesta ? "asistente" : "error",
+              respuesta ? textos.suMensaje : undefined);
+          } catch (e) {
+            esperando.remove();
+            burbuja(textos.errorRed, "error");
+          } finally {
+            clearTimeout(reloj);
+            ocupado = false;
+            enviar.disabled = false;
+            campo.focus();
+          }
+        }
+
+        forma.addEventListener("submit", function (e) {
+          e.preventDefault();
+          preguntar(campo.value);
+        });
+
+        sugerencias.querySelectorAll("[data-chat-sugerencia]").forEach(function (s) {
+          s.addEventListener("click", function () {
+            preguntar(s.dataset.chatSugerencia || "");
+          });
+        });
+      })();
+    </script>
+  </div>
+)}
+
+<style>
+  /* Las burbujas y sus etiquetas nacen desde JavaScript, así que no llevan
+     el atributo de ámbito que Astro pone en lo que renderiza el servidor:
+     van en :global() bajo la raíz del widget, que sí lo lleva. */
+  .visually-hidden,
+  .chat :global(.visually-hidden) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .chat {
+    position: fixed;
+    right: clamp(14px, 2vw, 26px);
+    bottom: clamp(14px, 2vw, 26px);
+    z-index: 120;
+    font-family: var(--rm-serif);
+    --foco: var(--rm-ambar);
+  }
+
+  /* ── Lanzador ── */
+  .chat-lanzador {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 18px;
+    background: var(--rm-ambar);
+    color: var(--rm-papel);
+    border: 0;
+    cursor: pointer;
+    font-family: var(--rm-mono);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: background 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .chat-lanzador:hover { background: var(--rm-tinta); }
+
+  .chat[data-abierto] .chat-lanzador { display: none; }
+
+  /* ── Panel ── */
+  .chat-panel {
+    display: flex;
+    flex-direction: column;
+    width: min(380px, calc(100vw - 28px));
+    height: min(560px, calc(100vh - 110px));
+    background: var(--rm-papel);
+    border: 1px solid var(--rm-tinta);
+  }
+
+  .chat-panel[hidden] { display: none; }
+
+  .chat-cabeza {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px 16px 14px;
+    background: var(--rm-tinta);
+    color: var(--rm-papel);
+  }
+
+  .chat-titulo {
+    margin: 0;
+    font-family: var(--rm-display);
+    font-weight: 500;
+    font-size: 16px;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+  }
+
+  .chat-subtitulo {
+    margin: 5px 0 0;
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--rm-papel-tenue);
+    max-width: 34ch;
+  }
+
+  .chat-cerrar {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    background: none;
+    border: 1px solid rgb(244 237 226 / 0.4);
+    color: inherit;
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+
+  .chat-cerrar:hover {
+    background: var(--rm-papel);
+    color: var(--rm-tinta);
+  }
+
+  .chat-ico {
+    width: 17px;
+    height: 17px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* ── Historial ── */
+  .chat-historial {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    scrollbar-color: var(--rm-tinta-2) var(--rm-papel-2);
+  }
+
+  .chat-historial :global(.burbuja) {
+    margin: 0;
+    padding: 11px 13px;
+    max-width: 88%;
+    font-size: 16px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+  }
+
+  .chat-historial :global(.burbuja--asistente) {
+    background: var(--rm-papel-2);
+    color: var(--rm-tinta);
+    align-self: flex-start;
+  }
+
+  .chat-historial :global(.burbuja--usuario) {
+    background: var(--rm-tinta);
+    color: var(--rm-papel);
+    align-self: flex-end;
+  }
+
+  /* El error se distingue por el color del texto, no por una barra lateral:
+     este sistema no separa con cajas ni con filetes de color. */
+  .chat-historial :global(.burbuja--error) {
+    background: var(--rm-papel-2);
+    color: var(--rm-ambar); /* 4.62:1 sobre papel-2 */
+    align-self: flex-start;
+  }
+
+  /* Los enlaces que devuelve el asistente (correos, teléfonos) */
+  .chat-historial :global(.burbuja a) { color: var(--rm-azul); text-underline-offset: 3px; }
+  .chat-historial :global(.burbuja--usuario a) { color: var(--rm-papel); }
+
+  .chat-historial :global(.burbuja--pensando) {
+    color: var(--rm-tinta-2);
+    font-style: italic;
+  }
+
+  /* ── Sugerencias ── */
+  .chat-sugerencias {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 0 16px 12px;
+  }
+
+  .chat-sugerencias[hidden] { display: none; }
+
+  .sugerencia {
+    padding: 7px 11px;
+    background: none;
+    border: 1px solid var(--rm-linea);
+    color: var(--rm-tinta-2);
+    cursor: pointer;
+    font-family: var(--rm-mono);
+    font-size: 12.5px;
+    letter-spacing: 0.04em;
+    transition: border-color 0.3s ease, color 0.3s ease;
+  }
+
+  .sugerencia:hover {
+    border-color: var(--rm-ambar);
+    color: var(--rm-ambar);
+  }
+
+  /* ── Campo ── */
+  .chat-forma {
+    display: flex;
+    gap: 0;
+    border-top: 1px solid var(--rm-linea);
+  }
+
+  .chat-campo {
+    flex: 1;
+    min-width: 0;
+    padding: 14px 16px;
+    background: none;
+    border: 0;
+    font-family: var(--rm-serif);
+    font-size: 16px; /* 16px evita el zoom forzado de iOS al enfocar */
+    color: var(--rm-tinta);
+  }
+
+  .chat-campo::placeholder { color: var(--rm-tinta-2); opacity: 0.75; }
+
+  .chat-enviar {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 52px;
+    background: var(--rm-ambar);
+    border: 0;
+    color: var(--rm-papel);
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  .chat-enviar:hover { background: var(--rm-tinta); }
+  .chat-enviar:disabled { background: var(--rm-tinta-2); cursor: default; }
+
+  .chat-aviso {
+    margin: 0;
+    padding: 10px 16px 12px;
+    background: var(--rm-papel-2);
+    font-family: var(--rm-mono);
+    font-size: 12.5px;
+    line-height: 1.5;
+    letter-spacing: 0.04em;
+    color: var(--rm-tinta-2);
+  }
+
+  /* ── Móvil: el panel ocupa la pantalla ── */
+  @media (max-width: 560px) {
+    .chat {
+      right: 12px;
+      bottom: 12px;
+      left: 12px;
+    }
+    .chat[data-abierto] {
+      right: 0;
+      bottom: 0;
+      left: 0;
+      top: 0;
+    }
+    .chat-panel {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+    .chat-lanzador { width: 100%; justify-content: center; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .chat-lanzador,
+    .chat-cerrar,
+    .chat-enviar,
+    .sugerencia { transition: none; }
+  }
+</style>

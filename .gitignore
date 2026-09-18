@@ -12,3 +12,6 @@ dist/
 .impeccable/questions/
 .impeccable/hook.cache.json
 .impeccable/config.local.json
+
+# Variables locales (el endpoint del chatbot vive aquí)
+.env
