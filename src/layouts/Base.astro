@@ -1,6 +1,7 @@
 ---
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
+import ChatWidget from "@components/ChatWidget.astro";
 import { url } from "../lib/url";
 import { getLang, useTranslations, localizedUrl, getLogicalPath } from "../i18n/utils";
 
@@ -151,6 +152,7 @@ const schema = {
       <slot />
     </main>
     <Footer />
+    <ChatWidget />
   </body>
 </html>
 

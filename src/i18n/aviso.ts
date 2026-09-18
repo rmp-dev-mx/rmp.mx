@@ -10,6 +10,9 @@ import type { Lang } from "./ui";
 //   - Finalidades secundarias reales (p. ej. envío del boletín fiscal).
 //   - Transferencias concretas a terceros, si las hubiera.
 //   - Correo/medio exacto para atender solicitudes de derechos ARCO.
+//   - El chat del sitio (ChatWidget): hoy el texto afirma que el sitio no
+//     guarda datos ni los comparte, y con el chat activo deja de ser cierto.
+//     Ver los TODO (legal, chat) y docs/05-CHATBOT.md § Privacidad.
 
 type Seccion = {
   titulo: string;
@@ -91,6 +94,7 @@ export const aviso: Record<Lang, Aviso> = {
         titulo: "Transferencias de datos",
         parrafos: [
           "Sus datos personales no serán transferidos ni comercializados con terceros ajenos a la Firma sin su consentimiento, salvo en los supuestos previstos por el artículo 37 de la LFPDPPP (por ejemplo, cuando la transferencia sea requerida por autoridad competente o resulte necesaria para el cumplimiento de obligaciones legales derivadas de la relación de servicios).",
+          // TODO (legal, chat): los mensajes del chat pasan por el servidor n8n de la firma y los procesa Google (Gemini) fuera de México. Declarar a ese proveedor, la finalidad (responder consultas generales y canalizar al área) y si se trata como remisión o transferencia.
           // TODO (legal): si existen transferencias a terceros (p. ej. corresponsalías, plataformas contables o proveedores tecnológicos), enumerarlas aquí indicando finalidad y si requieren consentimiento.
         ],
       },
@@ -113,6 +117,7 @@ export const aviso: Record<Lang, Aviso> = {
         parrafos: [
           "Este sitio web es de carácter informativo y no utiliza cookies ni otras tecnologías para recabar datos personales de manera automática con fines de identificación individual. Los formularios de contacto de este sitio abren su cliente de correo para que usted nos escriba directamente; no almacenamos sus datos en el servidor del sitio.",
           // TODO (legal): revisar si en el futuro se integran formularios que envíen datos a un servidor o herramientas de analítica, para actualizar esta sección.
+          // TODO (legal, chat): este párrafo dice que no se almacenan datos en el servidor. El chat sí envía lo que el visitante escribe a un servidor (n8n guarda las conversaciones en su historial de ejecuciones). Corregir antes de activar el chat en producción.
         ],
       },
       {
