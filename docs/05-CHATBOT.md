@@ -369,8 +369,11 @@ LO QUE NO HACES
 ## Privacidad
 
 Los mensajes del visitante son datos personales y salen del país hacia Google.
-Eso hace obligatorio el aviso de privacidad que ya estaba pendiente (LFPDPPP), y
-el aviso debe mencionar el chat, la finalidad y el tercero que lo procesa.
+El aviso de privacidad (LFPDPPP) ya existe como borrador en
+`src/i18n/aviso.ts`, pero se redactó antes del chat: hoy dice que el sitio no
+guarda datos en un servidor. Tiene que mencionar el chat, su finalidad y el
+tercero que lo procesa; los puntos están marcados como `TODO (legal, chat)`.
+Corregirlo antes de activar el chat en producción.
 
 El widget ya avisa, debajo del campo, que es un asistente automatizado que no
 sustituye la asesoría de la firma. La `sessionId` vive en `sessionStorage`: se
