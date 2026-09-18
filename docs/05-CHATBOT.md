@@ -37,10 +37,92 @@ cp .env.example .env
 # edita .env con el endpoint real
 ```
 
-Para el despliegue en GitHub Pages, la variable se agrega como secreto o como
-`env:` en `.github/workflows/deploy.yml`, junto a `SITE` y `BASE`.
+El deploy de GitHub Pages ya la define en `.github/workflows/deploy.yml`, junto
+a `SITE` y `BASE`. No es un secreto: la URL termina en el JavaScript del sitio de
+todos modos. El build de producción (`rmp.mx`) también la necesita, o el sitio
+sale sin chat.
 
-## Publicar el endpoint (Cloudflare Tunnel)
+## Publicar el endpoint, hoy: Tailscale Funnel
+
+En uso desde el 2026-09-18. No toca el DNS de `rmp.mx`.
+
+```
+https://rmp-intranet.tail83771f.ts.net/webhook/chatbot-rmp
+```
+
+### Cómo está montado
+
+En `rmp-intranet`, n8n escucha en `127.0.0.1:5678`. Tailscale lo publica en dos
+puertos con alcances distintos:
+
+| Puerto | Qué sirve | Alcance |
+|---|---|---|
+| 443 | sólo `/webhook/chatbot-rmp` → `http://127.0.0.1:5678/webhook/chatbot-rmp` | Internet (Funnel) |
+| 8443 | n8n entero, editor incluido | Sólo tailnet |
+
+Funnel se activa **por puerto**: todo lo que se sirva en un puerto con Funnel
+queda en internet. Por eso el webhook va solo en un puerto propio, montado por
+ruta, y el 8443 nunca lleva Funnel. `tailscale funnel 5678` a secas, o Funnel
+sobre el 8443, publicaría el editor.
+
+Funnel sólo admite los puertos 443, 8443 y 10000. Se usó el 443 porque algunas
+redes de oficina bloquean los puertos no estándar.
+
+### Cómo se activó
+
+1. Permiso en la tailnet: consola de Tailscale → **Access controls** →
+   `nodeAttrs` con `"attr": ["funnel"]`. Si falta, el comando del paso 2
+   imprime un enlace que lo habilita en un clic.
+2. En el servidor:
+
+   ```bash
+   sudo tailscale funnel --bg --https=443 \
+     --set-path=/webhook/chatbot-rmp \
+     http://127.0.0.1:5678/webhook/chatbot-rmp
+   ```
+
+   `--bg` deja la configuración guardada en `tailscaled`; no depende de una
+   terminal abierta.
+
+Para apagarlo: `sudo tailscale funnel --https=443 off`.
+
+### Cómo comprobarlo
+
+`sudo tailscale serve status` debe mostrar el 443 con **Funnel on** y el 8443
+con **tailnet only**. Si el 8443 aparece con Funnel, apagarlo de inmediato.
+
+La prueba de fuera tiene que hacerse desde internet. Desde un equipo que está
+en la tailnet, MagicDNS resuelve el nombre a la IP interna, así que hay que
+forzar la pública:
+
+```bash
+H=rmp-intranet.tail83771f.ts.net
+IP=$(dig +short @1.1.1.1 $H | head -1)
+
+curl -s --resolve $H:443:$IP -o /dev/null -w "%{http_code}\n" https://$H/   # 404
+curl -s -m 8 --resolve $H:8443:$IP https://$H:8443/ || echo "sin conexión"  # editor fuera de alcance
+curl -s --resolve $H:443:$IP -X POST https://$H/webhook/chatbot-rmp \
+  -H "Content-Type: application/json" \
+  -d '{"message":"hola","sessionId":"prueba","lang":"es"}'
+```
+
+Verificado el 2026-09-18: `/` y `/rest/login` devuelven 404, el 8443 no
+responde desde internet y el POST llega a n8n (que contesta *webhook not
+registered* hasta que se active el workflow).
+
+### Lo que Funnel no da
+
+- **No hay rate limiting delante.** La regla de Cloudflare de la sección de
+  abuso no existe aquí. Mientras el endpoint viva en Funnel, las únicas
+  defensas son los topes dentro del workflow y el límite de gasto en Google AI
+  Studio. Por eso el workflow se activa después de ellos, no antes.
+- El nombre de la máquina y de la tailnet quedan a la vista en el código del
+  sitio. No dan acceso a nada, pero se ven.
+
+Pasar después a Cloudflare Tunnel sólo cambia `PUBLIC_CHAT_ENDPOINT` y exige
+volver a construir el sitio.
+
+## Publicar el endpoint, después: Cloudflare Tunnel
 
 ### El terreno, verificado
 
@@ -51,19 +133,24 @@ Para el despliegue en GitHub Pages, la variable se agrega como secreto o como
   `rmp-mx.mail.protection.outlook.com`. Esto es lo más delicado de todo el
   proceso: si se mueve el DNS sin replicar los registros de correo, la firma
   se queda sin correo, que es justo por donde entra su trabajo.
-- n8n vive en `rmp-intranet.tail83771f.ts.net`, expuesto por Tailscale en el
-  puerto 8443 (el servicio real suele escuchar en 5678). Esa dirección es de
-  la tailnet y no resuelve en DNS público.
+- La zona es chica. En DNS público (revisado el 2026-09-18) sólo aparecen el
+  MX de Outlook, el SPF (`v=spf1 include:spf.protection.outlook.com ~all`), el
+  TXT de verificación de Microsoft (`MS=ms70998476`), el A de `rmp.mx` y
+  `www` como alias. No hay registros de DKIM ni de `autodiscover`.
+- Mover los nameservers **no** mueve el dominio ni el correo: el registro
+  (titularidad, renovación) sigue en GoDaddy y los buzones siguen en
+  Microsoft 365. Sólo la lista de registros pasa a editarse en Cloudflare. Si
+  el 365 se contrató por GoDaddy, su panel deja de poder configurar el DNS
+  solo; cualquier cambio futuro se hace a mano en Cloudflare.
 
 ### Paso 0 — Mover el DNS de rmp.mx a Cloudflare
 
 Es el prerrequisito del subdominio `chat.rmp.mx`, y conviene igual para el
 sitio nuevo (WAF, caché, analítica). El orden importa:
 
-1. En GoDaddy, exportar o anotar **todos** los registros de la zona. En
-   especial: el MX de Outlook, el TXT de SPF, los CNAME de DKIM
-   (`selector1._domainkey`, `selector2._domainkey`), `autodiscover`, y
-   cualquier TXT de verificación de Microsoft.
+1. En GoDaddy, exportar **todos** los registros de la zona. Los de correo
+   que ya se conocen están arriba, pero el DNS público no deja listar
+   subdominios: la exportación es la única lista completa.
 2. Bajar el TTL de esos registros a 300 segundos y esperar a que caduque el
    TTL anterior. Así el cambio es reversible en minutos.
 3. Crear la zona en Cloudflare (plan gratuito) y **verificar registro por
@@ -74,9 +161,9 @@ sitio nuevo (WAF, caché, analítica). El orden importa:
 5. Recién entonces cambiar los nameservers en GoDaddy.
 6. Comprobar el correo enviando y recibiendo un mensaje real antes de seguir.
 
-Si no quieren mover el dominio ahora, la alternativa sin tocar DNS es
-`tailscale funnel 5678`, que publica el mismo n8n en la URL de Tailscale.
-Sirve para arrancar; el túnel de Cloudflare es lo que aguanta producción.
+Mientras no se mueva el dominio, el endpoint sigue en Funnel (sección
+anterior). Sirve para arrancar; el túnel de Cloudflare es lo que aguanta
+producción, porque trae el rate limiting.
 
 ### Paso 1 — Instalar el túnel en el servidor de n8n
 
@@ -174,7 +261,9 @@ Lo que sí protege, en orden de importancia:
    real no manda 20 mensajes en un minuto; un script sí. Es la barrera que de
    verdad detiene el abuso, y la única que no depende del navegador.
    Conviene además una regla de WAF que bloquee todo método que no sea POST u
-   OPTIONS sobre esa ruta.
+   OPTIONS sobre esa ruta. **Sólo existe con el túnel de Cloudflare**:
+   mientras el endpoint viva en Funnel, no hay esta barrera y los puntos 2, 3
+   y 5 cargan con todo.
 2. **Tope de tamaño**: rechazar cuerpos de más de ~2 KB. El widget ya corta en
    500 caracteres, pero el servidor no debe confiar en el cliente.
 3. **Tope de turnos por sesión**: en el workflow, si la memoria de ese
@@ -190,15 +279,21 @@ Lo que sí protege, en orden de importancia:
 Sobre lo que ya está armado (`Chat Webhook → AI Agent → Chat Response`, con
 Gemini 2.5 Flash y Simple Memory):
 
-- [ ] Activar el workflow. Hoy responde `404: webhook not registered`.
 - [ ] Pegar el system prompt de abajo en el nodo **AI Agent**. Sin el contenido
       real de la firma, el modelo inventa, y eso choca con la regla dura del
       proyecto de no inventar contenido.
-- [ ] Cambiar `allowedOrigins` de `*` a `https://rmp.mx`.
+- [ ] Cambiar `allowedOrigins` de `*` a
+      `https://rmp.mx,https://rmp-dev-mx.github.io`. El segundo es la vista
+      previa; sin él, el chat no funciona en GitHub Pages.
 - [ ] Agregar una rama de error: si el agente falla, devolver un `reply` con el
       correo y el teléfono en vez de un 500 con HTML.
 - [ ] Leer `lang` del cuerpo y pasarlo al prompt, para que conteste en el idioma
       de la página desde la que escriben.
+- [ ] Topes de tamaño (~2 KB) y de turnos por sesión (~20), y límite de gasto
+      o alertas de cuota en Google AI Studio.
+- [ ] **Al final**, activar el workflow. Hoy responde
+      `404: webhook not registered`, y así debe seguir hasta que lo anterior
+      esté hecho: el endpoint ya es público y Funnel no tiene rate limiting.
 
 ## System prompt
 
