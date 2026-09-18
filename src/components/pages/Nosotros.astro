@@ -243,8 +243,11 @@ const iniciales = n.socioNombre
 
   .filial-texto { margin-top: 0; }
 
+  /* Ancho fijo con tope, no min(…, 100%): en una columna auto el porcentaje
+     deja que el tamaño natural del SVG (3300px) se coma la del texto. */
   .filial-logo {
-    width: min(340px, 100%);
+    width: 340px;
+    max-width: 100%;
     height: auto;
     padding: 18px 22px;
     background: var(--rm-papel);
