@@ -29,7 +29,7 @@ function isActive(href: string): boolean {
       <LogoMarca class="logo-svg" />
       <span class="logo-texto">
         <span class="logo-firma">Ramírez Medellín</span>
-        <span class="logo-sc">S.C.</span>
+        <span class="logo-giro">{t("header.tagline")}</span>
       </span>
     </a>
 
@@ -149,13 +149,14 @@ function isActive(href: string): boolean {
     text-transform: uppercase;
   }
 
-  .logo-sc {
+  .logo-giro {
     font-family: var(--rm-mono);
     font-size: 10px;
     font-weight: 500;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.06em;
     color: var(--h-acento);
     text-transform: uppercase;
+    white-space: nowrap;
   }
 
   /* ── Nav ── */
@@ -309,7 +310,7 @@ function isActive(href: string): boolean {
     .logo-svg { height: 30px; }
     .logo-texto { min-width: 0; overflow: hidden; }
     .logo-firma { font-size: 13px; white-space: nowrap; }
-    .logo-sc { display: none; }
+    .logo-giro { display: none; }
   }
 
   /* Por debajo de 400px sólo cabe la marca; el nombre lo lleva el H1 */
