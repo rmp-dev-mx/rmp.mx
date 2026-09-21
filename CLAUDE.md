@@ -100,6 +100,12 @@ Los tokens CSS de arranque y los componentes clave están en `docs/04-DESIGN-SYS
 
 ## TODOs pendientes con el cliente
 
+### Revisión con el cliente (20 sep 2026)
+El sitio se presentó y gustó. Quedan pendientes:
+- **Corroboración de toda la información** del sitio: el cliente la entrega el **martes 22 sep 2026**. Aplicar sus correcciones en una rama propia.
+- **Comentarios sobre el chat** (ChatWidget + n8n): el chat se aprobó en lo general; llegarán ajustes puntuales.
+- Color: resuelto (paleta RM, PR #4).
+
 ### Datos por solicitar al cliente (bloquean trabajo en curso)
 - **WhatsApp Business** para el asistente de `/contacto`: ¿una línea general o una por encargada? Con los números se activa el botón de WhatsApp (`wa.me/<num>?text=` prellenado); hoy está deshabilitado ("próximamente").
 - **Horario de oficina** (lo pide `/contacto`; hoy muestra "Por confirmar").
