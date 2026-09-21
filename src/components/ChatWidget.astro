@@ -234,7 +234,7 @@ const ICO_ENVIAR = '<path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/>';
     bottom: clamp(14px, 2vw, 26px);
     z-index: 120;
     font-family: var(--rm-serif);
-    --foco: var(--rm-ambar);
+    --foco: var(--rm-acento);
   }
 
   /* ── Lanzador ── */
@@ -243,7 +243,7 @@ const ICO_ENVIAR = '<path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/>';
     align-items: center;
     gap: 10px;
     padding: 13px 18px;
-    background: var(--rm-ambar);
+    background: var(--rm-acento);
     color: var(--rm-papel);
     border: 0;
     cursor: pointer;
@@ -305,7 +305,7 @@ const ICO_ENVIAR = '<path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/>';
     width: 32px;
     height: 32px;
     background: none;
-    border: 1px solid rgb(244 237 226 / 0.4);
+    border: 1px solid color-mix(in srgb, var(--rm-papel) 40%, transparent);
     color: inherit;
     cursor: pointer;
     transition: background 0.3s ease, color 0.3s ease;
@@ -362,7 +362,7 @@ const ICO_ENVIAR = '<path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/>';
      este sistema no separa con cajas ni con filetes de color. */
   .chat-historial :global(.burbuja--error) {
     background: var(--rm-papel-2);
-    color: var(--rm-ambar); /* 4.62:1 sobre papel-2 */
+    color: var(--rm-acento); /* 4.62:1 sobre papel-2 */
     align-self: flex-start;
   }
 
@@ -398,8 +398,8 @@ const ICO_ENVIAR = '<path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/>';
   }
 
   .sugerencia:hover {
-    border-color: var(--rm-ambar);
-    color: var(--rm-ambar);
+    border-color: var(--rm-acento);
+    color: var(--rm-acento);
   }
 
   /* ── Campo ── */
@@ -427,7 +427,7 @@ const ICO_ENVIAR = '<path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/>';
     display: grid;
     place-items: center;
     width: 52px;
-    background: var(--rm-ambar);
+    background: var(--rm-acento);
     border: 0;
     color: var(--rm-papel);
     cursor: pointer;

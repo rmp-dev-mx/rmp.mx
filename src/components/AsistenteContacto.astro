@@ -56,7 +56,7 @@ const encargadas = Object.values(asistente.encargadas);
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.14em;
-    color: var(--rm-ambar);
+    color: var(--rm-acento);
     margin: 0 0 calc(var(--espacio) * 1.5);
   }
 
@@ -82,7 +82,7 @@ const encargadas = Object.values(asistente.encargadas);
     line-height: 1.6;
     color: var(--rm-tinta);
   }
-  #asistente .asistente-noscript a { color: var(--rm-ambar); }
+  #asistente .asistente-noscript a { color: var(--rm-acento); }
 
   /* ── Pasos ── */
   #asistente .paso-progreso {
@@ -130,19 +130,19 @@ const encargadas = Object.values(asistente.encargadas);
   }
 
   #asistente .opcion:hover {
-    border-color: var(--rm-ambar);
+    border-color: var(--rm-acento);
     background: var(--rm-papel);
   }
 
   #asistente .opcion:focus-visible {
-    outline: 2px solid var(--rm-ambar);
+    outline: 2px solid var(--rm-acento);
     outline-offset: 2px;
-    border-color: var(--rm-ambar);
+    border-color: var(--rm-acento);
   }
 
   #asistente .opcion-flecha {
     flex-shrink: 0;
-    color: var(--rm-ambar);
+    color: var(--rm-acento);
     font-family: var(--rm-mono);
     transition: transform 0.15s ease;
   }
@@ -162,7 +162,7 @@ const encargadas = Object.values(asistente.encargadas);
     cursor: pointer;
   }
   #asistente .paso-volver:hover { color: var(--rm-tinta); }
-  #asistente .paso-volver:focus-visible { outline: 2px solid var(--rm-ambar); outline-offset: 2px; }
+  #asistente .paso-volver:focus-visible { outline: 2px solid var(--rm-acento); outline-offset: 2px; }
 
   /* ── Resultado ── */
   #asistente .resultado-area {
@@ -171,7 +171,7 @@ const encargadas = Object.values(asistente.encargadas);
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.14em;
-    color: var(--rm-ambar);
+    color: var(--rm-acento);
     margin: 0 0 calc(var(--espacio) * 1.5);
   }
 
@@ -216,9 +216,9 @@ const encargadas = Object.values(asistente.encargadas);
   }
 
   #asistente .accion--correo {
-    background: var(--rm-ambar);
+    background: var(--rm-acento);
     color: var(--rm-papel);
-    border-color: var(--rm-ambar);
+    border-color: var(--rm-acento);
     transition: filter 0.15s ease;
   }
   #asistente .accion--correo:hover { filter: brightness(0.9); }
@@ -252,7 +252,7 @@ const encargadas = Object.values(asistente.encargadas);
     cursor: pointer;
   }
   #asistente .resultado-reiniciar:hover { color: var(--rm-tinta); }
-  #asistente .resultado-reiniciar:focus-visible { outline: 2px solid var(--rm-ambar); outline-offset: 2px; }
+  #asistente .resultado-reiniciar:focus-visible { outline: 2px solid var(--rm-acento); outline-offset: 2px; }
 
   /* Entrada sutil de cada paso */
   #asistente .paso-anim { animation: asistente-paso 0.3s ease both; }

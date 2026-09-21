@@ -127,9 +127,9 @@ const accesos = [
   .site-footer {
     background: var(--rm-tinta);
     color: var(--rm-papel);
-    --f-acento: #e08b45; /* 6.49:1 sobre la tinta cálida */
+    --f-acento: var(--rm-acento-claro);
     --oro-contraste: var(--rm-tinta);
-    --foco: #e08b45;
+    --foco: var(--rm-acento-claro);
   }
 
   .footer-inner {
@@ -185,7 +185,7 @@ const accesos = [
     font-family: var(--rm-mono);
     font-size: 13px;
     font-weight: 400;
-    color: rgb(242 238 232 / 0.6);
+    color: color-mix(in srgb, var(--rm-papel) 60%, transparent);
     margin-bottom: calc(var(--espacio) * 2.5);
     line-height: 1.4;
   }
@@ -195,7 +195,7 @@ const accesos = [
     font-style: normal;
     font-size: 15.5px;
     line-height: 1.65;
-    color: rgb(242 238 232 / 0.78);
+    color: color-mix(in srgb, var(--rm-papel) 78%, transparent);
     display: flex;
     flex-direction: column;
     gap: calc(var(--espacio) * 1.5);
@@ -212,7 +212,7 @@ const accesos = [
   .footer-email {
     font-family: var(--rm-mono);
     font-size: 14.5px;
-    color: rgb(242 238 232 / 0.85);
+    color: color-mix(in srgb, var(--rm-papel) 85%, transparent);
     text-decoration: none;
     transition: color 0.15s ease;
   }
@@ -243,7 +243,7 @@ const accesos = [
 
   .footer-links a {
     font-size: 15.5px;
-    color: rgb(242 238 232 / 0.78);
+    color: color-mix(in srgb, var(--rm-papel) 78%, transparent);
     text-decoration: none;
     line-height: 1.85;
     transition: color 0.15s ease;
@@ -266,7 +266,7 @@ const accesos = [
     align-items: center;
     gap: var(--espacio);
     font-size: 14px;
-    color: rgb(242 238 232 / 0.75);
+    color: color-mix(in srgb, var(--rm-papel) 75%, transparent);
     text-decoration: none;
     padding: 4px 0;
     transition: color 0.15s ease;
@@ -286,7 +286,7 @@ const accesos = [
 
   .footer-badge {
     padding: var(--espacio) calc(var(--espacio) * 1.5);
-    border: 1px solid rgb(242 238 232 / 0.12);
+    border: 1px solid color-mix(in srgb, var(--rm-papel) 12%, transparent);
     border-radius: var(--radio);
     display: inline-block;
   }
@@ -312,19 +312,19 @@ const accesos = [
     font-family: var(--rm-mono);
     font-size: 12px;
     font-weight: 500;
-    color: rgb(242 238 232 / 0.85);
+    color: color-mix(in srgb, var(--rm-papel) 85%, transparent);
     line-height: 1.5;
   }
 
   .badge-sub {
     font-size: 10px;
     font-weight: 400;
-    color: rgb(242 238 232 / 0.7); /* AA sobre tinta */
+    color: color-mix(in srgb, var(--rm-papel) 70%, transparent); /* AA sobre tinta */
   }
 
   /* --- Barra legal --- */
   .footer-legal {
-    border-top: 1px solid rgb(242 238 232 / 0.1);
+    border-top: 1px solid color-mix(in srgb, var(--rm-papel) 10%, transparent);
   }
 
   .footer-legal-inner {
@@ -337,18 +337,18 @@ const accesos = [
     padding: calc(var(--espacio) * 2.5) calc(var(--espacio) * 3);
     font-family: var(--rm-mono);
     font-size: 12px;
-    color: rgb(242 238 232 / 0.65); /* AA sobre tinta */
+    color: color-mix(in srgb, var(--rm-papel) 65%, transparent); /* AA sobre tinta */
   }
 
   .footer-legal-link {
-    color: rgb(242 238 232 / 0.65);
+    color: color-mix(in srgb, var(--rm-papel) 65%, transparent);
     text-decoration: none;
     transition: color 0.15s ease;
     white-space: nowrap;
   }
 
   .footer-legal-link:hover {
-    color: rgb(242 238 232 / 0.8);
+    color: color-mix(in srgb, var(--rm-papel) 80%, transparent);
   }
 
   /* --- Responsive --- */

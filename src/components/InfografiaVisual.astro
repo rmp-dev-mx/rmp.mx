@@ -90,7 +90,7 @@ const { visual: v, grande = false } = Astro.props;
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 0.12em;
-    color: rgb(250 247 240 / 0.55);
+    color: color-mix(in srgb, var(--rm-papel) 55%, transparent);
     margin-top: var(--espacio);
   }
   .ig-delta {
@@ -112,22 +112,22 @@ const { visual: v, grande = false } = Astro.props;
     flex-shrink: 0;
     width: 26px; height: 26px;
     display: inline-flex; align-items: center; justify-content: center;
-    border: 1px solid var(--rm-ambar-vivo);
+    border: 1px solid var(--rm-acento-vivo);
     border-radius: 999px;
     font-family: var(--rm-mono);
     font-size: 11px;
-    color: var(--rm-ambar-vivo);
+    color: var(--rm-acento-vivo);
   }
-  .ig-paso-txt { font-size: 13.5px; line-height: 1.35; color: rgb(250 247 240 / 0.85); }
+  .ig-paso-txt { font-size: 13.5px; line-height: 1.35; color: color-mix(in srgb, var(--rm-papel) 85%, transparent); }
 
   /* comparativo (barras) */
   .ig--comp { display: flex; flex-direction: column; gap: calc(var(--espacio) * 2.5); width: 100%; }
   .ig-comp-fila { display: flex; flex-direction: column; gap: 6px; }
   .ig-comp-top { display: flex; justify-content: space-between; align-items: baseline; font-family: var(--rm-mono); }
-  .ig-comp-et { font-size: 12px; color: rgb(250 247 240 / 0.6); letter-spacing: 0.05em; }
+  .ig-comp-et { font-size: 12px; color: color-mix(in srgb, var(--rm-papel) 60%, transparent); letter-spacing: 0.05em; }
   .ig-comp-val { font-size: 16px; color: var(--rm-papel); font-variant-numeric: tabular-nums; }
   .ig-bar { height: 8px; border-radius: 999px; background: rgb(216 210 196 / 0.18); overflow: hidden; }
-  .ig-bar > span { display: block; height: 100%; background: var(--rm-ambar-vivo); border-radius: 999px; }
+  .ig-bar > span { display: block; height: 100%; background: var(--rm-acento-vivo); border-radius: 999px; }
 
   /* calendario */
   .ig--cal { display: flex; gap: calc(var(--espacio) * 2); flex-wrap: wrap; justify-content: center; }
@@ -139,5 +139,5 @@ const { visual: v, grande = false } = Astro.props;
     border-radius: 0;
   }
   .cal-dia { font-family: var(--rm-mono); font-size: 30px; font-weight: 500; color: var(--rm-papel); line-height: 1; font-variant-numeric: tabular-nums; }
-  .cal-et { font-family: var(--rm-mono); font-size: 11px; letter-spacing: 0.08em; color: var(--rm-ambar-vivo); text-transform: uppercase; }
+  .cal-et { font-family: var(--rm-mono); font-size: 11px; letter-spacing: 0.08em; color: var(--rm-acento-vivo); text-transform: uppercase; }
 </style>

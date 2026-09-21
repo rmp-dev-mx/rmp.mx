@@ -72,7 +72,7 @@ const iniciales = n.socioNombre
             {n.filialDescPre}<strong>{n.filialDescStrong}</strong>{n.filialDescPost}
           </p>
           <!-- TODO: pedir al cliente el alcance y objeto de la filial -->
-          <a class="accion accion--ambar" href={localizedUrl("/servicios#asesoria", lang)}>
+          <a class="accion accion--acento" href={localizedUrl("/servicios#asesoria", lang)}>
             <span>{n.filialLink}</span>
             <span class="accion-circulo" aria-hidden="true">
               <svg class="ico" viewBox="0 0 24 24" set:html={FLECHA} />
@@ -343,7 +343,7 @@ const iniciales = n.socioNombre
     font-family: var(--rm-display);
     font-size: clamp(30px, 3.4vw, 44px);
     letter-spacing: 0.02em;
-    color: var(--rm-ambar);
+    color: var(--rm-acento);
     margin: 0;
   }
 

@@ -1,17 +1,18 @@
 ---
 name: Ramírez Medellín, S.C. (rmp.mx)
-description: Papel cálido, titular grande y la fotografía mandando a sangre; sin cajas.
+description: Papel, titular grande y la fotografía mandando a sangre; sin cajas.
 colors:
-  papel: "#f4ede2"
-  papel-2: "#ece2d3"
-  tinta: "#1e1b17"
-  tinta-2: "#3c3630"
-  papel-tenue: "#c9bfae"
-  azul: "#07376d"
-  ambar: "#a8460b"
-  ambar-vivo: "#c2540e"
-  banda: "#b23c0a"
-  linea: "rgb(30 27 23 / 0.14)"
+  papel: "#f4f5f6"
+  papel-2: "#e7e9ec"
+  tinta: "#121a26"
+  tinta-2: "#5f5f5f"
+  papel-tenue: "#b9c4d2"
+  azul: "#0a3465"
+  acento: "#1b4e8c"
+  acento-vivo: "#2563ae"
+  acento-claro: "#8fb5e3"
+  banda: "#0a3465"
+  linea: "color-mix(in srgb, #121a26 14%, transparent)"
 typography:
   display:
     fontFamily: "Archivo, system-ui, sans-serif"
@@ -47,7 +48,7 @@ spacing:
   marco: "clamp(20px, 4vw, 64px)"
 components:
   boton:
-    backgroundColor: "{colors.ambar}"
+    backgroundColor: "{colors.acento}"
     textColor: "{colors.papel}"
     typography: "{typography.label}"
     padding: "14px 20px"
@@ -84,34 +85,38 @@ El antecedente que este sistema reemplaza es deliberado: el sitio venía de un m
 
 ## Colors
 
-Dos tintas y un acento. El azul es de marca y trabaja de enlace; el ámbar es la voz cálida y manda en acciones y acentos.
+Dos tintas y un acento, todos del logo de Ramírez Medellín. Por decisión del cliente (sep 2026) el color de la firma es el azul y gris de RM, no el naranja de Pacioli.
+
+Los componentes sólo usan tokens `--rm-*` semánticos; cada paleta es un bloque `[data-paleta="…"]` en `public/styles/global.css`. La activa se fija en `src/lib/paleta.ts` y se puede previsualizar otra con `?paleta=<nombre>` en la URL. Paletas: `rm` (por defecto) y `pacioli` (la cálida anterior, conservada para comparar). Los valores de abajo son los de `rm`.
 
 ### Primary
 
-- **Azul de marca** (`#07376d`): sale del logo entregado por el cliente. Enlaces de dato (teléfonos, correos, fuentes oficiales). 10.17:1 sobre papel.
-- **Ámbar** (`#a8460b`): acciones, líneas de acento, enlaces de énfasis. Bajado desde el naranja de Pacioli hasta cumplir AA en texto: 5.09:1 sobre papel.
+- **Azul de marca** (`#0a3465`): el azul exacto del logo `rmp.svg`. Enlaces de dato (teléfonos, correos, fuentes oficiales) y fondo de las franjas. 11.37:1 sobre papel.
+- **Acento** (`#1b4e8c`): acciones, líneas de acento, enlaces de énfasis, botones. Un azul medio del mismo tono, para que la acción se distinga del dato. 7.65:1 sobre papel.
 
 ### Secondary
 
-- **Ámbar vivo** (`#c2540e`): sólo superficies y elementos no textuales. No pasa AA como texto y no debe usarse así.
-- **Banda** (`#b23c0a`): fondo de las franjas saturadas, con texto en papel a 5.1:1.
+- **Acento vivo** (`#2563ae`): superficies y elementos no textuales (barras, indicadores).
+- **Acento claro** (`#8fb5e3`): acento **sobre** la tinta (pie, chat). 8.23:1 sobre tinta.
+- **Banda** (`#0a3465`): fondo de las franjas saturadas, con texto en papel a 11.37:1.
 
 ### Neutral
 
-- **Papel** (`#f4ede2`): campo de toda página migrada.
-- **Papel 2** (`#ece2d3`): segunda banda, secciones alternas y fondos de apoyo.
-- **Tinta** (`#1e1b17`): texto principal y fondo del pie. 14.75:1 sobre papel.
-- **Tinta 2** (`#3c3630`): texto secundario y párrafos largos. 10.25:1 sobre papel.
-- **Papel tenue** (`#c9bfae`): texto secundario **sobre** la tinta, donde el papel pleno pesa demasiado. 9.43:1 sobre tinta.
-- **Línea** (`rgb(30 27 23 / 0.14)`): el único separador del sistema.
+- **Papel** (`#f4f5f6`): campo de toda página migrada.
+- **Papel 2** (`#e7e9ec`): segunda banda, secciones alternas y fondos de apoyo.
+- **Tinta** (`#121a26`): texto principal y fondo del pie. 16.01:1 sobre papel.
+- **Tinta 2** (`#5f5f5f`): el gris de las letras del logo. Texto secundario y párrafos largos. 5.85:1 sobre papel, 5.25:1 sobre papel 2.
+- **Papel tenue** (`#b9c4d2`): texto secundario **sobre** la tinta. 9.90:1 sobre tinta.
+- **Línea** (tinta al 14 %): el único separador del sistema.
+- Los textos translúcidos sobre fondos oscuros se derivan de `--rm-papel` con `color-mix`, nunca con un `rgb()` fijo, para que sigan a la paleta.
 
 ### Named Rules
 
-**La regla de las dos tintas.** El azul es para datos que el visitante va a usar (teléfono, correo, fuente); el ámbar es para lo que quiere que haga. Si un elemento no es ninguna de las dos cosas, va en tinta.
+**La regla de las dos tintas.** El azul es para datos que el visitante va a usar (teléfono, correo, fuente); el acento es para lo que quiere que haga. Si un elemento no es ninguna de las dos cosas, va en tinta.
 
-**La regla del ámbar medido.** El ámbar de texto es `#a8460b`, no el vivo. Cualquier ámbar más claro que ese sólo existe como superficie.
+**La regla del acento medido.** El acento de texto es `--rm-acento`, no el vivo. Cualquier tono más claro sólo existe como superficie o sobre la tinta (`--rm-acento-claro`).
 
-**La regla del foco propio.** `:focus-visible` lee `var(--foco)` y cada superficie declara el suyo: ámbar sobre papel, papel sobre las franjas oscuras. Ninguna superficie hereda un foco que no contrasta.
+**La regla del foco propio.** `:focus-visible` lee `var(--foco)` y cada superficie declara el suyo: acento sobre papel, papel sobre las franjas oscuras. Ninguna superficie hereda un foco que no contrasta.
 
 ## Typography
 
@@ -168,7 +173,7 @@ Las imágenes se recortan en proporciones declaradas: 4/3 en las áreas de la po
 ### Botón
 
 - **Forma:** rectángulo recto, sin radio.
-- **Primario:** fondo ámbar, texto papel, etiqueta en mono de 12.5px con tracking 0.12em, padding 14/20, y la flecha en círculo a la derecha.
+- **Primario:** fondo de acento, texto papel, etiqueta en mono de 12.5px con tracking 0.12em, padding 14/20, y la flecha en círculo a la derecha.
 - **Hover:** el fondo pasa a tinta; el círculo conserva el trazo en el color del texto.
 - **Regla:** uno por pantalla. Si hay dos llamadas, la segunda es una acción con flecha, no otro botón.
 
@@ -176,7 +181,7 @@ Las imágenes se recortan en proporciones declaradas: 4/3 en las áreas de la po
 
 - Etiqueta en mono más un círculo de 30px con la flecha dibujada dentro.
 - **Hover:** el círculo se rellena y la flecha invierte su color.
-- Variante ámbar (`.accion--ambar`) para superficies donde la tinta pesa demasiado.
+- Variante de acento (`.accion--acento`) para superficies donde la tinta pesa demasiado.
 
 ### Cabecera de página
 
@@ -192,7 +197,7 @@ Las imágenes se recortan en proporciones declaradas: 4/3 en las áreas de la po
 ### Campo de formulario
 
 - Fondo papel, borde de 1px en línea, sin radio, etiqueta arriba.
-- **Foco:** outline de 2px en ámbar con offset de 2px.
+- **Foco:** outline de 2px en el acento con offset de 2px.
 - **Error:** borde y mensaje en el rojo heredado, con el mensaje bajo el campo y `aria-invalid` en el control.
 
 ### Franja saturada
@@ -204,7 +209,7 @@ Las imágenes se recortan en proporciones declaradas: 4/3 en las áreas de la po
 
 ### Do:
 
-- **Do** usar el azul `#07376d` sólo para datos accionables y el ámbar `#a8460b` para lo que el visitante debe hacer.
+- **Do** usar el azul `#0a3465` sólo para datos accionables y el acento `#1b4e8c` para lo que el visitante debe hacer.
 - **Do** dejar que la fotografía llegue al borde de la ventana, con el degradado de papel encima en su lado interior.
 - **Do** separar con línea fina, cambio de fondo o espacio.
 - **Do** poner la medida de los párrafos en 52ch o menos.
@@ -215,7 +220,7 @@ Las imágenes se recortan en proporciones declaradas: 4/3 en las áreas de la po
 - **Don't** meter contenido en tarjetas, ni poner bordes redondeados o sombras: este sistema no tiene recipientes ni elevación.
 - **Don't** usar una etiqueta pequeña encima de un título.
 - **Don't** numerar secciones (01 / 02) cuando el orden no informa nada.
-- **Don't** usar el ámbar vivo `#c2540e` como color de texto: no cumple AA.
+- **Don't** usar el acento vivo `#2563ae` como texto pequeño ni escribir colores a mano: todo color sale de un token `--rm-*` para que el cambio de paleta lo alcance.
 - **Don't** usar monoespaciada para párrafos.
 - **Don't** heredar nada del mundo anterior: el oro `#8a6423`, Spectral en cursiva como voz de titular y las etiquetas mono sobre cada encabezado quedaron fuera a propósito.
 

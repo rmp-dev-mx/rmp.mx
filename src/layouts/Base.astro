@@ -3,6 +3,7 @@ import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
 import ChatWidget from "@components/ChatWidget.astro";
 import { url } from "../lib/url";
+import { PALETA, PALETAS } from "../lib/paleta";
 import { getLang, useTranslations, localizedUrl, getLogicalPath } from "../i18n/utils";
 
 interface Props {
@@ -90,9 +91,19 @@ const schema = {
 ---
 
 <!doctype html>
-<html lang={htmlLang}>
+<html lang={htmlLang} data-paleta={PALETA}>
   <head>
     <meta charset="UTF-8" />
+    <!-- ?paleta=<nombre> sobrescribe la paleta para comparar y se recuerda en la pestaña al navegar;
+         inline y antes del CSS para no parpadear -->
+    <script is:inline define:vars={{ paletas: PALETAS }}>
+      let p = new URLSearchParams(location.search).get("paleta");
+      try {
+        if (p) sessionStorage.setItem("paleta", p);
+        else p = sessionStorage.getItem("paleta");
+      } catch {}
+      if (paletas.includes(p)) document.documentElement.dataset.paleta = p;
+    </script>
     <!-- Mejora progresiva: los reveals al scroll solo aplican con JS activo -->
     <script>document.documentElement.classList.add("js");</script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />

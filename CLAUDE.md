@@ -82,7 +82,7 @@ Por eso **todo enlace interno y todo asset (CSS, imágenes, hrefs, mailto no, pe
 ## Identidad visual (resumen — detalle en docs/04)
 
 - **Concepto:** "El libro mayor" — rayado fino tipo libro contable, cifras tabulares, doble línea de totales como divisor de sección.
-- **Paleta:** `--tinta #16243A` · `--papel #FAF7F0` · `--pizarra #5B6470` · `--regla #D8D2C4`. El oro se ajustó por contraste **AA**: `--oro #8A6423` (profundo, sobre papel) y `--oro-claro #C9A227` (luminoso). La clase `.fondo-oscuro` reasigna `--oro` a la variante clara para que etiquetas mono/eyebrows cumplan AA sobre tinta.
+- **Paleta:** el color de la firma es el **azul `#0A3465` y gris `#5F5F5F` del logo de Ramírez Medellín**, no el naranja de Pacioli (decisión del Lic. Cosme, sep 2026). Los componentes usan sólo tokens semánticos `--rm-*` (`papel`, `tinta`, `tinta-2`, `azul`, `acento`, `acento-vivo`, `acento-claro`, `banda`, `linea`); cada paleta es un bloque `[data-paleta]` en `global.css`. La activa se fija en `src/lib/paleta.ts` (`rm` por defecto; `pacioli` = la cálida anterior) y `?paleta=pacioli` en cualquier URL la previsualiza. **No escribir colores a mano** en componentes: usar un token o `color-mix(in srgb, var(--rm-…) N%, transparent)`. Los tokens viejos `--oro`/`--oro-claro` son alias del acento activo. Detalle y contrastes en `DESIGN.md`.
 - **Tipografía:** Spectral (display/H1–H2) · Public Sans (cuerpo/UI) · IBM Plex Mono (cifras, etiquetas, teléfonos). Cargadas desde Google Fonts en `Base.astro`.
 - **Elemento firma:** divisor de sección = doble regla horizontal (1px + 1px separadas 3px) en `--oro`.
 

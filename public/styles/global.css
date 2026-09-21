@@ -2,9 +2,7 @@
 :root {
   --tinta: #16243a;
   --papel: #faf7f0;
-  /* Oro adaptativo: profundo sobre papel (4.98:1 AA), luminoso sobre tinta (6.4:1 AA) */
-  --oro: #8a6423;
-  --oro-claro: #c9a227;
+  /* --oro y --oro-claro se definen abajo, a partir de la paleta activa */
   --oro-contraste: #faf7f0; /* color de texto sobre fondos oro */
   --pizarra: #5b6470;
   --regla: #d8d2c4;
@@ -25,24 +23,56 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   Mundo visual nuevo: papel cálido, titular grande y la fotografía
+   Mundo visual nuevo: papel, titular grande y la fotografía
    mandando a sangre. Sin cajas ni bordes: el aire y la imagen hacen
-   la composición. El azul es el del logo entregado por el cliente;
-   el ámbar viene del naranja de Pacioli, bajado hasta cumplir AA.
-   Prefijo --rm- mientras las otras 7 páginas siguen en el mundo
-   anterior; al migrarlas, estos tokens sustituyen a los de arriba.
+   la composición.
+
+   Paletas intercambiables: los componentes sólo usan los tokens
+   --rm-* (semánticos: papel, tinta, acento…); cada paleta es un
+   bloque [data-paleta] que les da valor. La activa se elige en
+   src/lib/paleta.ts (atributo data-paleta del <html>); para comparar
+   sin rebuild, añade ?paleta=pacioli a cualquier URL.
+   Contrastes anotados sobre --rm-papel salvo que se indique.
    ═══════════════════════════════════════════════════════════════ */
+
+/* RM (por defecto): azul y gris de las letras del logo rmp.svg.
+   Decisión del cliente (sep 2026): el color de la firma es el de
+   Ramírez Medellín, no el naranja de Pacioli. */
+:root,
+[data-paleta="rm"] {
+  --rm-papel: #f4f5f6; /* campo neutro */
+  --rm-papel-2: #e7e9ec; /* segunda banda, bordes suaves */
+  --rm-tinta: #121a26; /* 16.01:1 */
+  --rm-tinta-2: #5f5f5f; /* gris de las letras del logo, 5.85:1 (5.25:1 sobre papel-2) */
+  --rm-papel-tenue: #b9c4d2; /* texto secundario SOBRE tinta, 9.90:1 */
+  --rm-azul: #0a3465; /* azul exacto del logo, 11.37:1 */
+  --rm-acento: #1b4e8c; /* acento de texto y botones, 7.65:1 */
+  --rm-acento-vivo: #2563ae; /* sólo superficies y elementos no textuales, 5.54:1 */
+  --rm-acento-claro: #8fb5e3; /* acento SOBRE tinta, 8.23:1 */
+  --rm-banda: #0a3465; /* franja saturada: el azul del logo; texto papel a 11.37:1 */
+  --rm-linea: color-mix(in srgb, var(--rm-tinta) 14%, transparent);
+}
+
+/* Pacioli: la paleta cálida anterior (ámbar del naranja de Pacioli,
+   bajado hasta cumplir AA). Se conserva para comparar. */
+[data-paleta="pacioli"] {
+  --rm-papel: #f4ede2;
+  --rm-papel-2: #ece2d3;
+  --rm-tinta: #1e1b17; /* 14.75:1 */
+  --rm-tinta-2: #3c3630; /* 10.25:1 */
+  --rm-papel-tenue: #c9bfae; /* SOBRE tinta, 9.43:1 */
+  --rm-azul: #07376d; /* 10.17:1 */
+  --rm-acento: #a8460b; /* 5.09:1 */
+  --rm-acento-vivo: #c2540e;
+  --rm-acento-claro: #e08b45; /* SOBRE tinta, 6.49:1 */
+  --rm-banda: #b23c0a; /* texto papel a 5.1:1 */
+  --rm-linea: color-mix(in srgb, var(--rm-tinta) 14%, transparent);
+}
+
 :root {
-  --rm-papel: #f4ede2; /* campo cálido */
-  --rm-papel-2: #ece2d3; /* segunda banda, bordes suaves */
-  --rm-tinta: #1e1b17; /* 14.75:1 sobre papel */
-  --rm-tinta-2: #3c3630; /* texto secundario, 10.25:1 */
-  --rm-papel-tenue: #c9bfae; /* texto secundario SOBRE tinta, 9.43:1 */
-  --rm-azul: #07376d; /* del logo rmp.svg, 10.17:1 */
-  --rm-ambar: #a8460b; /* acento de texto, 5.09:1 */
-  --rm-ambar-vivo: #c2540e; /* sólo superficies y elementos no textuales */
-  --rm-banda: #b23c0a; /* franja saturada; texto papel a 5.1:1 */
-  --rm-linea: rgb(30 27 23 / 0.14);
+  /* Los tokens del mundo anterior siguen a la paleta activa */
+  --oro: var(--rm-acento);
+  --oro-claro: var(--rm-acento-claro);
 
   --rm-display: "Archivo", system-ui, sans-serif;
   --rm-serif: "Spectral", Georgia, serif;
@@ -50,13 +80,13 @@
 }
 
 ::selection {
-  background: var(--rm-ambar);
+  background: var(--rm-acento);
   color: var(--rm-papel);
 }
 
 :root {
   scrollbar-color: var(--rm-tinta-2) var(--rm-papel-2);
-  caret-color: var(--rm-ambar);
+  caret-color: var(--rm-acento);
 }
 
 /* Sobre fondos oscuros el oro sube de luminancia para cumplir AA
@@ -172,7 +202,7 @@ html.js .revela.visible {
   background: var(--rm-papel);
   color: var(--rm-tinta);
   font-family: var(--rm-serif);
-  --foco: var(--rm-ambar);
+  --foco: var(--rm-acento);
 }
 
 .mundo .marco {
@@ -209,7 +239,7 @@ html.js .revela.visible {
   font-weight: 500;
   font-size: clamp(22px, 2.6vw, 36px);
   line-height: 1.2;
-  color: var(--rm-ambar);
+  color: var(--rm-acento);
   margin: 0;
 }
 
@@ -254,10 +284,10 @@ html.js .revela.visible {
   color: var(--rm-papel);
 }
 
-.mundo .accion--ambar { color: var(--rm-ambar); }
-.mundo .accion--ambar .accion-circulo { border-color: var(--rm-ambar); }
-.mundo .accion--ambar:hover .accion-circulo {
-  background: var(--rm-ambar);
+.mundo .accion--acento { color: var(--rm-acento); }
+.mundo .accion--acento .accion-circulo { border-color: var(--rm-acento); }
+.mundo .accion--acento:hover .accion-circulo {
+  background: var(--rm-acento);
   color: var(--rm-papel);
 }
 
@@ -278,7 +308,7 @@ html.js .revela.visible {
   align-items: center;
   gap: 14px;
   padding: 14px 20px;
-  background: var(--rm-ambar);
+  background: var(--rm-acento);
   color: var(--rm-papel);
   font-family: var(--rm-mono);
   font-size: 12.5px;
