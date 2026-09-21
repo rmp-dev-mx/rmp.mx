@@ -321,7 +321,7 @@ const FLECHA = '<path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/>';
   .area-nombre a {
     color: inherit;
     text-decoration: none;
-    background-image: linear-gradient(var(--rm-ambar), var(--rm-ambar));
+    background-image: linear-gradient(var(--rm-acento), var(--rm-acento));
     background-size: 0% 1px;
     background-position: 0 100%;
     background-repeat: no-repeat;
@@ -349,7 +349,7 @@ const FLECHA = '<path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/>';
     font-family: var(--rm-mono);
     font-size: 12.5px;
     letter-spacing: 0.06em;
-    color: var(--rm-ambar);
+    color: var(--rm-acento);
     text-decoration: underline;
     text-underline-offset: 4px;
     text-decoration-thickness: 1px;
@@ -373,7 +373,7 @@ const FLECHA = '<path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/>';
   .franja-cuerpo { max-width: 42ch; }
 
   .franja-et {
-    color: rgb(244 237 226 / 0.85);
+    color: color-mix(in srgb, var(--rm-papel) 85%, transparent);
     margin-bottom: clamp(18px, 2vw, 26px);
   }
 

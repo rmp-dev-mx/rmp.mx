@@ -1,0 +1,20 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "design-system-font",
+        "value": "ibm plex mono",
+        "createdAt": "2026-09-21T04:48:18.090Z",
+        "reason": "Juego tipográfico 'legado' documentado en CLAUDE.md (Base.astro fuentes=legado); preexistente"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "public sans",
+        "createdAt": "2026-09-21T04:48:18.106Z",
+        "reason": "Juego tipográfico 'legado' documentado en CLAUDE.md (Base.astro fuentes=legado); preexistente"
+      }
+    ]
+  }
+}
