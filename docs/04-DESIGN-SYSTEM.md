@@ -1,5 +1,7 @@
 # 04 — Sistema de diseño
 
+> **Histórico.** Este documento describe el sistema de arranque ("El libro mayor", oro `#A87B2D`), ya superado. El sistema vigente —tokens `--rm-*`, paletas intercambiables y la paleta **RM** (azul `#0A3465` y gris `#5F5F5F` del logo) elegida por el cliente en sep 2026— está en `DESIGN.md` y `public/styles/global.css`. Consultar esos antes que este.
+
 ## Concepto: "El libro mayor"
 
 La filial se llama **Pacioli** — por Luca Pacioli, padre de la contabilidad por partida doble. De ahí sale toda la identidad: la estética del **libro de contabilidad bien llevado**. Rayado fino, cifras tabulares alineadas, y la **doble línea** con la que un contador cierra un total. Es sobrio, es del oficio, y ninguna otra firma de la región se verá igual.
