@@ -238,7 +238,7 @@ const iniciales = n.socioNombre
     display: grid;
     grid-template-columns: auto minmax(0, 1fr);
     gap: clamp(24px, 4vw, 56px);
-    align-items: start;
+    align-items: center;
   }
 
   .filial-texto { margin-top: 0; }
@@ -246,11 +246,9 @@ const iniciales = n.socioNombre
   /* Ancho fijo con tope, no min(…, 100%): en una columna auto el porcentaje
      deja que el tamaño natural del SVG (3300px) se coma la del texto. */
   .filial-logo {
-    width: 340px;
+    width: 300px;
     max-width: 100%;
     height: auto;
-    padding: 18px 22px;
-    background: var(--rm-papel);
   }
 
   /* ══════════════════════════════ MISIÓN Y VISIÓN ══════════════════════════ */
