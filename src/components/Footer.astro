@@ -1,6 +1,7 @@
 ---
 import { url } from "../lib/url";
 import { getLang, useTranslations, localizedUrl } from "../i18n/utils";
+import { BOLETIN_ACTIVO } from "../lib/boletin";
 
 const lang = getLang(Astro.currentLocale);
 const t = useTranslations(lang);
@@ -13,13 +14,13 @@ const paginasSitio = [
   { href: "/boletin", key: "footer.boletinResiliencia" },
   { href: "/talento", key: "nav.talento" },
   { href: "/contacto", key: "nav.contacto" },
-] as const;
+].filter((l) => BOLETIN_ACTIVO || l.href !== "/boletin");
 
 const accesos = [
   { href: "/indicadores", key: "footer.indicadores" },
   { href: "/recursos", key: "footer.sitios" },
   { href: "/boletin", key: "footer.boletinResiliencia" },
-] as const;
+].filter((l) => BOLETIN_ACTIVO || l.href !== "/boletin");
 ---
 
 <footer class="site-footer">
@@ -30,16 +31,12 @@ const accesos = [
       <a href={localizedUrl("/", lang)} class="footer-logo">
         <img
           class="footer-logo-marca"
-          src={url("/images/rmp-noLetras.svg")}
-          alt=""
-          width="50"
-          height="38"
+          src={url("/images/rmp.svg")}
+          alt="Ramírez Medellín, S.C."
+          width="149"
+          height="47"
           decoding="async"
         />
-        <span class="footer-logo-texto">
-          <span class="footer-logo-firma">Ramírez Medellín</span>
-          <span class="footer-logo-sc">S.C.</span>
-        </span>
       </a>
       <p class="footer-tagline">{t("footer.tagline")}</p>
       <address class="footer-contacto">
@@ -149,34 +146,16 @@ const accesos = [
     margin-bottom: calc(var(--espacio) * 2);
   }
 
+  /* Logo oficial a color sobre placa clara, como el de Pacioli: el azul
+     del emblema no contrasta sobre la tinta y la silueta lo deformaba. */
   .footer-logo-marca {
-    height: 38px;
+    height: 40px;
     width: auto;
     flex-shrink: 0;
-    /* Silueta papel: el emblema a color no contrasta sobre la tinta. */
-    filter: brightness(0) invert(1);
-  }
-
-  .footer-logo-texto {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.15;
-  }
-
-  .footer-logo-firma {
-    font-family: var(--rm-display);
-    font-weight: 600;
-    font-size: 15px;
-    letter-spacing: -0.01em;
-  }
-
-  .footer-logo-sc {
-    font-family: var(--rm-mono);
-    font-size: 9px;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    color: var(--f-acento);
-    text-transform: uppercase;
+    padding: 8px 12px;
+    border-radius: 2px;
+    background: var(--rm-papel);
+    box-sizing: content-box;
   }
 
   .footer-tagline {

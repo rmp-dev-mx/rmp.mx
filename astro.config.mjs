@@ -1,5 +1,6 @@
 import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
+import { BOLETIN_ACTIVO } from "./src/lib/boletin.ts";
 
 // SITE y BASE permiten desplegar la vista previa en GitHub Pages
 // (https://rmp-dev-mx.github.io/rmp.mx/) sin tocar el código.
@@ -25,6 +26,8 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
+      // El boletín apagado no se anuncia a los buscadores (src/lib/boletin.ts).
+      filter: (page) => BOLETIN_ACTIVO || !page.includes("/boletin"),
       i18n: {
         defaultLocale: "es",
         locales: { es: "es-MX", en: "en-US" },

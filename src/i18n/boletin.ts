@@ -13,6 +13,7 @@ export const boletin = {
     heroEyebrow: "Boletín",
     heroSub:
       "Este boletín es una colaboración de todos los que integramos esta firma con el objetivo de comunicarle de forma oportuna aquellos acontecimientos relevantes que nos afectan a todos, contribuyendo a facilitar la adaptación de los cambios legales-fiscales, retos y oportunidades de la profesión.",
+    proximoSub: "Nuestro boletín fiscal estará disponible próximamente.",
     heroMetaPre: "Resúmenes con inteligencia artificial, ",
     heroMetaStrong: "revisados por la firma",
     heroMetaPost: " — en infografías cortas, cada semana.",
@@ -105,6 +106,7 @@ export const boletin = {
     heroEyebrow: "Bulletin",
     heroSub:
       "This bulletin is a joint effort of everyone at the firm, aimed at keeping you promptly informed of the developments that affect us all, helping you adapt to legal and tax changes, challenges and opportunities in the profession.",
+    proximoSub: "Our tax bulletin will be available soon.",
     heroMetaPre: "AI-generated summaries, ",
     heroMetaStrong: "reviewed by the firm",
     heroMetaPost: " — in short infographics, every week.",
