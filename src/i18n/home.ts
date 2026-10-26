@@ -89,12 +89,10 @@ export const home = {
     ],
     contactoTelefonos: [
       { texto: "444-833-40-98", tel: "+524448334098" },
-      { texto: "444-833-40-99", tel: "+524448334099" },
-      { texto: "444-211-60-00", tel: "+524442116000" },
     ],
     contactoCorreo: "despacho@rmp.mx",
     contactoEtDomicilio: "Oficina",
-    contactoEtTelefonos: "Teléfonos",
+    contactoEtTelefonos: "Teléfono",
     contactoEtCorreo: "Correo",
     contactoCta: "Decirnos qué necesita",
     contactoNota: "Un par de preguntas y queda frente a la persona del área que le toca.",
@@ -179,8 +177,6 @@ export const home = {
     ],
     contactoTelefonos: [
       { texto: "444-833-40-98", tel: "+524448334098" },
-      { texto: "444-833-40-99", tel: "+524448334099" },
-      { texto: "444-211-60-00", tel: "+524442116000" },
     ],
     contactoCorreo: "despacho@rmp.mx",
     contactoEtDomicilio: "Office",

@@ -109,7 +109,7 @@ El sitio se presentó y gustó. Quedan pendientes:
 ### Datos por solicitar al cliente (bloquean trabajo en curso)
 - **WhatsApp Business** para el asistente de `/contacto`: ¿una línea general o una por encargada? Con los números se activa el botón de WhatsApp (`wa.me/<num>?text=` prellenado); hoy está deshabilitado ("próximamente").
 - **Horario de oficina** (lo pide `/contacto`; hoy muestra "Por confirmar").
-- Confirmar **cuáles de los 3 teléfonos** están habilitados (`/contacto` y footer).
+- ~~Confirmar cuáles de los 3 teléfonos~~: resuelto (oct 2026), sólo 444-833-40-98.
 - **Alcance / objeto de la firma filial Pacioli** para `/nosotros` (hoy solo se menciona que es filial, sin propósito). No inventar: se necesita el texto del cliente.
 - **Fotos + reseña** (experiencia/capacitación) de cada encargado por área para `/nosotros` — propuesta del cliente; confirmar si procede y pedir fotos y textos.
 
