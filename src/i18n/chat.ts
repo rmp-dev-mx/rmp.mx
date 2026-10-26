@@ -22,6 +22,12 @@ export const chat = {
     errorRed:
       "No pude conectar en este momento. Escríbanos a despacho@rmp.mx o llame al 444-833-40-98 y le atendemos igual.",
     errorLargo: "El mensaje es muy largo. Resúmalo un poco, por favor.",
+    respaldoIntro: "Mientras tanto, elija un tema y le doy la información:",
+    respaldoAtiende: "Le atiende",
+    respaldoContacto: "Dirección y teléfono",
+    respaldoTalento: "Prácticas y bolsa de trabajo",
+    respaldoTalentoTexto: "Envíe su postulación desde la página de Talento o escriba a ",
+    respaldoMas: "Ver más →",
     aviso:
       "Asistente automatizado: orienta e indica con quién seguir, no sustituye la asesoría de la firma.",
     nuevoAria: "Mensaje nuevo del asistente",
@@ -49,6 +55,12 @@ export const chat = {
     errorRed:
       "I could not connect right now. Write to despacho@rmp.mx or call +52 444-833-40-98 and we will help you just the same.",
     errorLargo: "That message is too long. Please shorten it a little.",
+    respaldoIntro: "Meanwhile, pick a topic and I'll give you the information:",
+    respaldoAtiende: "Your contact is",
+    respaldoContacto: "Address and phone",
+    respaldoTalento: "Internships and job openings",
+    respaldoTalentoTexto: "Apply from the Careers page or write to ",
+    respaldoMas: "Learn more →",
     aviso:
       "Automated assistant: it orients you and points you to the right person; it is not a substitute for the firm's advice.",
     nuevoAria: "New message from the assistant",

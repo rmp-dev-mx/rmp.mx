@@ -1,0 +1,19 @@
+# Redirecciones 301 de las URLs del sitio PHP anterior (Cloudflare Pages).
+# Se listan ambas grafías porque el sitio viejo enlazaba con mayúscula y minúscula.
+/index.php                /                         301
+/Acerca.php               /nosotros                 301
+/Socios.php               /nosotros#socio-titulo    301
+/Asociados.php            /nosotros#equipo-titulo   301
+/Know.php                 /nosotros                 301
+/know.php                 /nosotros                 301
+/Servicios.php            /servicios                301
+/servicios.php            /servicios                301
+/Novedades_Fiscales.php   /boletin                  301
+/indicadores.php          /indicadores              301
+/Indicadores.php          /indicadores              301
+/sitios.php               /recursos                 301
+/Estudiantes.php          /talento                  301
+/BolsaTrabajo.php         /talento                  301
+/Contacto.php             /contacto                 301
+/english/index.php        /en/                      301
+/english/*                /en/                      301

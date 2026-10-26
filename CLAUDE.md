@@ -109,7 +109,7 @@ El sitio se presentó y gustó. Quedan pendientes:
 ### Datos por solicitar al cliente (bloquean trabajo en curso)
 - **WhatsApp Business** para el asistente de `/contacto`: ¿una línea general o una por encargada? Con los números se activa el botón de WhatsApp (`wa.me/<num>?text=` prellenado); hoy está deshabilitado ("próximamente").
 - **Horario de oficina** (lo pide `/contacto`; hoy muestra "Por confirmar").
-- Confirmar **cuáles de los 3 teléfonos** están habilitados (`/contacto` y footer).
+- ~~Confirmar cuáles de los 3 teléfonos~~: resuelto (oct 2026), sólo 444-833-40-98.
 - **Alcance / objeto de la firma filial Pacioli** para `/nosotros` (hoy solo se menciona que es filial, sin propósito). No inventar: se necesita el texto del cliente.
 - **Fotos + reseña** (experiencia/capacitación) de cada encargado por área para `/nosotros` — propuesta del cliente; confirmar si procede y pedir fotos y textos.
 
@@ -119,7 +119,7 @@ El sitio se presentó y gustó. Quedan pendientes:
 - Confirmar texto "Solución de problemas fiscales" (original decía "programas fiscales").
 - Confirmar cuenta de Twitter/X (o eliminar el ícono).
 - Redactar aviso de privacidad (LFPDPPP). Nota: el asistente de `/contacto` usa `mailto:` (no captura datos en servidor), pero el formulario de `/talento` sí podría requerirlo.
-- Destino del formulario de **Talento** (correo, Formspree, Resend u otro). El de Contacto ya se resolvió con el asistente (`mailto:` directo a la encargada).
+- ~~Destino del formulario de **Talento**~~: resuelto (oct 2026), `mailto:` a gaby@rmp.mx, encargada de reclutamiento (`src/i18n/talento.ts`).
 
 ## Definición de "terminado" (fase 1)
 

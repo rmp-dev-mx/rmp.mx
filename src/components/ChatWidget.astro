@@ -6,11 +6,54 @@
 // que no puede responder. El endpoint es público por definición (lo llama
 // el navegador), así que la protección contra abuso vive del lado del
 // túnel y del workflow, nunca aquí: ver docs/05-CHATBOT.md.
-import { getLang } from "../i18n/utils";
+import { getLang, localizedUrl } from "../i18n/utils";
 import { getChat } from "../i18n/chat";
+import { getServicios } from "../i18n/servicios";
+import { getContacto } from "../i18n/contacto";
+import { getHome } from "../i18n/home";
+import { getTalento } from "../i18n/talento";
 
 const lang = getLang(Astro.currentLocale);
 const c = getChat(lang);
+
+// Respaldo sin conexión: si el webhook no responde, el chat ofrece preguntas
+// rápidas que se contestan en el navegador. Todo sale del contenido que el
+// sitio ya publica (servicios, encargadas, datos de contacto), nada nuevo.
+const encargadas = getContacto(lang).asistente.encargadas;
+const home = getHome(lang);
+const respaldo = [
+  ...getServicios(lang).areas.map((a) => {
+    const e = encargadas[a.id as keyof typeof encargadas];
+    return {
+      pregunta: a.titulo,
+      partes: [
+        a.intro,
+        `\n${c.respaldoAtiende} ${e.nombre}: `,
+        { texto: e.correo, href: `mailto:${e.correo}` },
+      ],
+      mas: localizedUrl(`/servicios#${a.id}`, lang),
+    };
+  }),
+  {
+    pregunta: c.respaldoContacto,
+    partes: [
+      `${home.contactoDomicilio.join(", ")}.\n`,
+      { texto: home.contactoTelefonos[0]!.texto, href: `tel:${home.contactoTelefonos[0]!.tel}` },
+      " · ",
+      { texto: home.contactoCorreo, href: `mailto:${home.contactoCorreo}` },
+    ],
+    mas: localizedUrl("/contacto", lang),
+  },
+  {
+    pregunta: c.respaldoTalento,
+    partes: [
+      c.respaldoTalentoTexto,
+      { texto: getTalento(lang).correo, href: `mailto:${getTalento(lang).correo}` },
+      ".",
+    ],
+    mas: localizedUrl("/talento", lang),
+  },
+];
 
 const endpoint = import.meta.env.PUBLIC_CHAT_ENDPOINT ?? "";
 const activo = endpoint.trim().length > 0;
@@ -75,6 +118,9 @@ const ICO_ENVIAR = '<path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/>';
       errorLargo: c.errorLargo,
       tuMensaje: c.tuMensaje,
       suMensaje: c.suMensaje,
+      respaldoIntro: c.respaldoIntro,
+      respaldoMas: c.respaldoMas,
+      respaldo,
     })} />
 
     <!-- Script en línea y dentro del bloque condicional: si no hay endpoint,
@@ -155,6 +201,58 @@ const ICO_ENVIAR = '<path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/>';
           return p;
         }
 
+        /* Burbuja con enlaces. Sólo para el respaldo: su contenido viene del
+           propio sitio, no del webhook, así que puede llevar <a>. */
+        function burbujaRica(partes, mas) {
+          const p = burbuja("", "asistente", textos.suMensaje);
+          for (const parte of partes) {
+            if (typeof parte === "string") {
+              p.append(document.createTextNode(parte));
+            } else {
+              const a = document.createElement("a");
+              a.href = parte.href;
+              a.textContent = parte.texto;
+              p.append(a);
+            }
+          }
+          if (mas) {
+            const a = document.createElement("a");
+            a.className = "burbuja-mas";
+            a.href = mas;
+            a.textContent = textos.respaldoMas;
+            p.append(document.createTextNode("\n"), a);
+          }
+          historial.scrollTop = historial.scrollHeight;
+        }
+
+        /* Sin servidor: menú de preguntas rápidas respondidas en el navegador. */
+        function menuRespaldo() {
+          historial.querySelector(".chat-respaldo")?.remove();
+          const menu = document.createElement("div");
+          menu.className = "chat-respaldo";
+          for (const r of textos.respaldo) {
+            const b = document.createElement("button");
+            b.type = "button";
+            b.className = "sugerencia";
+            b.textContent = r.pregunta;
+            b.addEventListener("click", function () {
+              menu.remove();
+              burbuja(r.pregunta, "usuario", textos.tuMensaje);
+              burbujaRica(r.partes, r.mas);
+              menuRespaldo();
+            });
+            menu.append(b);
+          }
+          historial.append(menu);
+          historial.scrollTop = historial.scrollHeight;
+        }
+
+        function sinConexion() {
+          burbuja(textos.errorRed, "error");
+          burbuja(textos.respaldoIntro, "asistente", textos.suMensaje);
+          menuRespaldo();
+        }
+
         async function preguntar(mensaje) {
           if (ocupado) return;
           const limpio = (mensaje || "").trim();
@@ -186,11 +284,12 @@ const ICO_ENVIAR = '<path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/>';
             const datos = await res.json();
             const respuesta = ((datos && datos.reply) || "").toString().trim();
             esperando.remove();
-            burbuja(respuesta || textos.errorRed, respuesta ? "asistente" : "error",
-              respuesta ? textos.suMensaje : undefined);
+            if (!respuesta) throw new Error("vacía");
+            historial.querySelector(".chat-respaldo")?.remove();
+            burbuja(respuesta, "asistente", textos.suMensaje);
           } catch (e) {
             esperando.remove();
-            burbuja(textos.errorRed, "error");
+            sinConexion();
           } finally {
             clearTimeout(reloj);
             ocupado = false;
@@ -385,7 +484,16 @@ const ICO_ENVIAR = '<path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/>';
 
   .chat-sugerencias[hidden] { display: none; }
 
-  .sugerencia {
+  /* Menú de respaldo: nace en JavaScript dentro del historial. */
+  .chat-historial :global(.chat-respaldo) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .chat-historial :global(.burbuja a) { color: inherit; }
+
+  .sugerencia,
+  .chat-historial :global(.chat-respaldo .sugerencia) {
     padding: 7px 11px;
     background: none;
     border: 1px solid var(--rm-linea);
@@ -397,7 +505,8 @@ const ICO_ENVIAR = '<path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/>';
     transition: border-color 0.3s ease, color 0.3s ease;
   }
 
-  .sugerencia:hover {
+  .sugerencia:hover,
+  .chat-historial :global(.chat-respaldo .sugerencia:hover) {
     border-color: var(--rm-acento);
     color: var(--rm-acento);
   }
@@ -473,6 +582,7 @@ const ICO_ENVIAR = '<path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/>';
     .chat-lanzador,
     .chat-cerrar,
     .chat-enviar,
-    .sugerencia { transition: none; }
+    .sugerencia,
+    .chat-historial :global(.chat-respaldo .sugerencia) { transition: none; }
   }
 </style>
