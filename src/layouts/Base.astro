@@ -17,8 +17,10 @@ interface Props {
    * (Spectral + Public Sans + IBM Plex Mono). Cada una pide sólo lo suyo.
    */
   fuentes?: "nuevo" | "legado";
+  /** Fuera de los buscadores (p. ej. una sección aún no publicada). */
+  noindex?: boolean;
 }
-const { title, description, translated = false, fuentes = "legado" } = Astro.props;
+const { title, description, translated = false, fuentes = "legado", noindex = false } = Astro.props;
 
 const FUENTES = {
   nuevo:
@@ -109,6 +111,7 @@ const schema = {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
     <link rel="canonical" href={canonicalURL} />
     <link rel="alternate" hreflang="es" href={altEs} />
     <link rel="alternate" hreflang="en" href={altEn} />

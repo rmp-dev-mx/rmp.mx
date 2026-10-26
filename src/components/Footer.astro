@@ -1,6 +1,7 @@
 ---
 import { url } from "../lib/url";
 import { getLang, useTranslations, localizedUrl } from "../i18n/utils";
+import { BOLETIN_ACTIVO } from "../lib/boletin";
 
 const lang = getLang(Astro.currentLocale);
 const t = useTranslations(lang);
@@ -13,13 +14,13 @@ const paginasSitio = [
   { href: "/boletin", key: "footer.boletinResiliencia" },
   { href: "/talento", key: "nav.talento" },
   { href: "/contacto", key: "nav.contacto" },
-] as const;
+].filter((l) => BOLETIN_ACTIVO || l.href !== "/boletin");
 
 const accesos = [
   { href: "/indicadores", key: "footer.indicadores" },
   { href: "/recursos", key: "footer.sitios" },
   { href: "/boletin", key: "footer.boletinResiliencia" },
-] as const;
+].filter((l) => BOLETIN_ACTIVO || l.href !== "/boletin");
 ---
 
 <footer class="site-footer">

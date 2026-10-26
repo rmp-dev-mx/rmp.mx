@@ -4,6 +4,7 @@ import Cabecera from "@components/Cabecera.astro";
 import InfografiaVisual from "@components/InfografiaVisual.astro";
 import { getLang } from "../../i18n/utils";
 import { getBoletin } from "../../i18n/boletin";
+import { BOLETIN_ACTIVO } from "../../lib/boletin";
 
 const lang = getLang(Astro.currentLocale);
 const b = getBoletin(lang);
@@ -12,16 +13,25 @@ const destacada = b.infografias.find((i) => i.destacada) ?? b.infografias[0];
 const resto = b.infografias.filter((i) => i !== destacada);
 ---
 
-<Base title={b.metaTitle} description={b.metaDesc} translated={true} fuentes="nuevo">
+<Base
+  title={b.metaTitle}
+  description={b.metaDesc}
+  translated={true}
+  fuentes="nuevo"
+  noindex={!BOLETIN_ACTIVO}
+>
   <div class="mundo">
 
-    <Cabecera titulo={["Resiliencia"]} sub={b.heroSub}>
-      <p class="meta-ia">
-        <span class="chip-ia" aria-hidden="true">IA</span>
-        <span>{b.heroMetaPre}<strong>{b.heroMetaStrong}</strong>{b.heroMetaPost}</span>
-      </p>
+    <Cabecera titulo={["Resiliencia"]} sub={BOLETIN_ACTIVO ? b.heroSub : b.proximoSub}>
+      {BOLETIN_ACTIVO && (
+        <p class="meta-ia">
+          <span class="chip-ia" aria-hidden="true">IA</span>
+          <span>{b.heroMetaPre}<strong>{b.heroMetaStrong}</strong>{b.heroMetaPost}</span>
+        </p>
+      )}
     </Cabecera>
 
+    {BOLETIN_ACTIVO && (<>
     <!-- Aviso honesto: la muestra no es información fiscal real -->
     <p class="aviso">
       <span class="aviso-tag">{b.demoTag}</span>
@@ -69,6 +79,7 @@ const resto = b.infografias.filter((i) => i !== destacada);
         </p>
       </div>
     </section>
+    </>)}
 
   </div>
 </Base>

@@ -1,6 +1,7 @@
 ---
 import LogoMarca from "@components/LogoMarca.astro";
 import { getLang, useTranslations, localizedUrl, getLogicalPath } from "../i18n/utils";
+import { BOLETIN_ACTIVO } from "../lib/boletin";
 
 const lang = getLang(Astro.currentLocale);
 const t = useTranslations(lang);
@@ -12,7 +13,7 @@ const navLinks = [
   { href: "/boletin", key: "nav.boletin" },
   { href: "/talento", key: "nav.talento" },
   { href: "/contacto", key: "nav.contacto" },
-] as const;
+].filter((l) => BOLETIN_ACTIVO || l.href !== "/boletin");
 
 const rutaLogica = getLogicalPath(Astro.url.pathname);
 
