@@ -531,6 +531,18 @@ const ICO_ENVIAR = '<path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/>';
 
   .chat-campo::placeholder { color: var(--rm-tinta-2); opacity: 0.75; }
 
+  /* El foco va por dentro: con el offset global se sale del panel y pisa
+     la línea de la forma. */
+  .chat-campo:focus-visible {
+    outline: 2px solid var(--rm-acento);
+    outline-offset: -2px;
+  }
+
+  .chat-enviar:focus-visible {
+    outline: 2px solid var(--rm-papel);
+    outline-offset: -5px;
+  }
+
   .chat-enviar {
     flex: none;
     display: grid;
