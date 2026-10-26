@@ -119,7 +119,7 @@ El sitio se presentó y gustó. Quedan pendientes:
 - Confirmar texto "Solución de problemas fiscales" (original decía "programas fiscales").
 - Confirmar cuenta de Twitter/X (o eliminar el ícono).
 - Redactar aviso de privacidad (LFPDPPP). Nota: el asistente de `/contacto` usa `mailto:` (no captura datos en servidor), pero el formulario de `/talento` sí podría requerirlo.
-- Destino del formulario de **Talento** (correo, Formspree, Resend u otro). El de Contacto ya se resolvió con el asistente (`mailto:` directo a la encargada).
+- ~~Destino del formulario de **Talento**~~: resuelto (oct 2026), `mailto:` a gaby@rmp.mx, encargada de reclutamiento (`src/i18n/talento.ts`).
 
 ## Definición de "terminado" (fase 1)
 

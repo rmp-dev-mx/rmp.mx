@@ -1,8 +1,12 @@
 import type { Lang } from "./ui";
 
 // Contenido de la página de talento (practicantes + bolsa de trabajo) por idioma.
+// Las postulaciones llegan a la encargada de reclutamiento.
+const correo = "gaby@rmp.mx";
+
 export const talento = {
   es: {
+    correo,
     metaTitle: "Talento — Ramírez Medellín, S.C.",
     metaDesc:
       "¿Buscas realizar tu servicio social o prácticas profesionales? ¿Eres profesionista en contabilidad, derecho o auditoría? Únete al equipo de Ramírez Medellín, S.C.",
@@ -37,9 +41,11 @@ export const talento = {
       idioma: "Idioma(s)",
       experiencia: "Áreas de experiencia",
       interes: "Áreas de interés",
-      cv: "Currículum (PDF)",
+      cvNota: "Al enviar se abrirá tu correo con la postulación lista. Adjunta ahí tu currículum en PDF.",
       enviar: "Enviar postulación",
-      exito: "Gracias por tu interés. Revisaremos tu postulación y te contactaremos.",
+      asunto: "Postulación",
+      exitoPre: "Se abrió tu correo con la postulación. Adjunta tu currículum y envíalo. Si no se abrió, escríbenos a ",
+      exitoPost: ".",
       avisoPre: "Al enviar este formulario aceptas nuestro ",
       avisoLink: "aviso de privacidad",
       avisoPost: ".",
@@ -56,6 +62,7 @@ export const talento = {
   },
 
   en: {
+    correo,
     metaTitle: "Careers — Ramírez Medellín, S.C.",
     metaDesc:
       "Looking to complete your social service or professional internship? Are you a professional in accounting, law or auditing? Join the team at Ramírez Medellín, S.C.",
@@ -89,9 +96,11 @@ export const talento = {
       idioma: "Language(s)",
       experiencia: "Areas of experience",
       interes: "Areas of interest",
-      cv: "Résumé (PDF)",
+      cvNota: "Submitting opens your email with the application ready. Attach your résumé (PDF) there.",
       enviar: "Submit application",
-      exito: "Thank you for your interest. We'll review your application and contact you.",
+      asunto: "Application",
+      exitoPre: "Your email opened with the application. Attach your résumé and send it. If it didn't open, write to us at ",
+      exitoPost: ".",
       avisoPre: "By submitting this form you accept our ",
       avisoLink: "privacy notice",
       avisoPost: ".",

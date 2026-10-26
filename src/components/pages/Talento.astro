@@ -58,8 +58,7 @@ const avisoHref = localizedUrl("/aviso-de-privacidad", lang);
       >
         <p class="panel-intro">{t.introPracticantes}</p>
 
-        <!-- TODO: confirmar destino del formulario con el cliente -->
-        <form class="form" data-form-talento method="POST" action="#" novalidate>
+        <form class="form" data-form-talento data-asunto={f.asunto} data-tipo={t.tabPracticantes} action={`mailto:${t.correo}`} novalidate>
           <div class="campo-fila">
             <div class="campo">
               <label for="p-nombre">{f.nombre} <span class="req" aria-hidden="true">*</span></label>
@@ -130,13 +129,12 @@ const avisoHref = localizedUrl("/aviso-de-privacidad", lang);
             <textarea id="p-interes" name="interes" rows="3"></textarea>
           </div>
 
-          <div class="campo">
-            <label for="p-cv">{f.cv}</label>
-            <input type="file" id="p-cv" name="cv" accept=".pdf" class="campo-archivo" />
-          </div>
+          <p class="form-nota">{f.cvNota}</p>
 
           <button type="submit" class="form-enviar">{f.enviar}</button>
-          <p class="form-exito" hidden>{f.exito}</p>
+          <p class="form-exito" hidden>
+            {f.exitoPre}<a href={`mailto:${t.correo}`}>{t.correo}</a>{f.exitoPost}
+          </p>
           <p class="form-aviso">
             {f.avisoPre}<a href={avisoHref}>{f.avisoLink}</a>{f.avisoPost}
           </p>
@@ -154,8 +152,7 @@ const avisoHref = localizedUrl("/aviso-de-privacidad", lang);
       >
         <p class="panel-intro">{t.introBolsa}</p>
 
-        <!-- TODO: confirmar destino del formulario con el cliente -->
-        <form class="form" data-form-talento method="POST" action="#" novalidate>
+        <form class="form" data-form-talento data-asunto={f.asunto} data-tipo={t.tabBolsa} action={`mailto:${t.correo}`} novalidate>
           <div class="campo-fila">
             <div class="campo">
               <label for="b-nombre">{f.nombre} <span class="req" aria-hidden="true">*</span></label>
@@ -214,13 +211,12 @@ const avisoHref = localizedUrl("/aviso-de-privacidad", lang);
             <textarea id="b-interes" name="interes" rows="3"></textarea>
           </div>
 
-          <div class="campo">
-            <label for="b-cv">{f.cv}</label>
-            <input type="file" id="b-cv" name="cv" accept=".pdf" class="campo-archivo" />
-          </div>
+          <p class="form-nota">{f.cvNota}</p>
 
           <button type="submit" class="form-enviar">{f.enviar}</button>
-          <p class="form-exito" hidden>{f.exito}</p>
+          <p class="form-exito" hidden>
+            {f.exitoPre}<a href={`mailto:${t.correo}`}>{t.correo}</a>{f.exitoPost}
+          </p>
           <p class="form-aviso">
             {f.avisoPre}<a href={avisoHref}>{f.avisoLink}</a>{f.avisoPost}
           </p>
@@ -432,7 +428,14 @@ const avisoHref = localizedUrl("/aviso-de-privacidad", lang);
     margin: 0;
   }
 
-  .form-aviso a { color: var(--rm-acento); }
+  .form-aviso a,
+  .form-exito a { color: inherit; }
+
+  .form-nota {
+    font-size: 14px;
+    color: var(--rm-tinta-2);
+    margin: 0;
+  }
 
   /* ═══════ Responsive ═══════ */
   @media (max-width: 767px) {
@@ -476,8 +479,10 @@ const avisoHref = localizedUrl("/aviso-de-privacidad", lang);
     });
   });
 
-  /* ── Validación de formularios (stub) ──
-     TODO: conectar al destino real cuando el cliente lo confirme. */
+  /* ── Envío de formularios ──
+     Sin servidor: al validar se abre el programa de correo del candidato con
+     la postulación prellenada (mailto:), igual que el asistente de /contacto.
+     El CV no puede adjuntarse por mailto; el candidato lo adjunta a mano. */
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   for (const form of document.querySelectorAll<HTMLFormElement>("[data-form-talento]")) {
@@ -499,10 +504,31 @@ const avisoHref = localizedUrl("/aviso-de-privacidad", lang);
         if (esInvalido) valido = false;
       }
 
+      if (!valido) return;
+
+      // Cuerpo: "Etiqueta: valor" de cada campo lleno, en el orden del formulario.
+      const lineas: string[] = [];
+      for (const campo of form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>(
+        "input, textarea"
+      )) {
+        const valor = campo.value.trim();
+        if (!valor) continue;
+        const etiqueta = form
+          .querySelector(`label[for="${campo.id}"]`)
+          ?.firstChild?.textContent?.trim();
+        lineas.push(`${etiqueta ?? campo.name}: ${valor}`);
+      }
+
+      const datos = new FormData(form);
+      const nombre = `${datos.get("nombre") ?? ""} ${datos.get("apellidos") ?? ""}`.trim();
+      const asunto = `${form.dataset.asunto} — ${form.dataset.tipo} — ${nombre}`;
+      window.location.href =
+        `${form.getAttribute("action")}?subject=${encodeURIComponent(asunto)}` +
+        `&body=${encodeURIComponent(lineas.join("\n"))}`;
+
       const exito = form.querySelector<HTMLElement>(".form-exito");
-      if (valido && exito) {
+      if (exito) {
         exito.hidden = false;
-        form.reset();
         exito.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "nearest" });
       }
     });
