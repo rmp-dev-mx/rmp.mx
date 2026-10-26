@@ -10,9 +10,9 @@ import type { Lang } from "./ui";
 //   - Finalidades secundarias reales (p. ej. envío del boletín fiscal).
 //   - Transferencias concretas a terceros, si las hubiera.
 //   - Correo/medio exacto para atender solicitudes de derechos ARCO.
-//   - El chat del sitio (ChatWidget): hoy el texto afirma que el sitio no
-//     guarda datos ni los comparte, y con el chat activo deja de ser cierto.
-//     Ver los TODO (legal, chat) y docs/05-CHATBOT.md § Privacidad.
+//   - El chat del sitio (ChatWidget) ya está declarado (Transferencias y
+//     Rastreo); falta validar la calificación como remisión. Ver
+//     docs/05-CHATBOT.md § Privacidad.
 
 type Seccion = {
   titulo: string;
@@ -94,7 +94,8 @@ export const aviso: Record<Lang, Aviso> = {
         titulo: "Transferencias de datos",
         parrafos: [
           "Sus datos personales no serán transferidos ni comercializados con terceros ajenos a la Firma sin su consentimiento, salvo en los supuestos previstos por el artículo 37 de la LFPDPPP (por ejemplo, cuando la transferencia sea requerida por autoridad competente o resulte necesaria para el cumplimiento de obligaciones legales derivadas de la relación de servicios).",
-          // TODO (legal, chat): los mensajes del chat pasan por el servidor n8n de la firma y los procesa Google (Gemini) fuera de México. Declarar a ese proveedor, la finalidad (responder consultas generales y canalizar al área) y si se trata como remisión o transferencia.
+          "Los mensajes que usted escriba en el asistente de chat del sitio se reciben en un servidor administrado por la Firma y se procesan mediante un servicio de inteligencia artificial de Google (Gemini), cuyos servidores pueden ubicarse fuera de México, con la única finalidad de responder consultas generales y canalizarlo al área correspondiente. Este proveedor actúa por cuenta de la Firma como encargado del tratamiento, por lo que se trata de una remisión de datos que no requiere su consentimiento. Le recomendamos no compartir en el chat información sensible, financiera o fiscal.",
+          // TODO (legal, chat): validar con el área legal la calificación como remisión (encargado) y no transferencia.
           // TODO (legal): si existen transferencias a terceros (p. ej. corresponsalías, plataformas contables o proveedores tecnológicos), enumerarlas aquí indicando finalidad y si requieren consentimiento.
         ],
       },
@@ -115,9 +116,9 @@ export const aviso: Record<Lang, Aviso> = {
       {
         titulo: "Uso de tecnologías de rastreo en el sitio",
         parrafos: [
-          "Este sitio web es de carácter informativo y no utiliza cookies ni otras tecnologías para recabar datos personales de manera automática con fines de identificación individual. Los formularios de contacto de este sitio abren su cliente de correo para que usted nos escriba directamente; no almacenamos sus datos en el servidor del sitio.",
-          // TODO (legal): revisar si en el futuro se integran formularios que envíen datos a un servidor o herramientas de analítica, para actualizar esta sección.
-          // TODO (legal, chat): este párrafo dice que no se almacenan datos en el servidor. El chat sí envía lo que el visitante escribe a un servidor (n8n guarda las conversaciones en su historial de ejecuciones). Corregir antes de activar el chat en producción.
+          "Este sitio web es de carácter informativo y no utiliza cookies ni otras tecnologías para recabar datos personales de manera automática con fines de identificación individual. Los formularios de contacto y de postulación de este sitio abren su cliente de correo para que usted nos escriba directamente; esos datos no se almacenan en el servidor del sitio.",
+          "La excepción es el asistente de chat: lo que usted escriba en él se envía al servidor de la Firma, que conserva un registro de las conversaciones para darles seguimiento y mejorar el servicio. Para mantener la conversación abierta, su navegador guarda un identificador temporal de sesión que se borra al cerrar la pestaña y que por sí solo no lo identifica.",
+          // TODO (legal): revisar si en el futuro se integran herramientas de analítica, para actualizar esta sección.
         ],
       },
       {
@@ -198,6 +199,7 @@ export const aviso: Record<Lang, Aviso> = {
         titulo: "Data transfers",
         parrafos: [
           "Your personal data will not be transferred to or shared with third parties outside the Firm without your consent, except in the cases provided by Article 37 of the LFPDPPP (for example, where the transfer is required by a competent authority or is necessary to comply with legal obligations arising from the service relationship).",
+          "Messages you write in the site's chat assistant are received on a server managed by the Firm and processed through an artificial intelligence service from Google (Gemini), whose servers may be located outside Mexico, for the sole purpose of answering general inquiries and directing you to the appropriate area. This provider acts on the Firm's behalf as a data processor, so this is a data remission that does not require your consent. We recommend that you do not share sensitive, financial or tax information in the chat.",
         ],
       },
       {
@@ -216,7 +218,8 @@ export const aviso: Record<Lang, Aviso> = {
       {
         titulo: "Tracking technologies on this site",
         parrafos: [
-          "This website is informational and does not use cookies or other technologies to automatically collect personal data for individual identification purposes. The contact forms on this site open your email client so you can write to us directly; we do not store your data on the site's server.",
+          "This website is informational and does not use cookies or other technologies to automatically collect personal data for individual identification purposes. The contact and application forms on this site open your email client so you can write to us directly; that data is not stored on the site's server.",
+          "The exception is the chat assistant: what you write in it is sent to the Firm's server, which keeps a record of conversations in order to follow up on them and improve the service. To keep the conversation open, your browser stores a temporary session identifier that is deleted when you close the tab and does not identify you by itself.",
         ],
       },
       {
