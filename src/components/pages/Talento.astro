@@ -1,7 +1,6 @@
 ---
 import Base from "@layouts/Base.astro";
 import Cabecera from "@components/Cabecera.astro";
-import { url } from "../../lib/url";
 import { getLang, localizedUrl } from "../../i18n/utils";
 import { getTalento } from "../../i18n/talento";
 
@@ -9,6 +8,68 @@ const lang = getLang(Astro.currentLocale);
 const t = getTalento(lang);
 const f = t.f;
 const avisoHref = localizedUrl("/aviso-de-privacidad", lang);
+
+// Un campo del formulario. `err` marca el campo como obligatorio y da el
+// texto de error; `corto` lo hace la columna angosta de su fila.
+interface Campo {
+  name: string;
+  label: string;
+  tipo?: "text" | "email" | "tel" | "number" | "textarea";
+  err?: string;
+  auto?: string;
+  ph?: string;
+  corto?: boolean;
+  min?: string;
+  max?: string;
+  inputmode?: "numeric";
+}
+
+// Una fila es un campo solo o un par lado a lado (.campo-fila).
+type Fila = Campo | Campo[];
+
+const nombre: Campo = { name: "nombre", label: f.nombre, err: f.errNombre, auto: "given-name" };
+const apellidos: Campo = { name: "apellidos", label: f.apellidos, err: f.errApellidos, auto: "family-name" };
+const email: Campo = { name: "email", label: f.email, tipo: "email", err: f.errEmail, auto: "email" };
+const telefono: Campo = { name: "telefono", label: f.telefono, tipo: "tel", err: f.errTelefono, auto: "tel" };
+const domicilio: Campo = { name: "domicilio", label: f.domicilio, auto: "street-address" };
+const universidad: Campo = { name: "universidad", label: f.universidad };
+const idioma: Campo = { name: "idioma", label: f.idioma, ph: f.phIdioma };
+const experiencia: Campo = { name: "experiencia", label: f.experiencia, tipo: "textarea" };
+const interes: Campo = { name: "interes", label: f.interes, tipo: "textarea" };
+
+const vias: { id: string; prefijo: string; tab: string; intro: string; filas: Fila[] }[] = [
+  {
+    id: "practicantes",
+    prefijo: "p",
+    tab: t.tabPracticantes,
+    intro: t.introPracticantes,
+    filas: [
+      [nombre, apellidos],
+      [email, { name: "edad", label: f.edad, tipo: "number", corto: true, min: "16", max: "99", inputmode: "numeric" }],
+      domicilio,
+      [telefono, { ...universidad, err: f.errUniversidad }],
+      [{ name: "carrera", label: f.carrera, err: f.errCarrera }, { name: "semestre", label: f.semestre, corto: true }],
+      idioma,
+      experiencia,
+      interes,
+    ],
+  },
+  {
+    id: "bolsa",
+    prefijo: "b",
+    tab: t.tabBolsa,
+    intro: t.introBolsa,
+    filas: [
+      [nombre, apellidos],
+      [email, telefono],
+      domicilio,
+      [{ name: "profesion", label: f.profesion, err: f.errProfesion, ph: f.phProfesion }, universidad],
+      idioma,
+      experiencia,
+      interes,
+    ],
+  },
+];
 ---
 
 <Base title={t.metaTitle} description={t.metaDesc} translated={true} fuentes="nuevo">
@@ -22,240 +83,74 @@ const avisoHref = localizedUrl("/aviso-de-privacidad", lang);
       foco="38%"
     />
 
-  <section class="vias" aria-label={t.viasAria}>
-    <div class="marco">
+    <section class="vias" aria-label={t.viasAria}>
+      <div class="marco">
 
-      <div class="tabs" role="tablist" aria-label={t.tablistAria}>
-        <button
-          class="tab tab--activa"
-          id="tab-practicantes"
-          role="tab"
-          aria-selected="true"
-          aria-controls="panel-practicantes"
-          type="button"
-        >
-          {t.tabPracticantes}
-        </button>
-        <button
-          class="tab"
-          id="tab-bolsa"
-          role="tab"
-          aria-selected="false"
-          aria-controls="panel-bolsa"
-          type="button"
-        >
-          {t.tabBolsa}
-        </button>
+        <div class="tabs" role="tablist" aria-label={t.tablistAria}>
+          {vias.map((v, i) => (
+            <button
+              class:list={["tab", { "tab--activa": i === 0 }]}
+              id={`tab-${v.id}`}
+              role="tab"
+              aria-selected={String(i === 0)}
+              aria-controls={`panel-${v.id}`}
+              type="button"
+            >
+              {v.tab}
+            </button>
+          ))}
+        </div>
+
+        {vias.map((v, i) => (
+          <div
+            class="panel"
+            id={`panel-${v.id}`}
+            role="tabpanel"
+            aria-labelledby={`tab-${v.id}`}
+            tabindex="0"
+            hidden={i > 0}
+          >
+            <p class="panel-intro">{v.intro}</p>
+
+            <form class="form" data-form-talento data-asunto={f.asunto} data-tipo={v.tab} action={`mailto:${t.correo}`} novalidate>
+              {v.filas.map((fila) => {
+                const campos = (Array.isArray(fila) ? fila : [fila]).map((c) => {
+                  const id = `${v.prefijo}-${c.name}`;
+                  return (
+                    <div class:list={["campo", { "campo--corto": c.corto }]}>
+                      <label for={id}>{c.label}{c.err && " "}{c.err && <span class="req" aria-hidden="true">*</span>}</label>
+                      {c.tipo === "textarea" ? (
+                        <textarea id={id} name={c.name} rows="3"></textarea>
+                      ) : (
+                        <input type={c.tipo ?? "text"} id={id} name={c.name} required={!!c.err} autocomplete={c.auto} placeholder={c.ph} min={c.min} max={c.max} inputmode={c.inputmode} />
+                      )}
+                      {c.err && <p class="campo-error" hidden>{c.err}</p>}
+                    </div>
+                  );
+                });
+                return Array.isArray(fila) ? <div class="campo-fila">{campos}</div> : campos;
+              })}
+
+              <p class="form-nota">{f.cvNota}</p>
+
+              <button type="submit" class="form-enviar">{f.enviar}</button>
+              <p class="form-exito" hidden>
+                {f.exitoPre}<a href={`mailto:${t.correo}`}>{t.correo}</a>{f.exitoPost}
+              </p>
+              <p class="form-aviso">
+                {f.avisoPre}<a href={avisoHref}>{f.avisoLink}</a>{f.avisoPost}
+              </p>
+            </form>
+          </div>
+        ))}
+
       </div>
-
-      <!-- ── Panel practicantes ── -->
-      <div
-        class="panel"
-        id="panel-practicantes"
-        role="tabpanel"
-        aria-labelledby="tab-practicantes"
-        tabindex="0"
-      >
-        <p class="panel-intro">{t.introPracticantes}</p>
-
-        <form class="form" data-form-talento data-asunto={f.asunto} data-tipo={t.tabPracticantes} action={`mailto:${t.correo}`} novalidate>
-          <div class="campo-fila">
-            <div class="campo">
-              <label for="p-nombre">{f.nombre} <span class="req" aria-hidden="true">*</span></label>
-              <input type="text" id="p-nombre" name="nombre" required autocomplete="given-name" />
-              <p class="campo-error" hidden>{f.errNombre}</p>
-            </div>
-            <div class="campo">
-              <label for="p-apellidos">{f.apellidos} <span class="req" aria-hidden="true">*</span></label>
-              <input type="text" id="p-apellidos" name="apellidos" required autocomplete="family-name" />
-              <p class="campo-error" hidden>{f.errApellidos}</p>
-            </div>
-          </div>
-
-          <div class="campo-fila">
-            <div class="campo">
-              <label for="p-email">{f.email} <span class="req" aria-hidden="true">*</span></label>
-              <input type="email" id="p-email" name="email" required autocomplete="email" />
-              <p class="campo-error" hidden>{f.errEmail}</p>
-            </div>
-            <div class="campo campo--corto">
-              <label for="p-edad">{f.edad}</label>
-              <input type="number" id="p-edad" name="edad" min="16" max="99" inputmode="numeric" />
-            </div>
-          </div>
-
-          <div class="campo">
-            <label for="p-domicilio">{f.domicilio}</label>
-            <input type="text" id="p-domicilio" name="domicilio" autocomplete="street-address" />
-          </div>
-
-          <div class="campo-fila">
-            <div class="campo">
-              <label for="p-telefono">{f.telefono} <span class="req" aria-hidden="true">*</span></label>
-              <input type="tel" id="p-telefono" name="telefono" required autocomplete="tel" />
-              <p class="campo-error" hidden>{f.errTelefono}</p>
-            </div>
-            <div class="campo">
-              <label for="p-universidad">{f.universidad} <span class="req" aria-hidden="true">*</span></label>
-              <input type="text" id="p-universidad" name="universidad" required />
-              <p class="campo-error" hidden>{f.errUniversidad}</p>
-            </div>
-          </div>
-
-          <div class="campo-fila">
-            <div class="campo">
-              <label for="p-carrera">{f.carrera} <span class="req" aria-hidden="true">*</span></label>
-              <input type="text" id="p-carrera" name="carrera" required />
-              <p class="campo-error" hidden>{f.errCarrera}</p>
-            </div>
-            <div class="campo campo--corto">
-              <label for="p-semestre">{f.semestre}</label>
-              <input type="text" id="p-semestre" name="semestre" />
-            </div>
-          </div>
-
-          <div class="campo">
-            <label for="p-idioma">{f.idioma}</label>
-            <input type="text" id="p-idioma" name="idioma" placeholder={f.phIdioma} />
-          </div>
-
-          <div class="campo">
-            <label for="p-experiencia">{f.experiencia}</label>
-            <textarea id="p-experiencia" name="experiencia" rows="3"></textarea>
-          </div>
-
-          <div class="campo">
-            <label for="p-interes">{f.interes}</label>
-            <textarea id="p-interes" name="interes" rows="3"></textarea>
-          </div>
-
-          <p class="form-nota">{f.cvNota}</p>
-
-          <button type="submit" class="form-enviar">{f.enviar}</button>
-          <p class="form-exito" hidden>
-            {f.exitoPre}<a href={`mailto:${t.correo}`}>{t.correo}</a>{f.exitoPost}
-          </p>
-          <p class="form-aviso">
-            {f.avisoPre}<a href={avisoHref}>{f.avisoLink}</a>{f.avisoPost}
-          </p>
-        </form>
-      </div>
-
-      <!-- ── Panel bolsa de trabajo ── -->
-      <div
-        class="panel"
-        id="panel-bolsa"
-        role="tabpanel"
-        aria-labelledby="tab-bolsa"
-        tabindex="0"
-        hidden
-      >
-        <p class="panel-intro">{t.introBolsa}</p>
-
-        <form class="form" data-form-talento data-asunto={f.asunto} data-tipo={t.tabBolsa} action={`mailto:${t.correo}`} novalidate>
-          <div class="campo-fila">
-            <div class="campo">
-              <label for="b-nombre">{f.nombre} <span class="req" aria-hidden="true">*</span></label>
-              <input type="text" id="b-nombre" name="nombre" required autocomplete="given-name" />
-              <p class="campo-error" hidden>{f.errNombre}</p>
-            </div>
-            <div class="campo">
-              <label for="b-apellidos">{f.apellidos} <span class="req" aria-hidden="true">*</span></label>
-              <input type="text" id="b-apellidos" name="apellidos" required autocomplete="family-name" />
-              <p class="campo-error" hidden>{f.errApellidos}</p>
-            </div>
-          </div>
-
-          <div class="campo-fila">
-            <div class="campo">
-              <label for="b-email">{f.email} <span class="req" aria-hidden="true">*</span></label>
-              <input type="email" id="b-email" name="email" required autocomplete="email" />
-              <p class="campo-error" hidden>{f.errEmail}</p>
-            </div>
-            <div class="campo">
-              <label for="b-telefono">{f.telefono} <span class="req" aria-hidden="true">*</span></label>
-              <input type="tel" id="b-telefono" name="telefono" required autocomplete="tel" />
-              <p class="campo-error" hidden>{f.errTelefono}</p>
-            </div>
-          </div>
-
-          <div class="campo">
-            <label for="b-domicilio">{f.domicilio}</label>
-            <input type="text" id="b-domicilio" name="domicilio" autocomplete="street-address" />
-          </div>
-
-          <div class="campo-fila">
-            <div class="campo">
-              <label for="b-profesion">{f.profesion} <span class="req" aria-hidden="true">*</span></label>
-              <input type="text" id="b-profesion" name="profesion" required placeholder={f.phProfesion} />
-              <p class="campo-error" hidden>{f.errProfesion}</p>
-            </div>
-            <div class="campo">
-              <label for="b-universidad">{f.universidad}</label>
-              <input type="text" id="b-universidad" name="universidad" />
-            </div>
-          </div>
-
-          <div class="campo">
-            <label for="b-idioma">{f.idioma}</label>
-            <input type="text" id="b-idioma" name="idioma" placeholder={f.phIdioma} />
-          </div>
-
-          <div class="campo">
-            <label for="b-experiencia">{f.experiencia}</label>
-            <textarea id="b-experiencia" name="experiencia" rows="3"></textarea>
-          </div>
-
-          <div class="campo">
-            <label for="b-interes">{f.interes}</label>
-            <textarea id="b-interes" name="interes" rows="3"></textarea>
-          </div>
-
-          <p class="form-nota">{f.cvNota}</p>
-
-          <button type="submit" class="form-enviar">{f.enviar}</button>
-          <p class="form-exito" hidden>
-            {f.exitoPre}<a href={`mailto:${t.correo}`}>{t.correo}</a>{f.exitoPost}
-          </p>
-          <p class="form-aviso">
-            {f.avisoPre}<a href={avisoHref}>{f.avisoLink}</a>{f.avisoPost}
-          </p>
-        </form>
-      </div>
-
-    </div>
-  </section>
+    </section>
 
   </div>
 </Base>
 
 <style>
-  /* ═══════ Utilidades ═══════ */
-  .contenedor {
-    max-width: 880px;
-    margin: 0 auto;
-    padding-inline: calc(var(--espacio) * 3);
-  }
-
-
-
-  .texto-oro { color: var(--rm-acento); font-style: italic; }
-
-  /* ═══════ Imagen de fondo del hero + velo ═══════ */
-
-  /* ═══════ HERO ═══════ */
-
-
-
-
-
-
-  @keyframes sube {
-    from { opacity: 0; transform: translateY(18px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-
   /* ═══════ TABS ═══════ */
   .vias { padding-block: calc(var(--espacio) * 10) calc(var(--espacio) * 14); }
 
@@ -298,7 +193,6 @@ const avisoHref = localizedUrl("/aviso-de-privacidad", lang);
     color: var(--rm-tinta);
     border-bottom-color: var(--rm-acento);
   }
-
 
   @media (prefers-reduced-motion: reduce) {
     .tab { transition: none; }
@@ -373,21 +267,6 @@ const avisoHref = localizedUrl("/aviso-de-privacidad", lang);
   .campo input.invalido,
   .campo textarea.invalido { border-color: var(--error); }
 
-  .campo-archivo { padding: calc(var(--espacio) * 1.25) !important; }
-
-  .campo-archivo::file-selector-button {
-    font-family: var(--rm-serif);
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--rm-tinta);
-    background: var(--rm-papel);
-    border: 1px solid var(--rm-linea);
-    border-radius: 0;
-    padding: calc(var(--espacio) * 0.75) calc(var(--espacio) * 2);
-    margin-inline-end: calc(var(--espacio) * 2);
-    cursor: pointer;
-  }
-
   .campo-error {
     font-size: 13px;
     color: var(--error);
@@ -415,8 +294,8 @@ const avisoHref = localizedUrl("/aviso-de-privacidad", lang);
     font-size: 15px;
     font-weight: 500;
     color: var(--exito);
-    background: rgb(47 107 79 / 0.08);
-    border: 1px solid rgb(47 107 79 / 0.25);
+    background: color-mix(in srgb, var(--exito) 8%, transparent);
+    border: 1px solid color-mix(in srgb, var(--exito) 25%, transparent);
     border-radius: 0;
     padding: calc(var(--espacio) * 2);
     margin: 0;
@@ -439,8 +318,6 @@ const avisoHref = localizedUrl("/aviso-de-privacidad", lang);
 
   /* ═══════ Responsive ═══════ */
   @media (max-width: 767px) {
-    .contenedor { padding-inline: calc(var(--espacio) * 2); }
-
     .campo-fila,
     .campo-fila:has(.campo--corto) { grid-template-columns: 1fr; }
 
