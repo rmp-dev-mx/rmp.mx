@@ -224,14 +224,6 @@ const encargadas = Object.values(asistente.encargadas);
   #asistente .accion--correo:hover { filter: brightness(0.9); }
   #asistente .accion--correo:focus-visible { outline: 2px solid var(--rm-tinta); outline-offset: 2px; }
 
-  /* WhatsApp deshabilitado hasta tener números (TODO cliente) */
-  #asistente .accion--wa {
-    background: var(--rm-papel);
-    color: var(--rm-tinta-2);
-    border-color: var(--rm-linea);
-    cursor: not-allowed;
-  }
-
   #asistente .resultado-nota {
     font-size: 13px;
     color: var(--rm-tinta-2);
@@ -280,7 +272,7 @@ const encargadas = Object.values(asistente.encargadas);
     resultado: {
       tituloPre: string; tituloPost: string;
       encargadaPre: string; encargadaPost: string;
-      correoBtn: string; waBtn: string; waTitle: string;
+      correoBtn: string;
       notaPre: string; notaPost: string;
       asunto: string; saludo: string; cuerpoIntro: string;
       loQueBusco: string; miConsulta: string;
@@ -362,11 +354,6 @@ const encargadas = Object.values(asistente.encargadas);
             <a class="accion accion--correo" href="${mailto}">
               <span aria-hidden="true">✉</span> ${esc(fmt(R.correoBtn, { primer: e.primer }))}
             </a>
-            <!-- TODO: activar cuando el cliente proporcione el WhatsApp Business
-                 (usar https://wa.me/<numero>?text=<resumen prellenado>) -->
-            <button type="button" class="accion accion--wa" disabled aria-disabled="true" title="${esc(R.waTitle)}">
-              <span aria-hidden="true">●</span> ${esc(R.waBtn)}
-            </button>
           </div>
           <p class="resultado-nota">${esc(R.notaPre)}<strong>${esc(e.correo)}</strong>${esc(R.notaPost)}</p>
           <button type="button" class="resultado-reiniciar" data-reiniciar><span aria-hidden="true">↺</span> ${esc(D.reiniciar)}</button>
