@@ -58,7 +58,7 @@ export const aviso: Record<Lang, Aviso> = {
         titulo: "Responsable del tratamiento de sus datos",
         parrafos: [
           "Ramírez Medellín, S.C. (en adelante, «la Firma»), con domicilio en Calle Francisco Peña 245, Las Águilas 3ra Sección, San Luis Potosí, S.L.P., México, es responsable del uso y protección de sus datos personales, en términos de la Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP), su Reglamento y demás normativa aplicable.",
-          "Para cualquier asunto relacionado con este aviso puede escribirnos al correo despacho@rmp.mx.",
+          "Para cualquier asunto relacionado con este aviso puede escribirnos al correo gaby@rmp.mx.",
         ],
       },
       {
@@ -103,14 +103,14 @@ export const aviso: Record<Lang, Aviso> = {
         titulo: "Medios para ejercer sus derechos ARCO",
         parrafos: [
           "Usted tiene derecho a conocer qué datos personales tenemos de usted, para qué los utilizamos y las condiciones de su uso (Acceso). Asimismo, a solicitar la corrección de su información cuando esté desactualizada, sea inexacta o incompleta (Rectificación); a que la eliminemos de nuestros registros cuando considere que no se utiliza conforme a los principios y deberes que marca la ley (Cancelación); y a oponerse al uso de sus datos para fines específicos (Oposición).",
-          "Para ejercer cualquiera de estos derechos (derechos ARCO), o para revocar su consentimiento, puede enviar su solicitud al correo despacho@rmp.mx, indicando su nombre, el derecho que desea ejercer y una descripción clara de los datos respecto de los que busca ejercerlo, acompañando un documento que acredite su identidad.",
+          "Para ejercer cualquiera de estos derechos (derechos ARCO), o para revocar su consentimiento, puede enviar su solicitud al correo gaby@rmp.mx, indicando su nombre, el derecho que desea ejercer y una descripción clara de los datos respecto de los que busca ejercerlo, acompañando un documento que acredite su identidad.",
           // TODO (legal): confirmar el correo o medio oficial de atención de solicitudes ARCO y el plazo de respuesta que la Firma se compromete a observar (la ley prevé máximo 20 días hábiles).
         ],
       },
       {
         titulo: "Limitación del uso o divulgación de sus datos",
         parrafos: [
-          "Puede solicitar en cualquier momento que limitemos el uso o divulgación de sus datos personales enviando su petición al correo despacho@rmp.mx. De resultar procedente, su solicitud será atendida en los términos que establece la ley.",
+          "Puede solicitar en cualquier momento que limitemos el uso o divulgación de sus datos personales enviando su petición al correo gaby@rmp.mx. De resultar procedente, su solicitud será atendida en los términos que establece la ley.",
         ],
       },
       {
@@ -165,7 +165,7 @@ export const aviso: Record<Lang, Aviso> = {
         titulo: "Data controller",
         parrafos: [
           "Ramírez Medellín, S.C. (hereinafter, “the Firm”), with address at Calle Francisco Peña 245, Las Águilas 3ra Sección, San Luis Potosí, S.L.P., Mexico, is responsible for the use and protection of your personal data under Mexico's Federal Law on the Protection of Personal Data Held by Private Parties (LFPDPPP), its Regulations and other applicable rules.",
-          "For any matter related to this notice you may write to us at despacho@rmp.mx.",
+          "For any matter related to this notice you may write to us at gaby@rmp.mx.",
         ],
       },
       {
@@ -206,13 +206,13 @@ export const aviso: Record<Lang, Aviso> = {
         titulo: "Exercising your ARCO rights",
         parrafos: [
           "You have the right to know what personal data we hold about you, what we use it for and the conditions of such use (Access); to request the correction of your information when it is outdated, inaccurate or incomplete (Rectification); to have it removed from our records when you consider it is not being used in accordance with the law (Cancellation); and to object to the use of your data for specific purposes (Objection).",
-          "To exercise any of these rights (ARCO rights), or to withdraw your consent, you may send your request to despacho@rmp.mx, stating your name, the right you wish to exercise and a clear description of the data concerned, together with a document proving your identity.",
+          "To exercise any of these rights (ARCO rights), or to withdraw your consent, you may send your request to gaby@rmp.mx, stating your name, the right you wish to exercise and a clear description of the data concerned, together with a document proving your identity.",
         ],
       },
       {
         titulo: "Limiting the use or disclosure of your data",
         parrafos: [
-          "You may request at any time that we limit the use or disclosure of your personal data by sending your request to despacho@rmp.mx. Where applicable, your request will be handled in the terms established by law.",
+          "You may request at any time that we limit the use or disclosure of your personal data by sending your request to gaby@rmp.mx. Where applicable, your request will be handled in the terms established by law.",
         ],
       },
       {

@@ -109,6 +109,7 @@ El sitio se presentó y gustó. Quedan pendientes:
 ### Datos por solicitar al cliente (bloquean trabajo en curso)
 - ~~WhatsApp Business~~: descartado por ahora (oct 2026), la oficina no tiene WhatsApp; se quitó el botón del asistente de `/contacto`. Si llega, se reactiva con `wa.me/<num>?text=` prellenado.
 - ~~Horario de oficina~~: resuelto (oct 2026), 9:00 a 18:00 h (días por confirmar).
+- ~~Correo de contacto de la oficina~~: resuelto (oct 2026), **gaby@rmp.mx** en todo el sitio (footer, /contacto, portada, schema.org, aviso de privacidad, chat). Ya no se usa despacho@rmp.mx.
 - **Fotos reales de la oficina** para cada sección: las actuales son generadas con IA y se reemplazarán por las que entregue el cliente.
 - ~~Confirmar cuáles de los 3 teléfonos~~: resuelto (oct 2026), sólo 444-833-40-98.
 - **Alcance / objeto de la firma filial Pacioli** para `/nosotros` (hoy solo se menciona que es filial, sin propósito). No inventar: se necesita el texto del cliente.

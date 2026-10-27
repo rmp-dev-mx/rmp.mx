@@ -4,13 +4,15 @@ import AsistenteContacto from "@components/AsistenteContacto.astro";
 import Cabecera from "@components/Cabecera.astro";
 import { getLang } from "../../i18n/utils";
 import { getContacto } from "../../i18n/contacto";
+import { getHome } from "../../i18n/home";
 
 const lang = getLang(Astro.currentLocale);
 const c = getContacto(lang);
 
-const telefonos = [
-  { num: "444-833-40-98", tel: "+524448334098" },
-];
+// Domicilio, teléfonos y correo de la oficina viven en el diccionario de la
+// portada: se toman de ahí para no tener dos versiones del mismo dato.
+const { contactoDomicilio: domicilio, contactoTelefonos: telefonos, contactoCorreo: correo } =
+  getHome(lang);
 
 const mapaSrc =
   "https://www.google.com/maps?q=Calle+Francisco+Pe%C3%B1a+245,+Las+%C3%81guilas+3ra+Secci%C3%B3n,+San+Luis+Potos%C3%AD,+S.L.P.&output=embed";
@@ -34,7 +36,7 @@ const mapaSrc =
         <div class="columna-asistente">
           <AsistenteContacto asistente={c.asistente} />
           <p class="respaldo">
-            {c.respaldoPre}<a href="mailto:despacho@rmp.mx">despacho@rmp.mx</a>{c.respaldoPost}
+            {c.respaldoPre}<a href={`mailto:${correo}`}>{correo}</a>{c.respaldoPost}
           </p>
         </div>
 
@@ -42,24 +44,22 @@ const mapaSrc =
           <div class="ficha">
             <h2 class="dato ficha-titulo">{c.datoOficina}</h2>
             <address class="ficha-texto">
-              Calle Francisco Peña 245<br />
-              Las Águilas 3ra Sección<br />
-              San Luis Potosí, S.L.P.
+              {domicilio.map((linea, i) => <>{i > 0 && <br />}{linea}</>)}
             </address>
           </div>
 
           <div class="ficha">
             <h2 class="dato ficha-titulo">{c.datoTelefonos}</h2>
             <ul class="ficha-lista" role="list">
-              {telefonos.map(({ num, tel }) => (
-                <li><a class="ficha-enlace" href={`tel:${tel}`}>{num}</a></li>
+              {telefonos.map(({ texto, tel }) => (
+                <li><a class="ficha-enlace" href={`tel:${tel}`}>{texto}</a></li>
               ))}
             </ul>
           </div>
 
           <div class="ficha">
             <h2 class="dato ficha-titulo">{c.datoCorreo}</h2>
-            <a class="ficha-enlace" href="mailto:despacho@rmp.mx">despacho@rmp.mx</a>
+            <a class="ficha-enlace" href={`mailto:${correo}`}>{correo}</a>
             <p class="ficha-sub">{c.datoCorreoSub}</p>
             <ul class="ficha-lista ficha-lista--areas" role="list">
               {c.correosArea.map(({ area, correo }) => (

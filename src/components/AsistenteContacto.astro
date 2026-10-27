@@ -28,7 +28,7 @@ const encargadas = Object.values(asistente.encargadas);
 
   <noscript>
     <p class="asistente-noscript">
-      {asistente.noscriptPre}<a href="mailto:despacho@rmp.mx">despacho@rmp.mx</a>{asistente.noscriptPost}
+      {asistente.noscriptPre}<a href="mailto:gaby@rmp.mx">gaby@rmp.mx</a>{asistente.noscriptPost}
       {encargadas.map((e, i) => (
         <Fragment>
           {" "}{e.area} <a href={`mailto:${e.correo}`}>{e.correo}</a>{i < encargadas.length - 1 ? "," : "."}
