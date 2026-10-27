@@ -1,14 +1,12 @@
 ---
 import Base from "@layouts/Base.astro";
+import CirculoFlecha from "@components/CirculoFlecha.astro";
 import { url } from "../../lib/url";
 import { getLang, localizedUrl } from "../../i18n/utils";
 import { getHome } from "../../i18n/home";
 
 const lang = getLang(Astro.currentLocale);
 const h = getHome(lang);
-
-// Íconos dibujados, trazo único de 1.6 en caja de 24.
-const FLECHA = '<path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/>';
 ---
 
 <Base title={h.metaTitle} description={h.metaDesc} translated={true} fuentes="nuevo">
@@ -28,9 +26,7 @@ const FLECHA = '<path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/>';
 
           <a class="boton portada-boton" href={localizedUrl("/contacto", lang)}>
             <span>{h.cta}</span>
-            <span class="accion-circulo" aria-hidden="true">
-              <svg class="ico" viewBox="0 0 24 24" set:html={FLECHA} />
-            </span>
+            <CirculoFlecha />
           </a>
 
           <p class="dato portada-dato">
@@ -59,9 +55,7 @@ const FLECHA = '<path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/>';
           <p class="areas-sub">{h.areasSub}</p>
           <a class="accion areas-accion" href={localizedUrl("/servicios", lang)}>
             <span>{h.verAreas}</span>
-            <span class="accion-circulo" aria-hidden="true">
-              <svg class="ico" viewBox="0 0 24 24" set:html={FLECHA} />
-            </span>
+            <CirculoFlecha />
           </a>
         </header>
 
@@ -102,9 +96,7 @@ const FLECHA = '<path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/>';
           <blockquote class="franja-cita" id="cita-titulo">{h.cita}</blockquote>
           <a class="accion franja-accion" href={localizedUrl("/nosotros", lang)}>
             <span>{h.citaCta}</span>
-            <span class="accion-circulo" aria-hidden="true">
-              <svg class="ico" viewBox="0 0 24 24" set:html={FLECHA} />
-            </span>
+            <CirculoFlecha />
           </a>
         </div>
       </div>
@@ -141,9 +133,7 @@ const FLECHA = '<path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/>';
           <h2 class="titulo-seccion" id="contacto-titulo">{h.contactoTitulo}</h2>
           <a class="boton contacto-boton" href={localizedUrl("/contacto", lang)}>
             <span>{h.contactoCta}</span>
-            <span class="accion-circulo" aria-hidden="true">
-              <svg class="ico" viewBox="0 0 24 24" set:html={FLECHA} />
-            </span>
+            <CirculoFlecha />
           </a>
           <p class="contacto-nota">{h.contactoNota}</p>
         </div>
@@ -386,8 +376,9 @@ const FLECHA = '<path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/>';
   }
 
   .franja-accion { color: var(--rm-papel); }
-  .franja-accion .accion-circulo { border-color: var(--rm-papel); }
-  .franja-accion:hover .accion-circulo {
+  /* :global porque el círculo lo pinta CirculoFlecha, fuera de este ámbito */
+  .franja-accion :global(.accion-circulo) { border-color: var(--rm-papel); }
+  .franja-accion:hover :global(.accion-circulo) {
     background: var(--rm-papel);
     color: var(--rm-banda);
   }
