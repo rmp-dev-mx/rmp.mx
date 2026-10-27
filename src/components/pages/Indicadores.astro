@@ -3,12 +3,10 @@ import Base from "@layouts/Base.astro";
 import Cabecera from "@components/Cabecera.astro";
 import { getLang, localizedUrl } from "../../i18n/utils";
 import { getIndicadores } from "../../i18n/indicadores";
+import { SALIDA } from "../../lib/iconos";
 
 const lang = getLang(Astro.currentLocale);
 const ind = getIndicadores(lang);
-
-const SALIDA =
-  '<path d="M14 5h5v5"/><path d="M19 5 10.5 13.5"/><path d="M18 13.5V19H5V6h5.5"/>';
 ---
 
 <Base title={ind.metaTitle} description={ind.metaDesc} translated={true} fuentes="nuevo">

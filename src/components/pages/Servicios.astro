@@ -6,6 +6,7 @@ import { url } from "../../lib/url";
 import { getLang, localizedUrl } from "../../i18n/utils";
 import { getServicios } from "../../i18n/servicios";
 import { getHome } from "../../i18n/home";
+import { ABAJO } from "../../lib/iconos";
 
 const lang = getLang(Astro.currentLocale);
 const s = getServicios(lang);
@@ -14,8 +15,6 @@ const h = getHome(lang);
 // La encargada y la foto de cada área ya viven en el diccionario de la
 // portada: se toman de ahí para no tener dos versiones del mismo dato.
 const encargadas = Object.fromEntries(h.areas.map((a) => [a.id, a]));
-
-const ABAJO = '<path d="M12 5v13"/><path d="m6 12.5 6 6 6-6"/>';
 ---
 
 <Base title={s.metaTitle} description={s.metaDesc} translated={true} fuentes="nuevo">

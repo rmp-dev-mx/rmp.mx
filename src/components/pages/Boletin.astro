@@ -31,55 +31,57 @@ const resto = b.infografias.filter((i) => i !== destacada);
       )}
     </Cabecera>
 
-    {BOLETIN_ACTIVO && (<>
-    <!-- Aviso honesto: la muestra no es información fiscal real -->
-    <p class="aviso">
-      <span class="aviso-tag">{b.demoTag}</span>
-      <span>{b.demoTextoPre}<strong>{b.demoTextoStrong}</strong>{b.demoTextoPost}</span>
-    </p>
+    {BOLETIN_ACTIVO && (
+      <>
+        <!-- Aviso honesto: la muestra no es información fiscal real -->
+        <p class="aviso">
+          <span class="aviso-tag">{b.demoTag}</span>
+          <span>{b.demoTextoPre}<strong>{b.demoTextoStrong}</strong>{b.demoTextoPost}</span>
+        </p>
 
-    <section class="feed" aria-label={b.feedAria}>
-      <div class="marco">
+        <section class="feed" aria-label={b.feedAria}>
+          <div class="marco">
 
-        <article class="destacada">
-          <div class="destacada-visual">
-            <InfografiaVisual visual={destacada.visual} grande={true} />
-          </div>
-          <div class="destacada-texto">
-            <p class="dato pieza-meta">{destacada.categoria} · {destacada.periodo}</p>
-            <h2 class="destacada-titulo">{destacada.titulo}</h2>
-            <p class="destacada-resumen">{destacada.resumen}</p>
-            <p class="dato firma-ia">
-              <span class="chip-ia chip-ia--chico" aria-hidden="true">IA</span>
-              {b.firmaDestacada}
+            <article class="destacada">
+              <div class="destacada-visual">
+                <InfografiaVisual visual={destacada.visual} grande={true} />
+              </div>
+              <div class="destacada-texto">
+                <p class="dato pieza-meta">{destacada.categoria} · {destacada.periodo}</p>
+                <h2 class="destacada-titulo">{destacada.titulo}</h2>
+                <p class="destacada-resumen">{destacada.resumen}</p>
+                <p class="dato firma-ia">
+                  <span class="chip-ia chip-ia--chico" aria-hidden="true">IA</span>
+                  {b.firmaDestacada}
+                </p>
+              </div>
+            </article>
+
+            <ul class="rejilla" role="list">
+              {resto.map((ig) => (
+                <li class="pieza">
+                  <div class="pieza-visual">
+                    <InfografiaVisual visual={ig.visual} grande={false} />
+                  </div>
+                  <p class="dato pieza-meta">{ig.categoria} · {ig.periodo}</p>
+                  <h3 class="pieza-titulo">{ig.titulo}</h3>
+                  <p class="pieza-resumen">{ig.resumen}</p>
+                  <p class="dato firma-ia">
+                    <span class="chip-ia chip-ia--chico" aria-hidden="true">IA</span>
+                    {b.firmaCard}
+                  </p>
+                </li>
+              ))}
+            </ul>
+
+            <p class="nota">
+              {b.feedNota}
+              <!-- TODO: definir mecanismo real de suscripción al boletín (Formspree/Resend/lista de correo) -->
             </p>
           </div>
-        </article>
-
-        <ul class="rejilla" role="list">
-          {resto.map((ig) => (
-            <li class="pieza">
-              <div class="pieza-visual">
-                <InfografiaVisual visual={ig.visual} grande={false} />
-              </div>
-              <p class="dato pieza-meta">{ig.categoria} · {ig.periodo}</p>
-              <h3 class="pieza-titulo">{ig.titulo}</h3>
-              <p class="pieza-resumen">{ig.resumen}</p>
-              <p class="dato firma-ia">
-                <span class="chip-ia chip-ia--chico" aria-hidden="true">IA</span>
-                {b.firmaCard}
-              </p>
-            </li>
-          ))}
-        </ul>
-
-        <p class="nota">
-          {b.feedNota}
-          <!-- TODO: definir mecanismo real de suscripción al boletín (Formspree/Resend/lista de correo) -->
-        </p>
-      </div>
-    </section>
-    </>)}
+        </section>
+      </>
+    )}
 
   </div>
 </Base>
