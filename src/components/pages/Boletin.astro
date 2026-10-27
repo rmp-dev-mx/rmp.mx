@@ -1,6 +1,7 @@
 ---
 import Base from "@layouts/Base.astro";
 import Cabecera from "@components/Cabecera.astro";
+import FranjaAviso from "@components/FranjaAviso.astro";
 import InfografiaVisual from "@components/InfografiaVisual.astro";
 import { getLang } from "../../i18n/utils";
 import { getBoletin } from "../../i18n/boletin";
@@ -34,10 +35,9 @@ const resto = b.infografias.filter((i) => i !== destacada);
     {BOLETIN_ACTIVO && (
       <>
         <!-- Aviso honesto: la muestra no es información fiscal real -->
-        <p class="aviso">
-          <span class="aviso-tag">{b.demoTag}</span>
-          <span>{b.demoTextoPre}<strong>{b.demoTextoStrong}</strong>{b.demoTextoPost}</span>
-        </p>
+        <FranjaAviso etiqueta={b.demoTag}>
+          {b.demoTextoPre}<strong>{b.demoTextoStrong}</strong>{b.demoTextoPost}
+        </FranjaAviso>
 
         <section class="feed" aria-label={b.feedAria}>
           <div class="marco">
@@ -116,31 +116,6 @@ const resto = b.infografias.filter((i) => i !== destacada);
   }
 
   .chip-ia--chico { width: 20px; height: 20px; font-size: 9px; }
-
-  .aviso {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 14px;
-    padding: 16px clamp(20px, 4vw, 64px);
-    background: var(--rm-papel-2);
-    border-bottom: 1px solid var(--rm-linea);
-    font-size: 14.5px;
-    line-height: 1.55;
-    color: var(--rm-tinta-2);
-  }
-
-  .aviso strong { color: var(--rm-tinta); font-weight: 600; }
-
-  .aviso-tag {
-    font-family: var(--rm-mono);
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--rm-papel);
-    background: var(--rm-acento);
-    padding: 5px 10px;
-  }
 
   .feed { padding-block: clamp(44px, 6vw, 88px); }
 

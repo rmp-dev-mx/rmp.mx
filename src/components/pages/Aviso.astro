@@ -1,6 +1,7 @@
 ---
 import Base from "@layouts/Base.astro";
 import Cabecera from "@components/Cabecera.astro";
+import FranjaAviso from "@components/FranjaAviso.astro";
 import { getLang } from "../../i18n/utils";
 import { getAviso } from "../../i18n/aviso";
 
@@ -16,10 +17,7 @@ const a = getAviso(lang);
     </Cabecera>
 
     <!-- Aviso honesto: el texto todavía no lo aprueba el área legal -->
-    <p class="estado">
-      <span class="estado-tag">{a.borradorTag}</span>
-      <span>{a.borradorTexto}</span>
-    </p>
+    <FranjaAviso etiqueta={a.borradorTag}>{a.borradorTexto}</FranjaAviso>
 
     <section class="cuerpo" aria-label={a.seccionesAria}>
       <div class="marco">
@@ -49,29 +47,6 @@ const a = getAviso(lang);
 
 <style>
   .vigencia { margin-top: clamp(18px, 2vw, 26px); }
-
-  .estado {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 14px;
-    padding: 16px clamp(20px, 4vw, 64px);
-    background: var(--rm-papel-2);
-    border-bottom: 1px solid var(--rm-linea);
-    font-size: 14.5px;
-    line-height: 1.55;
-    color: var(--rm-tinta-2);
-  }
-
-  .estado-tag {
-    font-family: var(--rm-mono);
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--rm-papel);
-    background: var(--rm-acento);
-    padding: 5px 10px;
-  }
 
   .cuerpo { padding-block: clamp(44px, 6vw, 88px); }
 

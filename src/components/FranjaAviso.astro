@@ -1,0 +1,42 @@
+---
+// Franja de aviso honesto bajo la cabecera: etiqueta en acento + texto.
+// La usan Boletín (muestra de demostración) y Aviso (borrador legal).
+interface Props {
+  etiqueta: string;
+}
+
+const { etiqueta } = Astro.props;
+---
+
+<p class="franja-aviso">
+  <span class="franja-aviso-tag">{etiqueta}</span>
+  <span><slot /></span>
+</p>
+
+<style>
+  .franja-aviso {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    padding: 16px clamp(20px, 4vw, 64px);
+    background: var(--rm-papel-2);
+    border-bottom: 1px solid var(--rm-linea);
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--rm-tinta-2);
+  }
+
+  /* :global porque el texto llega por el slot, con el ámbito de la página */
+  .franja-aviso :global(strong) { color: var(--rm-tinta); font-weight: 600; }
+
+  .franja-aviso-tag {
+    font-family: var(--rm-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--rm-papel);
+    background: var(--rm-acento);
+    padding: 5px 10px;
+  }
+</style>
