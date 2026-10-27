@@ -73,8 +73,7 @@ const mapaSrc =
 
           <div class="ficha">
             <h2 class="dato ficha-titulo">{c.datoHorario}</h2>
-            <!-- TODO: establecer el horario de oficina con el cliente -->
-            <p class="ficha-pendiente">{c.datoHorarioPendiente}</p>
+            <p class="ficha-horario">{c.datoHorarioValor}</p>
           </div>
         </aside>
 
@@ -173,10 +172,10 @@ const mapaSrc =
     color: var(--rm-tinta-2);
   }
 
-  .ficha-pendiente {
-    font-size: 15px;
-    font-style: italic;
-    color: var(--rm-tinta-2);
+  .ficha-horario {
+    margin: 0;
+    font-size: 15.5px;
+    font-variant-numeric: tabular-nums;
   }
 
   /* ════════════════════════════════ MAPA ════════════════════════════════ */

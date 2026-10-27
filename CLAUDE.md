@@ -107,8 +107,9 @@ El sitio se presentó y gustó. Quedan pendientes:
 - Color: resuelto (paleta RM, PR #4).
 
 ### Datos por solicitar al cliente (bloquean trabajo en curso)
-- **WhatsApp Business** para el asistente de `/contacto`: ¿una línea general o una por encargada? Con los números se activa el botón de WhatsApp (`wa.me/<num>?text=` prellenado); hoy está deshabilitado ("próximamente").
-- **Horario de oficina** (lo pide `/contacto`; hoy muestra "Por confirmar").
+- ~~WhatsApp Business~~: descartado por ahora (oct 2026), la oficina no tiene WhatsApp; se quitó el botón del asistente de `/contacto`. Si llega, se reactiva con `wa.me/<num>?text=` prellenado.
+- ~~Horario de oficina~~: resuelto (oct 2026), 9:00 a 18:00 h (días por confirmar).
+- **Fotos reales de la oficina** para cada sección: las actuales son generadas con IA y se reemplazarán por las que entregue el cliente.
 - ~~Confirmar cuáles de los 3 teléfonos~~: resuelto (oct 2026), sólo 444-833-40-98.
 - **Alcance / objeto de la firma filial Pacioli** para `/nosotros` (hoy solo se menciona que es filial, sin propósito). No inventar: se necesita el texto del cliente.
 - **Fotos + reseña** (experiencia/capacitación) de cada encargado por área para `/nosotros` — propuesta del cliente; confirmar si procede y pedir fotos y textos.
