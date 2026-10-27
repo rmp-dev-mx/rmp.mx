@@ -1,5 +1,18 @@
 import type { Lang } from "./ui";
 
+export interface Persona {
+  nombre: string;
+  credencial: string;
+  correo: string;
+  /** Ruta de la foto (opcional); sin ella la tarjeta va sólo con texto. */
+  foto?: string;
+}
+
+export interface AreaEquipo {
+  area: string;
+  personas: Persona[];
+}
+
 // Contenido de la página "Nosotros" por idioma. Los nombres propios y correos
 // del equipo no se traducen; sí se traducen las áreas y las credenciales.
 export const nosotros = {
@@ -69,8 +82,8 @@ export const nosotros = {
     ctaAgenda: "Agenda una consulta",
 
     // Fotos del equipo (opcional): agregar `foto: "/images/equipo/<archivo>.webp"`
-    // a la persona correspondiente. Si no hay foto, se muestra el monograma de iniciales.
-    equipo: [
+    // a la persona correspondiente. Si no hay foto, la tarjeta va sólo con texto.
+    equipo: <AreaEquipo[]>[
       {
         area: "Consultoría",
         personas: [
@@ -171,7 +184,7 @@ export const nosotros = {
     ctaTitulo: ["Find out how", "we can help you"],
     ctaAgenda: "Schedule a consultation",
 
-    equipo: [
+    equipo: <AreaEquipo[]>[
       {
         area: "Consulting",
         personas: [
