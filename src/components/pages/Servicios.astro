@@ -1,5 +1,6 @@
 ---
 import Base from "@layouts/Base.astro";
+import CirculoFlecha from "@components/CirculoFlecha.astro";
 import Cabecera from "@components/Cabecera.astro";
 import { url } from "../../lib/url";
 import { getLang, localizedUrl } from "../../i18n/utils";
@@ -14,7 +15,6 @@ const h = getHome(lang);
 // portada: se toman de ahí para no tener dos versiones del mismo dato.
 const encargadas = Object.fromEntries(h.areas.map((a) => [a.id, a]));
 
-const FLECHA = '<path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/>';
 const ABAJO = '<path d="M12 5v13"/><path d="m6 12.5 6 6 6-6"/>';
 ---
 
@@ -86,9 +86,7 @@ const ABAJO = '<path d="M12 5v13"/><path d="m6 12.5 6 6 6-6"/>';
         <h2 class="titulo-seccion" id="cierre-titulo">{s.ctaTitulo[0]} {s.ctaTitulo[1]}</h2>
         <a class="boton" href={localizedUrl("/contacto", lang)}>
           <span>{s.ctaAgenda}</span>
-          <span class="accion-circulo" aria-hidden="true">
-            <svg class="ico" viewBox="0 0 24 24" set:html={FLECHA} />
-          </span>
+          <CirculoFlecha />
         </a>
       </div>
     </section>

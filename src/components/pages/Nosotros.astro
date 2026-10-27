@@ -1,5 +1,6 @@
 ---
 import Base from "@layouts/Base.astro";
+import CirculoFlecha from "@components/CirculoFlecha.astro";
 import Cabecera from "@components/Cabecera.astro";
 import { url } from "../../lib/url";
 import { getLang, localizedUrl } from "../../i18n/utils";
@@ -8,7 +9,6 @@ import { getNosotros } from "../../i18n/nosotros";
 const lang = getLang(Astro.currentLocale);
 const n = getNosotros(lang);
 
-const FLECHA = '<path d="M5 12h13"/><path d="m12.5 6 6 6-6 6"/>';
 
 // Misión, visión y filosofía comparten bloque; sólo cambian título y texto.
 const mvv = [
@@ -81,9 +81,7 @@ const iniciales = n.socioNombre
           <!-- TODO: pedir al cliente el alcance y objeto de la filial -->
           <a class="accion accion--acento" href={localizedUrl("/servicios#asesoria", lang)}>
             <span>{n.filialLink}</span>
-            <span class="accion-circulo" aria-hidden="true">
-              <svg class="ico" viewBox="0 0 24 24" set:html={FLECHA} />
-            </span>
+            <CirculoFlecha />
           </a>
         </div>
       </div>
@@ -178,9 +176,7 @@ const iniciales = n.socioNombre
         <h2 class="titulo-seccion">{n.ctaTitulo[0]} {n.ctaTitulo[1]}</h2>
         <a class="boton" href={localizedUrl("/contacto", lang)}>
           <span>{n.ctaAgenda}</span>
-          <span class="accion-circulo" aria-hidden="true">
-            <svg class="ico" viewBox="0 0 24 24" set:html={FLECHA} />
-          </span>
+          <CirculoFlecha />
         </a>
       </div>
     </section>
