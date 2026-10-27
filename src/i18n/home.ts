@@ -74,6 +74,7 @@ export const home = {
     citaAlt: "Libros y lámpara de escritorio en el despacho",
 
     // ── Cifras ──
+    cifrasAria: "La firma en cifras",
     cifras: [
       { dato: "1998", pie: "Año de fundación" },
       { dato: "28", pie: "Años de ejercicio" },
@@ -163,6 +164,7 @@ export const home = {
     citaFoto: "/images/fotos/nosotros-historia.webp",
     citaAlt: "Books and a desk lamp at the firm",
 
+    cifrasAria: "The firm in numbers",
     cifras: [
       { dato: "1998", pie: "Founded" },
       { dato: "28", pie: "Years in practice" },
