@@ -122,7 +122,7 @@ SAT · IMSS (imss.gob.mx — el original enlazaba mal al SAT) · IDSE (idse.imss
 
 - **Dirección:** Calle Francisco Peña 245, Las Águilas 3ra Sección, San Luis Potosí, S.L.P.
 - **Teléfono:** 444-833-40-98 (único habilitado, confirmado oct 2026; el 833-40-99 y el 211-60-00 se retiraron del sitio)
-- **Correo:** despacho@rmp.mx (usar `mailto:`, no el enlace roto a Live.com)
+- **Correo:** gaby@rmp.mx (usar `mailto:`, no el enlace roto a Live.com)
 - **Formulario:** Nombre, Email, Teléfono, Asunto, Mensaje → "Enviar mensaje"
 - **Portal de clientes:** https://rmp.abaconsulting.mx/login
 - **Facebook:** https://www.facebook.com/ramirezmedellinfirma

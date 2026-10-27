@@ -90,7 +90,7 @@ export const home = {
     contactoTelefonos: [
       { texto: "444-833-40-98", tel: "+524448334098" },
     ],
-    contactoCorreo: "despacho@rmp.mx",
+    contactoCorreo: "gaby@rmp.mx",
     contactoEtDomicilio: "Oficina",
     contactoEtTelefonos: "Teléfono",
     contactoEtCorreo: "Correo",
@@ -178,7 +178,7 @@ export const home = {
     contactoTelefonos: [
       { texto: "444-833-40-98", tel: "+524448334098" },
     ],
-    contactoCorreo: "despacho@rmp.mx",
+    contactoCorreo: "gaby@rmp.mx",
     contactoEtDomicilio: "Office",
     contactoEtTelefonos: "Phone",
     contactoEtCorreo: "Email",

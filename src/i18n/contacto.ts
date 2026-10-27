@@ -8,7 +8,7 @@ export const contacto = {
   es: {
     metaTitle: "Contacto — Ramírez Medellín, S.C.",
     metaDesc:
-      "Contáctenos: Calle Francisco Peña 245, Las Águilas 3ra Sección, San Luis Potosí. Teléfono 444-833-40-98. despacho@rmp.mx",
+      "Contáctenos: Calle Francisco Peña 245, Las Águilas 3ra Sección, San Luis Potosí. Teléfono 444-833-40-98. gaby@rmp.mx",
 
     heroEyebrow: "Contacto",
     heroH1: ["Hablemos de", "sus cuentas."],
@@ -111,7 +111,7 @@ export const contacto = {
   en: {
     metaTitle: "Contact — Ramírez Medellín, S.C.",
     metaDesc:
-      "Contact us: Calle Francisco Peña 245, Las Águilas 3ra Sección, San Luis Potosí. Phone 444-833-40-98. despacho@rmp.mx",
+      "Contact us: Calle Francisco Peña 245, Las Águilas 3ra Sección, San Luis Potosí. Phone 444-833-40-98. gaby@rmp.mx",
 
     heroEyebrow: "Contact",
     heroH1: ["Let's talk about", "your books."],

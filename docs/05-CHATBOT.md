@@ -330,7 +330,7 @@ LAS CUATRO ÁREAS Y QUIÉN RESPONDE
 CONTACTO
 Calle Francisco Peña 245, Las Águilas 3ra Sección, San Luis Potosí, S.L.P.
 Teléfonos 444-833-40-98, 444-833-40-99 y 444-211-60-00. Correo general:
-despacho@rmp.mx. El horario de oficina no está confirmado: si lo preguntan, dilo
+gaby@rmp.mx. El horario de oficina no está confirmado: si lo preguntan, dilo
 y sugiere llamar o escribir.
 
 OTRAS PÁGINAS DEL SITIO

@@ -20,7 +20,7 @@ export const chat = {
     enviar: "Enviar",
     pensando: "Escribiendo…",
     errorRed:
-      "No pude conectar en este momento. Escríbanos a despacho@rmp.mx o llame al 444-833-40-98 y le atendemos igual.",
+      "No pude conectar en este momento. Escríbanos a gaby@rmp.mx o llame al 444-833-40-98 y le atendemos igual.",
     errorLargo: "El mensaje es muy largo. Resúmalo un poco, por favor.",
     respaldoIntro: "Mientras tanto, elija un tema y le doy la información:",
     respaldoAtiende: "Le atiende",
@@ -53,7 +53,7 @@ export const chat = {
     enviar: "Send",
     pensando: "Typing…",
     errorRed:
-      "I could not connect right now. Write to despacho@rmp.mx or call +52 444-833-40-98 and we will help you just the same.",
+      "I could not connect right now. Write to gaby@rmp.mx or call +52 444-833-40-98 and we will help you just the same.",
     errorLargo: "That message is too long. Please shorten it a little.",
     respaldoIntro: "Meanwhile, pick a topic and I'll give you the information:",
     respaldoAtiende: "Your contact is",
